@@ -1,2 +1,2 @@
 # memmi
-Memoriaztion app created as a mean to learn node.js
+Memorization app created as a means to learn node.js
