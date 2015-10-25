@@ -3,7 +3,6 @@
 
 NODE_ARGS=""
 START_SCRIPT=""
-APP_NAME=""
 DOCKER_ARGS=""
 while [[ $# > 0 ]]
 do
@@ -38,6 +37,6 @@ then
   DOCKER_ARGS="-it --rm"
 fi
 
-COMMAND="docker run $DOCKER_ARGS --name $APP_NAME -v $PWD:/usr/src/myapp -w /usr/src/myapp node node $NODE_ARGS $START_SCRIPT"
+COMMAND="docker run $DOCKER_ARGS  -p 3000:3000 -v $PWD:/usr/src/myapp -w /usr/src/myapp node node $NODE_ARGS $START_SCRIPT"
 echo "Starting with command: $COMMAND"
 $COMMAND
