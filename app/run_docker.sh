@@ -4,6 +4,8 @@
 NODE_ARGS=""
 START_SCRIPT=""
 DOCKER_ARGS=""
+RUN_SHELL=""
+CMD="node"
 while [[ $# > 0 ]]
 do
   key="$1"
@@ -17,6 +19,9 @@ do
      START_SCRIPT=$2
      shift
      ;;
+  -sh|--shell)
+    RUN_SHELL="true"
+    ;;
 
   esac
 shift
@@ -37,6 +42,15 @@ then
   DOCKER_ARGS="-it --rm"
 fi
 
-COMMAND="docker run $DOCKER_ARGS  -p 3000:3000 -v $PWD:/usr/src/myapp -w /usr/src/myapp node node $NODE_ARGS $START_SCRIPT"
+if [ "$RUN_SHELL" == "true" ]
+then
+  DOCKER_ARGS="-it --rm"
+  NODE_ARGS=""
+  START_SCRIPT=""
+  CMD="bash"
+fi
+
+
+COMMAND="docker run $DOCKER_ARGS -p 3000:3000 -v $PWD:/usr/src/myapp -w /usr/src/myapp node $CMD $NODE_ARGS $START_SCRIPT"
 echo "Starting with command: $COMMAND"
 $COMMAND
