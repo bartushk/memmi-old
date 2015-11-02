@@ -1,0 +1,20 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/css/site.css')
+
+    body
+        header
+            block header
+                div(id='container')
+                img(id='logo', src='/images/logo.png')
+                nav
+                    ul.list-divide-pipe
+                        each value, index in pages
+                            - var item_class = index > 0 ? "piped" : "";
+                            -item_class += index == selected_index ? " current" : "";
+                            li(class= item_class)
+                                a(href= value.link)= value.title
+
+    block content

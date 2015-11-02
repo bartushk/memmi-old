@@ -27,14 +27,14 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
      inkscape:cx="326.82586"
-     inkscape:cy="892.49142"
+     inkscape:cy="771.27312"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1036"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-width="1854"
+     inkscape:window-height="1035"
+     inkscape:window-x="66"
+     inkscape:window-y="1"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -153,5 +153,57 @@
   <g
      inkscape:groupmode="layer"
      id="layer5"
-     inkscape:label="Logo3" />
+     inkscape:label="Logo3"
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <path
+       inkscape:export-ydpi="81.078598"
+       inkscape:export-xdpi="81.078598"
+       inkscape:export-filename="/Users/bartushk/workspace/memmi/app/public/images/logo.png"
+       inkscape:connector-curvature="0"
+       id="path4155"
+       d="M 276.64323,368.9462 A 105.17531,71.246727 0 0 1 171.46792,440.19293 105.17531,71.246727 0 0 1 66.292612,368.9462 105.17531,71.246727 0 0 1 171.46792,297.69947 105.17531,71.246727 0 0 1 276.64323,368.9462 Z"
+       style="display:inline;fill:#6948dd;fill-opacity:1;fill-rule:evenodd;stroke:#9ffc65;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="81.078598"
+       inkscape:export-xdpi="81.078598"
+       inkscape:export-filename="/Users/bartushk/workspace/memmi/app/public/images/logo.png"
+       style="display:inline;fill:#6948dd;fill-opacity:1;fill-rule:evenodd;stroke:#a5e69d;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 276.64323,368.9462 A 105.17531,71.246727 0 0 1 171.46792,440.19293 105.17531,71.246727 0 0 1 66.292612,368.9462 105.17531,71.246727 0 0 1 171.46792,297.69947 105.17531,71.246727 0 0 1 276.64323,368.9462 Z"
+       id="path4157"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:export-ydpi="81.078598"
+       inkscape:export-xdpi="81.078598"
+       inkscape:export-filename="/Users/bartushk/workspace/memmi/app/public/images/logo.png"
+       inkscape:connector-curvature="0"
+       id="path4159"
+       d="m 269.64824,435.20871 a 30.237707,30.742785 0 0 0 -30.2377,-30.74279 30.237707,30.742785 0 0 0 -30.23771,30.74279 30.237707,30.742785 0 0 0 30.23771,30.74278 30.237707,30.742785 0 0 0 30.2377,-30.74278 z"
+       style="display:inline;fill:#6948dd;fill-opacity:1;fill-rule:evenodd;stroke:#a5e69d;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="81.078598"
+       inkscape:export-xdpi="81.078598"
+       inkscape:export-filename="/Users/bartushk/workspace/memmi/app/public/images/logo.png"
+       style="display:inline;fill:#a5e69d;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 139.40105,299.19706 63.73604,0 -31.86802,66.76649 z"
+       id="path4161"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4163"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:40px;line-height:125%;font-family:'.Lucida Grande UI';-inkscape-font-specification:'.Lucida Grande UI Medium';letter-spacing:0px;word-spacing:0px;display:inline;fill:#a5e69d;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="matrix(1.5101206,0,0,2.1180374,-148.64807,-374.50857)"
+       inkscape:export-filename="/Users/bartushk/workspace/memmi/app/public/images/logo.png"
+       inkscape:export-xdpi="81.078598"
+       inkscape:export-ydpi="81.078598"><flowRegion
+         id="flowRegion4165"><rect
+           id="rect4167"
+           width="198.49498"
+           height="58.083771"
+           x="308.09653"
+           y="331.61838"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'.Lucida Grande UI';-inkscape-font-specification:'.Lucida Grande UI Medium';fill:#a5e69d;fill-opacity:1;stroke:none;stroke-opacity:1" /></flowRegion><flowPara
+         id="flowPara4169"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Klee;-inkscape-font-specification:'Klee Medium'">memmi</flowPara></flowRoot>  </g>
 </svg>
