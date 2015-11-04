@@ -6,15 +6,12 @@ html
 
     body
         header
-            block header
-                div(id='container')
+            div.container
                 img(id='logo', src='/images/logo.png')
                 nav
-                    ul.list-divide-pipe
+                    ul.list-divide
                         each value, index in pages
-                            - var item_class = index > 0 ? "piped" : "";
-                            -item_class += index == selected_index ? " current" : "";
-                            li(class= item_class)
+                            li(class= index == selected_index ? "current" : "")
                                 a(href= value.link)= value.title
 
     block content

@@ -5,7 +5,7 @@ var _pages = [
     {title:'Home', link:'/'},
     {title:'Play', link:'/play'},
     {title:'About', link:'/about'}
-]
+];
 
 router.get('/', function(req, res){
    res.render('index', {title:'Memmi - home', pages:_pages, selected_index:0});
