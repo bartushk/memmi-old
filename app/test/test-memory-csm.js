@@ -74,4 +74,24 @@ describe('Memory CSM addCardSet', function(){
 			done();
 		});
 	});
+
+	it('When validly added, added date added.', function(done){
+		
+		var csm = new memCsm({}, fakePassValidator);
+		csm.addCardSet({}, function(error, cardSet){
+			should.ok(cardSet._addedDate.getTime() - new Date().getTime() < 1000);
+			done();
+		});
+	});
+});
+
+
+describe('Memory CSM deactivateCardSet.', function(){
+	it('When validly deactivated, card set is moved to inactiveSets.', function(done){
+		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
+			csm._inactiveSets.should.have.key('test_id');
+			done();
+		}); 	
+	});
 });
