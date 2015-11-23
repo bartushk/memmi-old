@@ -18,8 +18,11 @@ testd:
 
 
 run:
+	@cd app && \
+		node app.js
 
 
 debug:
-
+	@cd app && \
+		node debug app.js
 		
