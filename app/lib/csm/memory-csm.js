@@ -1,4 +1,4 @@
-var _cardSetValidator = require('./validators/card-set-AT');
+var _cardSetValidator = require('../validators/card-set-AT');
 var _ = require('underscore');
 
 function MemoryCsm(initialData, cardSetValidator){
