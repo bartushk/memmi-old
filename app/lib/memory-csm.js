@@ -1,4 +1,5 @@
 var _cardSetValidator = require('./validators/card-set-validator');
+var _ = require('underscore');
 
 function MemoryCsm(initialData, cardSetValidator){
     this._data = initialData || {};
@@ -48,11 +49,12 @@ MemoryCsm.prototype.deactivateCardSetById = function(cardSetId, callback){
 		_callback(new Error("Card set did not exist, and could not be deactivated"));
 		return;
 	}
+        var cardSet = this._data[cardSetId];
 	cardSet._inactiveDate = new Date();
-	if(!(cardSet.id in this._inactiveSets)){
+	if(!(cardSetId in this._inactiveSets)){
 		this._inactiveSets[cardSet.id] = [];
 	}
-	this._inactiveSets[cardSet.id].push(cardSet);
+	this._inactiveSets[cardSetId].push(cardSet);
 	delete this._data[cardSetId];
 	_callback(null, cardSetId);
 };
@@ -65,6 +67,10 @@ MemoryCsm.prototype.getCardSetById = function(cardSetId, callback){
 	}
 	var cardSet = this._data[cardSetId];
 	_callback(null, cardSet);
+};
+
+MemoryCsm.prototype.getAvailableCardSets = function(callback){
+    callback(null, _.keys(this._data));
 };
 
 module.exports = MemoryCsm;

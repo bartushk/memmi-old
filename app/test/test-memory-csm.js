@@ -94,4 +94,115 @@ describe('Memory CSM deactivateCardSet.', function(){
 			done();
 		}); 	
 	});
+
+	it('When validly deactivated, error should not exist.', function(done){
+		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
+                        should.not.exist(err);
+			done();
+		}); 	
+	});
+
+        it('When invalidly deactivated, card set is not deactivated.', function(done){
+		var csm = new memCsm({'test_id': fakeCardSet}, fakeFailValidator);
+		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
+			csm._inactiveSets.should.not.have.key('test_id');
+			done();
+		}); 	
+        });
+
+        it('When invalidly deactivated, error is thrown.', function(done){
+		var csm = new memCsm({'test_id': fakeCardSet}, fakeFailValidator);
+		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
+                        should.exist(err);
+			done();
+		}); 	
+        });
+
+        it('When card set does not exist, error thrown.', function(done){
+		var csm = new memCsm({'weird_name': fakeCardSet}, fakePassValidator);
+		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
+                        should.exist(err);
+			done();
+		}); 	
+        });
+});
+
+describe('Memory CSM deactivateCardSetById.', function(){
+	it('When validly deactivated, card set is moved to inactiveSets.', function(done){
+		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+		csm.deactivateCardSetById('test_id', function(err, cardSet){
+			csm._inactiveSets.should.have.key('test_id');
+			done();
+		}); 	
+	});
+
+	it('When validly deactivated, error should not exist.', function(done){
+		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+		csm.deactivateCardSetById('test_id', function(err, cardSet){
+                        should.not.exist(err);
+			done();
+		}); 	
+	});
+
+        it('When card set does not exist, error thrown.', function(done){
+		var csm = new memCsm({'weird_name': fakeCardSet}, fakePassValidator);
+		csm.deactivateCardSetById('test_id', function(err, cardSet){
+                        should.exist(err);
+			done();
+		}); 	
+        });
+});
+
+
+describe('Memory CSM getCardSetById', function(){
+
+    it('When card set exists, correct card set returned.', function(done){
+        var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+        csm.getCardSetById('test_id', function(err, cardSet){
+                cardSet.id.should.equal('test_id');
+                done();
+        }); 	
+    });
+
+    it('When card set exists, error is not thrown.', function(done){
+        var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+        csm.getCardSetById('test_id', function(err, cardSet){
+                should.not.exist(err);
+                done();
+        }); 	
+    });
+
+    it('When card set does not exist, error thrown', function(done){
+        var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+        csm.getCardSetById('DerpDogOct', function(err, cardSet){
+                should.exist(err);
+                done();
+        }); 	
+    });
+
+});
+
+describe('Memory CSM getAvailableCardSets.', function(){
+    it('When called, returns all available sets.', function(done){
+        var fakeSet = {
+            'test_id1': {},
+            'test_id2': {},
+            'test_id3': {},
+            'test_id4': {}
+        };
+        var csm = new memCsm(fakeSet, fakePassValidator);
+        csm.getAvailableCardSets(function(err, cardSet){
+            should.deepEqual(cardSet, _.keys(fakeSet));
+            done();
+        }); 	
+    });
+
+    it('When called, error is null', function(done){
+        var csm = new memCsm({}, fakePassValidator);
+        csm.getAvailableCardSets(function(err, cardSet){
+            should.not.exist(err);
+            done();
+        }); 	
+    });
 });
