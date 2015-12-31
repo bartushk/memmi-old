@@ -62,11 +62,11 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerId, cardUpdate, 
     
     var history = this._playerHistory[playerId][cardSetId];
     var cardId = cardUpdate.cardId;
-    if( !(cardId in history) ){
+    if( !(cardId in history.history) ){
         callback( new Error("Card not found in Cardset.") );
         return;
     }
-    var cardHistory = history[cardId];
+    var cardHistory = history.history[cardId];
     cardHistory.scores.push(cardUpdate.score);
     cardHistory.playIndicies.push(history._playIndex);
     cardHistory.currentScore += cardUpdate.score;
@@ -102,11 +102,14 @@ MemoryPhm.prototype.createPlayerHistory = function(cardSetId, playerId, callback
             return;
         }
         var newHistory = {};
-        _.each(cardSet.cardNames, function(cardName){
+        newHistory._playIndex = 0;
+        newHistory.history = {};
+        var cardNames = Object.keys(cardSet.cards);
+        _.each(cardNames, function(cardName){
             var cardHistory = {};
-            cardHistory.score = 0;
-            cardHistory.count = 0;
-            newHistory[cardName] = cardHistoy;
+            cardHistory.scores = []; 
+            cardHistory.playIndicies = [];
+            newHistory.history[cardName] = cardHistory;
         });
         playerHistory[cardSetId] = newHistory;
         callback(null);
