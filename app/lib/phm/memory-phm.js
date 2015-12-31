@@ -66,8 +66,11 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerId, cardUpdate, 
         callback( new Error("Card not found in Cardset.") );
         return;
     }
-    history[cardId].score += cardUpdate.score;
-    history[cardId].count += 1;
+    var cardHistory = history[cardId];
+    cardHistory.scores.push(cardUpdate.score);
+    cardHistory.playIndicies.push(history._playIndex);
+    cardHistory.currentScore += cardUpdate.score;
+    history._playIndex+=1;
     callback(null);
 };
 
