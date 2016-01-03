@@ -1,15 +1,15 @@
 var should = require('should');
 var _ = require('underscore');
 var memCsm = require('../lib/csm/memory-csm');
+var testData = require('./assets/test-data');
 var fakeFailValidator = {};
 var fakePassValidator = {};
 fakeFailValidator.validate = function(){};
 fakeFailValidator.ok = "Not okay.";
 fakePassValidator.validate = function(){return "Okay!";};
 fakePassValidator.ok = "Okay!";
-fakeCardSet = {
-	'id':'test_id'
-};
+var fakeCardSet = testData.getCardSet1();
+var cardsetName = 'cardset1';
 
 describe('memory-csm construction', function(){
 	it('When constructed, object exists.', function(){
@@ -40,7 +40,7 @@ describe('Memory CSM addCardSet', function(){
 	it('When validly added, cardSet is saved by Id.', function(){
 		var csm = new memCsm({}, fakePassValidator);
 		csm.addCardSet(fakeCardSet);
-		should.exist(csm._data.test_id);
+		should.exist(csm._data[cardsetName]);
 	});
 	
 	it('When card not validated, error passed to callback.', function(done){
@@ -88,15 +88,19 @@ describe('Memory CSM addCardSet', function(){
 
 describe('Memory CSM deactivateCardSet.', function(){
 	it('When validly deactivated, card set is moved to inactiveSets.', function(done){
-		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+                var testSet = {};
+                testSet[cardsetName] = fakeCardSet;
+                var csm = new memCsm(testSet, fakePassValidator);
 		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
-			csm._inactiveSets.should.have.key('test_id');
+			csm._inactiveSets.should.have.key(cardsetName);
 			done();
 		}); 	
 	});
 
 	it('When validly deactivated, error should not exist.', function(done){
-		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+                var testSet = {};
+                testSet[cardsetName] = fakeCardSet;
+                var csm = new memCsm(testSet, fakePassValidator);
 		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
                         should.not.exist(err);
 			done();
@@ -104,15 +108,19 @@ describe('Memory CSM deactivateCardSet.', function(){
 	});
 
         it('When invalidly deactivated, card set is not deactivated.', function(done){
-		var csm = new memCsm({'test_id': fakeCardSet}, fakeFailValidator);
+                var testSet = {};
+                testSet[cardsetName] = fakeCardSet;
+                var csm = new memCsm(testSet, fakeFailValidator);
 		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
-			csm._inactiveSets.should.not.have.key('test_id');
+			csm._inactiveSets.should.not.have.key(cardsetName);
 			done();
 		}); 	
         });
 
         it('When invalidly deactivated, error is thrown.', function(done){
-		var csm = new memCsm({'test_id': fakeCardSet}, fakeFailValidator);
+                var testSet = {};
+                testSet[cardsetName] = fakeCardSet;
+                var csm = new memCsm(testSet, fakeFailValidator);
 		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
                         should.exist(err);
 			done();
@@ -130,16 +138,20 @@ describe('Memory CSM deactivateCardSet.', function(){
 
 describe('Memory CSM deactivateCardSetById.', function(){
 	it('When validly deactivated, card set is moved to inactiveSets.', function(done){
-		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
-		csm.deactivateCardSetById('test_id', function(err, cardSet){
-			csm._inactiveSets.should.have.key('test_id');
+                var testSet = {};
+                testSet[cardsetName] = fakeCardSet;
+		var csm = new memCsm(testSet, fakePassValidator);
+		csm.deactivateCardSetById(cardsetName, function(err, cardSet){
+			csm._inactiveSets.should.have.key(cardsetName);
 			done();
 		}); 	
 	});
 
 	it('When validly deactivated, error should not exist.', function(done){
-		var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
-		csm.deactivateCardSetById('test_id', function(err, cardSet){
+                var testSet = {};
+                testSet[cardsetName] = fakeCardSet;
+		var csm = new memCsm(testSet, fakePassValidator);
+		csm.deactivateCardSetById(cardsetName, function(err, cardSet){
                         should.not.exist(err);
 			done();
 		}); 	
@@ -147,7 +159,7 @@ describe('Memory CSM deactivateCardSetById.', function(){
 
         it('When card set does not exist, error thrown.', function(done){
 		var csm = new memCsm({'weird_name': fakeCardSet}, fakePassValidator);
-		csm.deactivateCardSetById('test_id', function(err, cardSet){
+		csm.deactivateCardSetById(cardsetName, function(err, cardSet){
                         should.exist(err);
 			done();
 		}); 	
@@ -158,23 +170,29 @@ describe('Memory CSM deactivateCardSetById.', function(){
 describe('Memory CSM getCardSetById', function(){
 
     it('When card set exists, correct card set returned.', function(done){
-        var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
-        csm.getCardSetById('test_id', function(err, cardSet){
-                cardSet.id.should.equal('test_id');
+        var testSet = {};
+        testSet[cardsetName] = fakeCardSet;
+        var csm = new memCsm(testSet, fakePassValidator);
+        csm.getCardSetById(cardsetName, function(err, cardSet){
+                cardSet.id.should.equal(cardsetName);
                 done();
         }); 	
     });
 
     it('When card set exists, error is not thrown.', function(done){
-        var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
-        csm.getCardSetById('test_id', function(err, cardSet){
+        var testSet = {};
+        testSet[cardsetName] = fakeCardSet;
+        var csm = new memCsm(testSet, fakePassValidator);
+        csm.getCardSetById(cardsetName, function(err, cardSet){
                 should.not.exist(err);
                 done();
         }); 	
     });
 
     it('When card set does not exist, error thrown', function(done){
-        var csm = new memCsm({'test_id': fakeCardSet}, fakePassValidator);
+        var testSet = {};
+        testSet[cardsetName] = fakeCardSet;
+        var csm = new memCsm(testSet, fakePassValidator);
         csm.getCardSetById('DerpDogOct', function(err, cardSet){
                 should.exist(err);
                 done();
