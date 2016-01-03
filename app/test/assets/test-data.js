@@ -1,13 +1,11 @@
 
-
-
 var cardset1 = {
     'id': 'cardset1',
 
     'cards': {
-        'coolCard': {},
-        'nerdCard': {},
-        'dudeCard': {}
+        'coolCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'coolCard'},
+        'nerdCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'nerdCard'},
+        'dudeCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'dudeCard'}
     }
 };
 
@@ -15,9 +13,9 @@ var cardset2 = {
     'id': 'cardset2',
 
     'cards': {
-        'funCard': {},
-        'boringCard': {},
-        'dorkCard': {}
+        'funCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'funCard'},
+        'boringCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'boringCard'},
+        'dorkCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'dorkCard'}
     }
 };
 
@@ -41,10 +39,14 @@ var fakePlayerHistory = {
                 'funCard': {'scores': [0,1,2,2,3,3], 'currentScore': 11, 'playIndicies': [0,3,4,10,11,15] },
                 'boringCard': {'scores': [-2,-1,-1,-1,0], 'currentScore': -5, 'playIndicies': [1,2,8,9,12] },
                 'dorkCard': {'scores': [0,0,0,0,0], 'currentScore': 0, 'playIndicies': [5,6,7,13,14] },
-                'catCard': {'scores': [], 'currentScore': 0, 'playIndicies': [] }
             },
         }
     }
+};
+
+var testFullCardSet = {
+    'cardset1': cardset1,
+    'cardset2': cardset2
 };
 
 var testCardUpdate = {
@@ -60,13 +62,13 @@ var testBadCardUpdate = {
 var fakeData = {
     getCardSet1: function(){ return JSON.parse(JSON.stringify(cardset1)); },
     getCardSet2: function(){ return JSON.parse(JSON.stringify(cardset2)); },
-    getCardHistory: function(){ return JSON.parse(JSON.stringify(fakePlayerHistory)); },
+    getFullHistory: function(){ return JSON.parse(JSON.stringify(fakePlayerHistory)); },
     getCardSet1GoodUpdate: function(){ return JSON.parse(JSON.stringify(testCardUpdate)); },
     getCardSet1BadUpdate: function(){ return JSON.parse(JSON.stringify(testBadCardUpdate)); },
+    getCardSetHistory: function(){ return JSON.parse(JSON.stringify(fakePlayerHistory.kyle.cardset1)); },
+    getFullCardSet: function(){ return JSON.parse(JSON.stringify(testFullCardSet)); }
+
 };
-
-
-
 
 
 module.exports = fakeData;

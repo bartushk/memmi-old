@@ -47,7 +47,7 @@ describe('memory-phm construction', function(){
 
 describe('memory-phm, getPlayerHistory.', function(){
     it('When player does not exist, return an error.', function(done){
-        var phm = new memPhm(testData.getCardHistory());
+        var phm = new memPhm(testData.getFullHistory());
         phm.getPlayerHistory("cardset1", 'bob', function(err, playerHistory){
             should.exist(err);
             done();
@@ -55,7 +55,7 @@ describe('memory-phm, getPlayerHistory.', function(){
     });
 
     it('When card set does not exist, return an error.', function(done){
-        var phm = new memPhm(testData.getCardHistory());
+        var phm = new memPhm(testData.getFullHistory());
         phm.getPlayerHistory('asdf', 'kyle', function(err, playerHistory){
             should.exist(err);
             done();
@@ -63,7 +63,7 @@ describe('memory-phm, getPlayerHistory.', function(){
     });
 
    it('When player history requested correctly, correct history returned.', function(done){
-        var data = testData.getCardHistory();
+        var data = testData.getFullHistory();
         var phm = new memPhm(data);
         phm.getPlayerHistory('cardset1', 'kyle', function(err, playerHistory){
             should.not.exist(err);
@@ -73,11 +73,11 @@ describe('memory-phm, getPlayerHistory.', function(){
    }); 
 
    it('When player history returned, should be deep copy.', function(done){
-        var dataClone = testData.getCardHistory();
+        var dataClone = testData.getFullHistory();
         var phm = new memPhm(dataClone);
         phm.getPlayerHistory('cardset1', 'kyle', function(err, playerHistory){
             playerHistory._playIndex = 10;
-            should.equal(dataClone.kyle.cardset1._playIndex, testData.getCardHistory().kyle.cardset1._playIndex);
+            should.equal(dataClone.kyle.cardset1._playIndex, testData.getFullHistory().kyle.cardset1._playIndex);
             done();
         });
    });
@@ -85,7 +85,7 @@ describe('memory-phm, getPlayerHistory.', function(){
 
 describe('memory-phm, updateCardScore', function(){
     it('When player does not exist, return an error.', function(done){
-        var phm = new memPhm(testData.getCardHistory());
+        var phm = new memPhm(testData.getFullHistory());
         phm.updateCardScore('cardset1', 'bob', testCardUpdate, function(err){
             should.exist(err);
             done();
@@ -93,7 +93,7 @@ describe('memory-phm, updateCardScore', function(){
     });
 
     it('When cardset does not exist, return an error.', function(done){
-        var phm = new memPhm(testData.getCardHistory());
+        var phm = new memPhm(testData.getFullHistory());
         phm.updateCardScore('asdf', 'kyle', testCardUpdate, function(err){
             should.exist(err);
             done();
@@ -101,7 +101,7 @@ describe('memory-phm, updateCardScore', function(){
     });
 
     it('When passed cardUpdate with cardId that does not exist, passes error.', function(done){
-        var phm = new memPhm(testData.getCardHistory());
+        var phm = new memPhm(testData.getFullHistory());
         phm.updateCardScore('cardset1', 'kyle', testBadCardUpdate, function(err){
             should.exist(err);
             done();
@@ -110,7 +110,7 @@ describe('memory-phm, updateCardScore', function(){
     });
 
     it('When update applied, score pushed.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData);
         phm.updateCardScore('cardset1', 'kyle', testCardUpdate, function(err){
             var scores = clonedData.kyle.cardset1.history.coolCard.scores;
@@ -120,7 +120,7 @@ describe('memory-phm, updateCardScore', function(){
     });
     
     it('When update applied, index pushed.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData);
         phm.updateCardScore('cardset1', 'kyle', testCardUpdate, function(err){
             var indicies = clonedData.kyle.cardset1.history.coolCard.playIndicies;
@@ -130,20 +130,20 @@ describe('memory-phm, updateCardScore', function(){
     });
 
     it('When update applied, score updated.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData);
         phm.updateCardScore('cardset1', 'kyle', testCardUpdate, function(err){
-            var targetScore = testData.getCardHistory().kyle.cardset1.history.coolCard.currentScore + testCardUpdate.score;
+            var targetScore = testData.getFullHistory().kyle.cardset1.history.coolCard.currentScore + testCardUpdate.score;
             should.equal(clonedData.kyle.cardset1.history.coolCard.currentScore, targetScore);
             done();
         });
     });
 
     it('When update applied, play index updated.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData);
         phm.updateCardScore('cardset1', 'kyle', testCardUpdate, function(err){
-            var targetIndex = testData.getCardHistory().kyle.cardset1._playIndex + 1;
+            var targetIndex = testData.getFullHistory().kyle.cardset1._playIndex + 1;
             should.equal(clonedData.kyle.cardset1._playIndex, targetIndex);
             done();
         });
@@ -153,7 +153,7 @@ describe('memory-phm, updateCardScore', function(){
 
 describe('memory-phm createPlayerHistory', function(){
     it('When card set already exists, error is passed.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData, mockCsm);
         phm.createPlayerHistory('cardset1', 'kyle', function(err){
             should.exist(err);
@@ -162,7 +162,7 @@ describe('memory-phm createPlayerHistory', function(){
     });
 
     it('When player does not exist, player added.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData, mockCsm);
         phm.createPlayerHistory('cardset1', 'bob', function(err){
             Object.keys(clonedData).should.containEql('bob');
@@ -171,7 +171,7 @@ describe('memory-phm createPlayerHistory', function(){
     });
 
     it('When created, empty card set history generated.', function(done){
-        var clonedData = testData.getCardHistory();
+        var clonedData = testData.getFullHistory();
         var phm = new memPhm(clonedData, mockCsm);
         phm.createPlayerHistory('cardset2', 'kyle', function(err){
             Object.keys(clonedData.kyle).should.containEql('cardset2');

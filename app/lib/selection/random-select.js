@@ -7,7 +7,7 @@
 
 function RandomSelect(){
 
-};
+}
 
 
 /**
@@ -19,7 +19,7 @@ function RandomSelect(){
  *
 */ 
 RandomSelect.prototype.selectCard = function(cardsetHistory, callback){
-    var cardNames = Object.keys(cardsetHitory.history);  
+    var cardNames = Object.keys(cardsetHistory.history);  
     if(cardNames.length < 1){
         callback(new Error("Cardset history length was less than 1."));
     }
