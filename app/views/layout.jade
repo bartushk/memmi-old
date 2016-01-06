@@ -3,6 +3,9 @@ html
     head
         title= title
         link(rel='stylesheet', href='/css/site.css')
+        script(src='/js/lib/require.js')
+        script(src='/js/require-config.js')
+        block additional-header-imports
 
     body
         header
@@ -14,4 +17,8 @@ html
                             li(class= index == selected_index ? "current" : "")
                                 a(href= value.link)= value.title
 
-    block content
+    div#bodyContentContainer
+        block content
+    div#footer
+    footer
+        block footer

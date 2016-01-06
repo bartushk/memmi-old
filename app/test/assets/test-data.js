@@ -3,9 +3,18 @@ var cardset1 = {
     'id': 'cardset1',
 
     'cards': {
-        'coolCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'coolCard'},
-        'nerdCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'nerdCard'},
-        'dudeCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'dudeCard'}
+        'coolCard': {
+            'frontInfo':{'type':'text', 'value':'Hello there.'}, 
+            'backInfo': {'type':'html', 'value': '<h1>world!</h1>'}, 
+            'id': 'coolCard'},
+        'nerdCard': {
+            'frontInfo':{'type':'bbcode', 'value':'[b]Hello[/b]'}, 
+            'backInfo': {'type':'text', 'value':'Hello there.'}, 
+            'id': 'nerdCard'},
+        'dudeCard': {
+            'frontInfo':{'type':'markdown', 'value':'##Hello there.'}, 
+            'backInfo': {'type':'text', 'value':'Hello there.'}, 
+            'id': 'dudeCard'}
     }
 };
 

@@ -1,3 +1,12 @@
 extends layout
 block content
     div(class='container bodyContent')
+
+
+    script.
+        var indexPageModel;
+        require(["knockout", "memmi/IndexPageModel"], function(ko, pageModel){
+            indexPageModel = pageModel;
+            ko.applyBindings(pageModel);
+
+        });
