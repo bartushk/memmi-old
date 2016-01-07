@@ -5,6 +5,29 @@ function(ko, $, _, card, information){
     
     var viewModel = {
         ActiveCard: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
+        CurrentCardset: ko.observable('cardset1'),
+        CurrentAlgorithm: ko.observable('random'),
+        CardHistory: ko.observableArray()
+    };
+
+    viewModel.getNextCard = function(){
+        var postObject = {};
+        postObject.cardset = viewModel.CurrentCardset();
+        postObject.algorithm = viewModel.CurrentAlgorithm();
+        $.ajax({
+            method: "POST",
+            url: "/card-api/get-next",
+            contentType: "application/json",
+            data: JSON.stringify(postObject),
+            success: function(arg){
+               var newCard = card.fromJson(arg);
+               viewModel.CardHistory.push(viewModel.ActiveCard()); 
+               viewModel.ActiveCard(newCard);
+            },
+            error: function(arg){
+                console.error(arg);
+            }
+        });
     };
 
     return viewModel;

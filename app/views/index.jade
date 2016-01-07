@@ -1,6 +1,10 @@
 extends layout
 block content
+    include ./templates/information-templates.jade
     div(class='container bodyContent')
+        div#card(data-bind="with: ActiveCard")
+           span.cardTitle(data-bind="text: CardId")
+           div(data-bind="template: {name: InfoTemplate, data: ActiveSide}")
 
 
     script.
@@ -8,5 +12,4 @@ block content
         require(["knockout", "memmi/IndexPageModel"], function(ko, pageModel){
             indexPageModel = pageModel;
             ko.applyBindings(pageModel);
-
         });
