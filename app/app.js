@@ -1,6 +1,8 @@
 var cluster = require('cluster');
 var log = require('./lib/log-factory').getLogger();
 var mode = process.env.MODE;
+var logLevel = process.env.LOG_LEVEL;
+log.level(logLevel);
 
 if(cluster.isMaster && mode == 'prod'){
 
@@ -34,10 +36,9 @@ if(cluster.isMaster && mode == 'prod'){
     app.use(bodyParser.json());
     app.use(express.static(path.join(__dirname, 'public')));
 
-    if( process.env.LOG_LEVEL == 'debug' ){
-        require('./lib/log-factory').setLogLevel('debug');
+    if( logLevel == 'debug' || logLevel == 'trace' ){
         var logFunc = function(req, res, next){
-            log.info({body: req.body}, 'Incoming Request.');
+            log.debug({body: req.body, url: req.url, method: req.method}, 'Incoming Request.');
             next();
         };
         app.use(logFunc);
