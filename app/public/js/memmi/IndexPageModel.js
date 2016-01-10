@@ -10,6 +10,14 @@ function(ko, $, _, card, information){
         CardHistory: ko.observableArray()
     };
 
+    viewModel.cardAction = function(){
+        if( !viewModel.ActiveCard().IsFlipped() ){
+            viewModel.ActiveCard().IsFlipped(true); 
+        }else{
+            viewModel.getNextCard();
+        }
+    };
+
     viewModel.getNextCard = function(){
         var postObject = {};
         postObject.cardset = viewModel.CurrentCardset();

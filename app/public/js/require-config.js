@@ -10,6 +10,11 @@ require.config({
             name: "knockout",
             location: "lib",
             main: "knockout-3.4.0.js"
+        },
+        {
+            name: "showdown",
+            location: "lib",
+            main: "showdown.min.js"
         }
     ],
     paths: {

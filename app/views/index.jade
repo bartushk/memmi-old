@@ -2,7 +2,8 @@ extends layout
 block content
     include ./templates/information-templates.jade
     div(class='container bodyContent')
-        div#card(data-bind="with: ActiveCard")
+        div.spacer10
+        div#card(data-bind="with: ActiveCard, click: cardAction")
            span.cardTitle(data-bind="text: CardId")
            div(data-bind="template: {name: InfoTemplate, data: ActiveSide}")
 

@@ -38,7 +38,28 @@ if(cluster.isMaster && mode == 'prod'){
 
     if( logLevel == 'debug' || logLevel == 'trace' ){
         var logFunc = function(req, res, next){
-            log.debug({body: req.body, url: req.url, method: req.method}, 'Incoming Request.');
+            var oldWrite = res.write;
+            var oldEnd = res.end;
+            var chunks = [];
+            res.write = function(chunk){
+                if(chunk)
+                    chunks.push(new Buffer(chunk));
+                oldWrite.apply(res, arguments);
+            };
+
+            res.end = function(chunk){
+                if(chunk)
+                    chunks.push(new Buffer(chunk));
+                if(chunks.length < 1){
+                    log.debug({body: ""}, 'Response.');
+                }else{
+                    var body = Buffer.concat(chunks).toString('utf8');
+                    log.debug({body: body}, 'Response.');
+                }
+                oldEnd.apply(res, arguments);
+            };
+
+            log.debug({body: req.body, url: req.url, method: req.method}, 'Request.');
             next();
         };
         app.use(logFunc);

@@ -3,10 +3,10 @@ define(["knockout", "memmi/Information"], function(ko, information){
         this.CardId = ko.observable(cardId || "No-Card");
         this.Front = ko.observable(frontInformation || new information());
         this.Back = ko.observable(backInformation || new information());
-        this.Flipped = ko.observable(false);
+        this.IsFlipped = ko.observable(false);
 
         this.ActiveSide = ko.computed(function(){
-            return this.Flipped() ? this.Back() : this.Front();        
+            return this.IsFlipped() ? this.Back() : this.Front();        
         }, this);
 
         this.InfoTemplate = ko.computed(function(){
