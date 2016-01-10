@@ -19,10 +19,13 @@ testd:
 
 run:
 	@cd app && \
-		node app.js
+		MODE=prod node app.js | node_modules/bunyan/bin/bunyan
 
+
+log:
+	@cd app && \
+		MODE=prod LOG_LEVEL=debug node app.js | node_modules/bunyan/bin/bunyan	
 
 debug:
 	@cd app && \
-		node debug app.js
-		
+		LOG_LEVEL=debug node debug app.js | node_modules/bunyan/bin/bunyan
