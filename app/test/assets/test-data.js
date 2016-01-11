@@ -5,15 +5,15 @@ var cardset1 = {
     'cards': {
         'coolCard': {
             'frontInfo':{'type':'text', 'value':'Hello there.'}, 
-            'backInfo': {'type':'markdown', 'value': '```js var world = world!```'}, 
+            'backInfo': {'type':'html', 'value': '<script>console.log("xss");</script>'}, 
             'id': 'coolCard'},
         'nerdCard': {
-            'frontInfo':{'type':'bbcode', 'value':'[b]Hello[/b]'}, 
-            'backInfo': {'type':'text', 'value':'Hello there.'}, 
+            'frontInfo':{'type':'html', 'value':'<h1>Hey there html!</h1>'}, 
+            'backInfo': {'type':'html', 'value':'Hello there.'}, 
             'id': 'nerdCard'},
         'dudeCard': {
-            'frontInfo':{'type':'markdown', 'value':'##Hello there.'}, 
-            'backInfo': {'type':'text', 'value':'Hello there.'}, 
+            'frontInfo':{'type':'text', 'value':'##Hello there.'}, 
+            'backInfo': {'type':'html', 'value':'Hello there.'}, 
             'id': 'dudeCard'}
     }
 };
