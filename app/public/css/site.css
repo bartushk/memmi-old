@@ -16,7 +16,7 @@ green-four: #328e32
 */
 
 body{
-    background-color: #101010;
+    background-color: #252525;
     margin: 0 0 0 0;
     font: 25px "Helvetica Neue","Open Sans",sans-serif;
     font-weight: 100;
@@ -67,7 +67,7 @@ a:hover{
 
 .bodyContent{
     text-align: center;
-    background-color: whitesmoke;
+    background-color: #dddddd;
     min-height: 300px;
 }
 
@@ -81,5 +81,12 @@ a:hover{
 }
 
 #card{
+    position: absolute;
     border: solid black;
+    background-color: whitesmoke;
+    width: 500px;
+    min-height: 200px;
+    margin-left: -250px;
+    left: 50%;
+    right: 50%;
 }

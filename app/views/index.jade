@@ -1,12 +1,19 @@
 extends layout
+block additional-header-imports
+    link(rel='stylesheet', href='/css/flip.css')
 block content
     include ./templates/information-templates.jade
     div(class='container bodyContent')
         div.spacer10
-        div#card(data-bind="with: ActiveCard, click: cardAction")
-           span.cardTitle(data-bind="text: CardId")
-           div(data-bind="template: {name: InfoTemplate, data: ActiveSide}")
-
+        div.flip-container
+            div.flipper(data-bind= "click: cardAction")
+                div#card(data-bind="with: ActiveCard")
+                    div.front(data-bind="with: Front")
+                        span.cardTitle(data-bind="text: $parent.CardTitle")
+                        div(data-bind="template: {name: Template, data: $data}")
+                    div.back(data-bind="with: Back")
+                        span.cardTitle(data-bind="text: $parent.CardTitle")
+                        div(data-bind="template: {name: Template, data: $data}")
 
     script.
         var indexPageModel;

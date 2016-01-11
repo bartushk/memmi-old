@@ -10,8 +10,9 @@ function(ko, $, _, card, information){
         CardHistory: ko.observableArray()
     };
 
-    viewModel.cardAction = function(){
+    viewModel.cardAction = function(item, event){
         if( !viewModel.ActiveCard().IsFlipped() ){
+            event.currentTarget.classList.toggle('flip');
             viewModel.ActiveCard().IsFlipped(true); 
         }else{
             viewModel.getNextCard();
