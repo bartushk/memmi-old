@@ -5,7 +5,7 @@ var cardset1 = {
     'cards': {
         'coolCard': {
             'frontInfo':{'type':'text', 'value':'Hello there.'}, 
-            'backInfo': {'type':'html', 'value': '<h1>world!</h1>'}, 
+            'backInfo': {'type':'markdown', 'value': '```js var world = world!```'}, 
             'id': 'coolCard'},
         'nerdCard': {
             'frontInfo':{'type':'bbcode', 'value':'[b]Hello[/b]'}, 

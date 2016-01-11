@@ -8,8 +8,5 @@ script(type='text/html', id='info-markdown')
 
 script(type='text/html', id='info-bbcode')
     div.infoContainer
-        span(data-bind="text:Value")
+        span(data-bind="html:Html")
 
-script(type='text/html', id='info-html')
-    div.infoContainer
-        div(data-bind="html:Value")

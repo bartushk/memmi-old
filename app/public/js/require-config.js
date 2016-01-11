@@ -18,6 +18,10 @@ require.config({
         }
     ],
     paths: {
-        'underscore': 'lib/underscore-min'
+        'underscore': 'lib/underscore-min',
+        'bbcode': 'lib/bbcode.min'
+    },
+    shim: {
+        "bbcode": { "exports": "bbcode" }
     }
 });
