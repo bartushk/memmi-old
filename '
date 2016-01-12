@@ -32,8 +32,6 @@ function(ko, $, _, card, information){
     viewModel.cardAction = function(item, event){
         if( !viewModel.ActiveCard()().IsFlipped() ){
             event.currentTarget.classList.toggle('flip');
-            event.currentTarget.classList.toggle('slide-on');
-            event.currentTarget.classList.toggle('wait-left');
             viewModel.ActiveCard()().IsFlipped(true); 
         }else{
             event.currentTarget.classList.toggle('slide-off');

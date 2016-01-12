@@ -5,8 +5,7 @@ define(["knockout", "memmi/Information"], function(ko, information){
         this.Back = ko.observable(backInformation || new information());
         this.IsFlipped = ko.observable(false);
         this.CardTitle = ko.computed(function(){
-            var appendText = this.IsFlipped() ? ' - Back' : ' - Front';
-            return this.CardId() + appendText;
+            return this.CardId();
         }, this);
 
     }
