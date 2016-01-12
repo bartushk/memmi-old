@@ -4,18 +4,34 @@ function(ko, $, _, card, information){
     var welcomeBack = new information('text', 'Memmi is an app to help you with memorization');
     
     var viewModel = {
-        ActiveCard: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
+        CardOne: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
+        CardTwo: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
+        CardToggle: ko.observable(false),
         CurrentCardset: ko.observable('cardset1'),
         CurrentAlgorithm: ko.observable('random'),
-        CardHistory: ko.observableArray()
+        CardHistory: ko.observableArray(),
     };
+
+    viewModel.ActiveCard = ko.computed(function(){
+        return viewModel.CardToggle() ? viewModel.CardTwo() : viewModel.CardOne();
+    });
+
+    viewModel.UnactiveCard = ko.computed(function(){
+        return viewModel.CardToggle() ? viewModel.CardOne() : viewModel.CardTwo();
+    });
 
     viewModel.cardAction = function(item, event){
         if( !viewModel.ActiveCard().IsFlipped() ){
             event.currentTarget.classList.toggle('flip');
             viewModel.ActiveCard().IsFlipped(true); 
         }else{
-            viewModel.getNextCard();
+            event.currentTarget.classList.toggle('slide-off');
+            event.currentTarget.classList.toggle('flip');
+            _.delay(function(){
+                event.currentTarget.classList.toggle('slide-off');
+                event.currentTarget.classList.toggle('wait-left');
+                event.currentTarget.classList.toggle('slide-on');
+            }, 600);
         }
     };
 

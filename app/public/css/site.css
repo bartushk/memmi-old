@@ -16,10 +16,11 @@ green-four: #328e32
 */
 
 body{
-    background-color: #252525;
+    background-color: #282828;
     margin: 0 0 0 0;
     font: 25px "Helvetica Neue","Open Sans",sans-serif;
     font-weight: 100;
+    overflow: hidden;
 }
 
 header{
@@ -75,18 +76,33 @@ a:hover{
     height: 10px;
 }
 
+.spacer30{
+    height: 30px;
+}
+
+.spacer480{
+    height: 480px;
+}
+
+.cardTitle{
+    background-color: #282828;
+    color: #75b975;
+    width: 100%;
+}
+
+.card{
+    position: relative;
+    border: solid #282828 1px;
+    background-color: whitesmoke;
+    width: 720px;
+    height: 405px;
+    margin-left: -360px;
+    left: 50%;
+    right: 50%;
+}
+
 #logo{
     float: left;
     padding: 10px;
 }
 
-#card{
-    position: absolute;
-    border: solid black;
-    background-color: whitesmoke;
-    width: 500px;
-    min-height: 200px;
-    margin-left: -250px;
-    left: 50%;
-    right: 50%;
-}
