@@ -12,9 +12,11 @@ html
             div.container
                 img(id='logo', src='/images/logo.png')
                 nav
-                    ul.list-divide
+                    ul.list-divide-pipe
                         each value, index in pages
-                            li(class= index == selected_index ? "current" : "")
+                            - var item_class = index > 0 ? "piped" : "";
+                            - item_class += index == selected_index ? " current" : "";
+                            li(class= item_class)
                                 a(href= value.link)= value.title
 
     div#bodyContentContainer

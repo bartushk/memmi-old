@@ -8,18 +8,18 @@ block content
         div(class="flip-container wait-left slide-on" data-bind= "slideOn: SlideOne, click: cardAction")
             div.flipper(data-bind="with: CardOne")
                 div(class="front card" data-bind="with: Front")
-                    div.cardTitle(data-bind="text: $parent.CardTitle")
+                    div.cardTitle
                     div(data-bind="template: {name: Template, data: $data}")
                 div(class="back card" data-bind="with: Back")
-                    div.cardTitle(data-bind="text: $parent.CardTitle")
+                    div.cardTitle
                     div(data-bind="template: {name: Template, data: $data}")
         div(class="flip-container wait-left" data-bind= "slideOn: SlideTwo, click: cardAction")
             div.flipper(data-bind="with: CardTwo")
                 div(class="front card" data-bind="with: Front")
-                    div.cardTitle(data-bind="text: $parent.CardTitle")
+                    div.cardTitle
                     div(data-bind="template: {name: Template, data: $data}")
                 div(class="back card" data-bind="with: Back")
-                    div.cardTitle(data-bind="text: $parent.CardTitle")
+                    div.cardTitle
                     div(data-bind="template: {name: Template, data: $data}")
         div.spacer480
 

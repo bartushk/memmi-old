@@ -1,35 +1,24 @@
 
 /*
-gray: #282828
-purple-main: #87649a
-purple-one: #b8a6c2
-purple-two: #9c81ab
-purple-three: #73498a
-purple-four: #5d2e77
-
-green-main: #75b975
-green-one: #b8dab8
-green-two: #98cc98
-green-three: #53a553
-green-four: #328e32
+dark purple: #211429
 
 */
 
 body{
-    background-color: #282828;
+    background-color: #211429;
     margin: 0 0 0 0;
     font: 25px "Helvetica Neue","Open Sans",sans-serif;
-    font-weight: 100;
+    font-weight: 300;
     overflow: hidden;
 }
 
 header{
-    text-align: center;
     height: 70px;
 }
 
 header li {
     position: relative;
+    padding-bottom: 12px;
 }
 
 a {
@@ -44,26 +33,42 @@ a:hover{
     width: 100%;
 }
 
-.list-divide{
+.list-divide-pipe{
     margin: 0;
-    padding: 0;
-    float: left;
+    padding: 29px 0 0 300px;
 }
 
-.list-divide li {
+.list-divide-pipe li {
     display: inline-block;
-    padding-left: 50px;
-    padding-top: 35px;
+}
+
+.list-divide-pipe a{
+    color: #b8a6c2;
+    font-size: 16px;
 }
 
 
-.list-divide a{
-    color: #75b975;
-    font-size: 20px;
+.list-divide-pipe li.piped::before{
+    content: '|';
+    font-weight: 100;
+    padding: 0 1.8em 0 1.8em;
+    color: #b8a6c2;
 }
 
-.list-divide li.current a{
-    color: #b8dab8;
+.list-divide-pipe li.current a::after{
+    content: " ";
+    background-color: #b8a6c2;
+    position: absolute;
+    width: calc(100% + 64px);
+    height: 12px;
+    top: 69%;
+    left: -16px;
+}
+
+.list-divide-pipe li.current.piped a::after {
+    width: calc(100% + 2px);
+    margin-left: 47px;
+    left: 0;
 }
 
 .bodyContent{
@@ -85,14 +90,14 @@ a:hover{
 }
 
 .cardTitle{
-    background-color: #282828;
-    color: #75b975;
+    background-color: #211429;
+    height: 30px;
     width: 100%;
 }
 
 .card{
     position: relative;
-    border: solid #282828 1px;
+    border: solid #211429 2px;
     background-color: whitesmoke;
     width: 720px;
     height: 405px;
