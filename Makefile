@@ -29,3 +29,7 @@ log:
 debug:
 	@cd app && \
 		LOG_LEVEL=debug node debug app.js | node_modules/bunyan/bin/bunyan
+
+forever:
+	@cd app && \
+		PORT=80 node_modules/forever/bin/forever start app.js

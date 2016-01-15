@@ -24,6 +24,7 @@
     "body-parser": "^1.14.1",
     "bunyan": "^1.5.1",
     "express": "^4.13.3",
+    "forever": "^0.15.1",
     "jade": "^1.11.0",
     "morgan": "^1.6.1",
     "serve-favicon": "^2.3.0",

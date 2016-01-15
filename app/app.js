@@ -69,7 +69,7 @@ if(cluster.isMaster && mode == 'prod'){
     app.use('/card-api', cardApi);
 
 
-    var server = app.listen(3000, function () {
+    var server = app.listen(process.env.PORT || 3000, function () {
         var host = server.address().address;
         var port = server.address().port;
         log.info('Worker %s listening at http://%s:%s', id,  host, port);
