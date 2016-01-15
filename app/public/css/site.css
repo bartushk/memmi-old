@@ -43,26 +43,27 @@ a:hover{
 }
 
 .list-divide-pipe a{
-    color: #b8a6c2;
+    color: #dddddd;
     font-size: 16px;
 }
 
 
 .list-divide-pipe li.piped::before{
-    content: '|';
+    content: ' ';
     font-weight: 100;
     padding: 0 1.8em 0 1.8em;
-    color: #b8a6c2;
+    color: #dddddd;
 }
 
 .list-divide-pipe li.current a::after{
     content: " ";
-    background-color: #b8a6c2;
+    background-color: #dddddd;
+    border-radius: 7px;
     position: absolute;
-    width: calc(100% + 64px);
-    height: 12px;
-    top: 69%;
-    left: -16px;
+    width: calc(100% + 70px);
+    height: 20px;
+    top: 65%;
+    left: -100%;
 }
 
 .list-divide-pipe li.current.piped a::after {
