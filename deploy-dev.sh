@@ -5,6 +5,6 @@ ssh bartushk@dev.memmi.net <<EOF
     git pull
     cd app
     npm install --production
-    forever restartall
+    ./node_modules/forever/bin/forever restartall
     exit
 EOF
