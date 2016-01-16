@@ -10,9 +10,9 @@ function(ko, $, _, card, information, cardsetInfo){
     };
     
     var viewModel = {
-        CardOne: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
+        CardOne: ko.observable(new card('Welcome', welcomeFront, welcomeBack, "Hello memmi")),  
         SlideOne: ko.observable(false),
-        CardTwo: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
+        CardTwo: ko.observable(new card('Welcome', welcomeFront, welcomeBack, "Hello memmi")),  
         SlideTwo: ko.observable(false),
 
         CardToggle: ko.observable(false),

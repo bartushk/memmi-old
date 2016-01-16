@@ -4,14 +4,17 @@ var cardset1 = {
 
     'cards': {
         'coolCard': {
+            'title': 'Cool Card Title',
             'frontInfo':{'type':'text', 'value':'Hello there.'}, 
             'backInfo': {'type':'html', 'value': '<script>console.log("xss");</script>'}, 
             'id': 'coolCard'},
         'nerdCard': {
+            'title': 'Nerd Card Title',
             'frontInfo':{'type':'html', 'value':'<h1>Hey there html!</h1>'}, 
             'backInfo': {'type':'html', 'value':'Hello there.'}, 
             'id': 'nerdCard'},
         'dudeCard': {
+            'title': 'Dude Card Title',
             'frontInfo':{'type':'text', 'value':'##Hello there.'}, 
             'backInfo': {'type':'html', 'value':'Hello there.'}, 
             'id': 'dudeCard'}
@@ -22,9 +25,9 @@ var cardset2 = {
     'id': 'cardset2',
 
     'cards': {
-        'funCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'funCard'},
-        'boringCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'boringCard'},
-        'dorkCard': {'frontInfo':{}, 'backInfo': {}, 'id': 'dorkCard'}
+        'funCard': {'title': 'Cool cards!', 'frontInfo':{}, 'backInfo': {}, 'id': 'funCard'},
+        'boringCard': {'title': 'Cool cards!', 'frontInfo':{}, 'backInfo': {}, 'id': 'boringCard'},
+        'dorkCard': {'title': 'Cool cards!', 'frontInfo':{}, 'backInfo': {}, 'id': 'dorkCard'}
     }
 };
 

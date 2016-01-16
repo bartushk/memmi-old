@@ -1,0 +1,10 @@
+include ./cardtitle-templates.jade
+include ./information-templates.jade
+
+script(type='text/html', id='card-standard')
+    div(class="front card" data-bind="with: Front")
+        div(data-bind="template: {name: 'title-standard', data: $parent}")
+        div(data-bind="template: {name: Template, data: $data}")
+    div(class="back card" data-bind="with: Back")
+        div(data-bind="template: {name: 'title-standard', data: $parent}")
+        div(data-bind="template: {name: Template, data: $data}")
