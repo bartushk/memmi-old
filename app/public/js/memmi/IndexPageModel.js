@@ -1,5 +1,5 @@
-define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information"],
-function(ko, $, _, card, information){
+define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information", "memmi/CardsetInfo"],
+function(ko, $, _, card, information, cardsetInfo){
     var welcomeFront = new information('text', 'Welcome to memmi.');
     var welcomeBack = new information('text', 'Memmi is an app to help you with memorization.');
     ko.bindingHandlers.slideOn = {
@@ -7,7 +7,7 @@ function(ko, $, _, card, information){
             if( valueAccessor()() )
                 element.classList.toggle('slide-on');
         }
-    }
+    };
     
     var viewModel = {
         CardOne: ko.observable(new card('Welcome', welcomeFront, welcomeBack)),  
@@ -16,8 +16,8 @@ function(ko, $, _, card, information){
         SlideTwo: ko.observable(false),
 
         CardToggle: ko.observable(false),
-        CurrentCardset: ko.observable('cardset1'),
-        CurrentAlgorithm: ko.observable('random'),
+        CardsetInfo: ko.observable(new cardsetInfo('cardset1')),
+        Algorithm: ko.observable('random'),
         CardHistory: ko.observableArray(),
     };
 
@@ -48,8 +48,8 @@ function(ko, $, _, card, information){
 
     viewModel.getNextCard = function(){
         var postObject = {};
-        postObject.cardset = viewModel.CurrentCardset();
-        postObject.algorithm = viewModel.CurrentAlgorithm();
+        postObject.cardset = viewModel.CardsetInfo().Name();
+        postObject.algorithm = viewModel.Algorithm();
         $.ajax({
             method: "POST",
             url: "/card-api/get-next",

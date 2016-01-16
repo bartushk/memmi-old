@@ -3,23 +3,24 @@ block additional-header-imports
     link(rel='stylesheet', href='/css/animation.css')
 block content
     include ./templates/information-templates.jade
+    include ./templates/cardtitle-templates.jade
     div(class='container bodyContent')
         div.spacer30
         div(class="flip-container wait-left slide-on" data-bind= "slideOn: SlideOne, click: cardAction")
             div.flipper(data-bind="with: CardOne")
                 div(class="front card" data-bind="with: Front")
-                    div.cardTitle
+                    div(data-bind="template: {name: $parents[1].CardsetInfo().TitleTemplate, data: $parents[1].CardsetInfo}")
                     div(data-bind="template: {name: Template, data: $data}")
                 div(class="back card" data-bind="with: Back")
-                    div.cardTitle
+                    div(data-bind="template: {name: $parents[1].CardsetInfo().TitleTemplate, data: $parents[1].CardsetInfo}")
                     div(data-bind="template: {name: Template, data: $data}")
         div(class="flip-container wait-left" data-bind= "slideOn: SlideTwo, click: cardAction")
             div.flipper(data-bind="with: CardTwo")
                 div(class="front card" data-bind="with: Front")
-                    div.cardTitle
+                    div(data-bind="template: {name: $parents[1].CardsetInfo().TitleTemplate, data: $parents[1].CardsetInfo}")
                     div(data-bind="template: {name: Template, data: $data}")
                 div(class="back card" data-bind="with: Back")
-                    div.cardTitle
+                    div(data-bind="template: {name: $parents[1].CardsetInfo().TitleTemplate, data: $parents[1].CardsetInfo}")
                     div(data-bind="template: {name: Template, data: $data}")
         div.spacer480
 

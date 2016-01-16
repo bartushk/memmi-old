@@ -1,4 +1,5 @@
 define(["knockout", "memmi/Information"], function(ko, information){
+
     function Card(cardId, frontInformation, backInformation){
         this.CardId = ko.observable(cardId || "No-Card");
         this.Front = ko.observable(frontInformation || new information());

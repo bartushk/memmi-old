@@ -90,10 +90,17 @@ a:hover{
     height: 480px;
 }
 
-.cardTitle{
+.titleContainer{
     background-color: #211429;
     height: 30px;
     width: 100%;
+    text-align: center;
+}
+
+.cardTitle{
+    color: whitesmoke;
+    font: 25px "Helvetica Neue","Open Sans",sans-serif;
+    font-weight: 100;
 }
 
 .card{
