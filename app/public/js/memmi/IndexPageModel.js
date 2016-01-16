@@ -1,7 +1,7 @@
 define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information"],
 function(ko, $, _, card, information){
     var welcomeFront = new information('text', 'Welcome to memmi.');
-    var welcomeBack = new information('text', 'Memmi is an app to help you with memorization');
+    var welcomeBack = new information('text', 'Memmi is an app to help you with memorization.');
     ko.bindingHandlers.slideOn = {
         update: function(element, valueAccessor){
             if( valueAccessor()() )
