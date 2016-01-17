@@ -46,6 +46,11 @@ function(ko, $, _, card, information, cardsetInfo){
         }
     };
 
+    viewModel.reportAndNext = function(){
+
+
+    };
+
     viewModel.getNextCard = function(){
         var postObject = {};
         postObject.cardset = viewModel.CardsetInfo().Name();
@@ -73,6 +78,8 @@ function(ko, $, _, card, information, cardsetInfo){
             }
         });
     };
+
+    card.setScoreCallback(viewModel.reportAndNext);
 
     return viewModel;
 });

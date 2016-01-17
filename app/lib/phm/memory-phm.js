@@ -1,3 +1,4 @@
+var config = require('../../config/config-factory').getConfig();
 var memCsm = require("../csm/memory-csm");
 var _ = require("underscore");
 
@@ -8,9 +9,12 @@ var _ = require("underscore");
  *
  * @param {CardSetManager} csm
 */ 
-function MemoryPhm(initialData, csm){
+function MemoryPhm(csm, initialData){
     this._playerHistory = initialData || {};
     this._csm = csm || new memCsm();
+    if(config.mockData){
+        this._playerHistory = require('../../test/assets/test-data').getFullHistory();
+    }
 }
 
 

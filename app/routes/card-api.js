@@ -1,9 +1,10 @@
+var config = require('../config/config-factory').getConfig();
+var log = require('../lib/log-factory').getLogger();
 var express = require('express');
-var idProvider = require('../lib/auth/mock-identity-provider');
 var selectionFactory = require('../lib/selection/selection-factory');
-var memPhm = require('../lib/phm/memory-phm');
-var memCsm = require('../lib/csm/memory-csm');
-var testData = require('../test/assets/test-data');
+var memPhm = require('../lib/phm/' + config.phm || 'memory-phm');
+var memCsm = require('../lib/csm/' + config.csm || 'memory-csm');
+var idProvider = require('../lib/auth/' + config.identityProvider || 'mock-identity-provider');
 
 
 /**
@@ -14,9 +15,36 @@ var testData = require('../test/assets/test-data');
 */ 
 
 var router = express.Router();
-var playerHistory = new memPhm(testData.getFullHistory());
-var cardsetManager = new memCsm(testData.getFullCardSet());
-var identityProvider = new idProvider('kyle');
+var cardsetManager = new memCsm();
+var playerHistory = new memPhm(cardsetManager);
+var identityProvider = new idProvider();
+
+
+/**
+ * Gets the next card from a cardset for a particular player using
+ * the specified algorithm.
+ *
+ * @param {string} cardsetId 
+ * @param {string} algorithmName 
+ * @param {string} playerIdentity 
+ * @param {Function} callback - callback(err,card)
+ * @return {null}
+*/ 
+function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
+    var selection = selectionFactory.getSelectionAlgorithm(algorithmName);
+    playerHistory.getPlayerHistory(cardsetId, playerIdentity, function(err, history){
+        if(err){ callback(err); return;}
+        selection.selectCard(history, function(err, cardName){
+            if(err){ callback(err); return;}
+            cardsetManager.getCardSetById(cardsetId, function(err, cardSet){
+                if(err){ callback(err); return;}
+                var requestReply = cardSet.cards[cardName];
+                callback(null, cardSet.cards[cardName]);
+            });
+        });
+    });
+}
+
 
 /**
  * This endpoint returns the next card for a particular person based on the
@@ -31,17 +59,12 @@ router.post('/get-next', function(req, res){
     var cardsetId = req.body.cardset;
     var selectionAlgorithm = req.body.algorithm;
     identityProvider.getIdentity(req, function(err, identity){
-        var selection = selectionFactory.getSelectionAlgorithm(selectionAlgorithm);
-        playerHistory.getPlayerHistory(cardsetId, identity.playerId, function(err, history){
-            if(err){ res.status(500).send("An error occured finding that player's history.");return;}
-            selection.selectCard(history, function(err, cardName){
-                if(err){ res.status(500).send("An error occured selecting the next card.");return;}
-                cardsetManager.getCardSetById(cardsetId, function(err, cardSet){
-                    if(err){ res.status(500).send("An error occured getting the next card.");return;}
-                    var requestReply = cardSet.cards[cardName];
-                    res.send(requestReply);
-                });
-            });
+        getNextCard(cardsetId, selectionAlgorithm, identity.playerId, function(err, card){
+            if(err){
+                log.warn(err);
+                res.status(500).send("An error occured selecting the next card.");
+            }
+            res.send(card);
         });
     });
 });
@@ -54,10 +77,20 @@ router.post('/get-next', function(req, res){
  *
  * req body format:
  *
- * { 'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
+ * { 'cardset': 'cardsetName', 'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
 */ 
 router.post('/report', function(req, res){
-
+    var cardsetId = req.body.cardset;
+    var cardUpdate = req.body.cardUpdate;
+    identityProvider.getIdentity(req, function(err, identity){
+        playerHistory.updateCardScore(cardsetId, identity.playerId, cardUpdate, function(err){
+            if(err){
+                log.warn(err);
+                res.status(500).send("An error occured applying your card update.");
+            }
+            res.send("Update successfull");
+        });
+    });
 });
 
 
@@ -72,7 +105,24 @@ router.post('/report', function(req, res){
  *   'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
 */ 
 router.post('/report-get-next', function(req, res){
-
+    var cardsetId = req.body.cardset;
+    var selectionAlgorithm = req.body.algorithm;
+    var cardUpdate = req.body.cardUpdate;
+    identityProvider.getIdentity(req, function(err, identity){
+        playerHistory.updateCardScore(cardsetId, identity.playerId, cardUpdate, function(err){
+            if(err){
+                log.warn(err);
+                res.status(500).send("An error occured applying your card update.");
+            }
+            getNextCard(cardsetId, selectionAlgorithm, identity.playerId, function(err, card){
+                if(err){
+                    log.warn(err);
+                    res.status(500).send("An error occured selecting the next card.");
+                }
+                res.send(card);
+            });
+        });
+    });
 });
 
 

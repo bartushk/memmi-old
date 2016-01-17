@@ -1,10 +1,8 @@
+var config = require('./config/config-factory').getConfig();
 var cluster = require('cluster');
 var log = require('./lib/log-factory').getLogger();
-var mode = process.env.MODE;
-var logLevel = process.env.LOG_LEVEL;
-log.level(logLevel);
 
-if(cluster.isMaster && mode == 'prod'){
+if(cluster.isMaster && config.multiProcess){
 
     var cpuCount = require('os').cpus().length;
     log.info("CPU count: %s", cpuCount);
@@ -17,7 +15,7 @@ if(cluster.isMaster && mode == 'prod'){
         cluster.fork();
     });
 } else {
-    var id = mode == 'prod' ? cluster.worker.id: 1;
+    var id = config.multiProcess ? cluster.worker.id: 1;
     var express = require('express');
     var favicon = require('serve-favicon');
     var bodyParser = require('body-parser');
@@ -36,7 +34,7 @@ if(cluster.isMaster && mode == 'prod'){
     app.use(bodyParser.json());
     app.use(express.static(path.join(__dirname, 'public')));
 
-    if( logLevel == 'debug' || logLevel == 'trace' ){
+    if( config.logLevel == 'debug' || config.logLevel == 'trace' ){
         var logFunc = function(req, res, next){
             var oldWrite = res.write;
             var oldEnd = res.end;
@@ -69,7 +67,7 @@ if(cluster.isMaster && mode == 'prod'){
     app.use('/card-api', cardApi);
 
 
-    var server = app.listen(process.env.PORT || 3000, function () {
+    var server = app.listen(config.port || 3000, function () {
         var host = server.address().address;
         var port = server.address().port;
         log.info('Worker %s listening at http://%s:%s', id,  host, port);

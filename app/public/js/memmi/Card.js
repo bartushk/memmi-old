@@ -1,4 +1,5 @@
 define(["knockout", "memmi/Information"], function(ko, information){
+    var cardScoreCallback = function(){};
 
     function Card(cardId, frontInformation, backInformation, title){
         this.CardId = ko.observable(cardId || "No-Card");
@@ -9,8 +10,18 @@ define(["knockout", "memmi/Information"], function(ko, information){
         this.CardTitle = ko.computed(function(){
             return this.CardId();
         }, this);
-
     }
+
+    Card.prototype.scoreCard = function(score){
+        var cardUpdate = {};
+        cardUpdate.cardIdentifier = this.CardId();
+        cardUpdate.score = score;
+        cardScoreCallback(cardUpdate);
+    };
+
+    Card.setScoreCallback = function(callback){
+        cardScoreCallback = callback;
+    };
 
     Card.fromJson = function(jsonCard){
         var frontInfo = new information(jsonCard.frontInfo.type, jsonCard.frontInfo.value);

@@ -6,7 +6,7 @@
  *
 */ 
 function MockIdentityProvider(username, isAnon){
-    this._username = username || "d_b";
+    this._username = username || "kyle";
     this._isAnon = !!isAnon;
 }
 
