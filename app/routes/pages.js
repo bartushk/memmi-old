@@ -8,7 +8,9 @@ var _pages = [
 ];
 
 router.get('/', function(req, res){
-   res.render('index', {title:'Memmi', pages:_pages, selected_index:0});
+    var initCardset = req.query.cardset || 'cardset1';
+    initCardset = '"' + initCardset + '"';   
+    res.render('index', {title:'Memmi', pages:_pages, selected_index:0, initialCardset:initCardset});
 });
 
 router.get('/create', function(req, res){

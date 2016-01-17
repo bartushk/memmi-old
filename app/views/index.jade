@@ -6,7 +6,7 @@ block content
     include ./templates/card-templates.jade
     div(class='container bodyContent')
         div.spacer30
-        div#card1(class="flip-container wait-left slide-on" data-bind= "click: cardAction")
+        div#card1(class="flip-container wait-left" data-bind= "click: cardAction")
             div.flipper(data-bind="template: {name: 'card-standard', data: CardOne}")
         div#card2(class="flip-container wait-left" data-bind= "click: cardAction")
             div.flipper(data-bind="template: {name: 'card-standard', data: CardTwo}")
@@ -16,5 +16,6 @@ block content
         var indexPageModel;
         require(["knockout", "memmi/IndexPageModel"], function(ko, pageModel){
             indexPageModel = pageModel;
+            indexPageModel.setCardset(!{initialCardset});
             ko.applyBindings(pageModel);
         });

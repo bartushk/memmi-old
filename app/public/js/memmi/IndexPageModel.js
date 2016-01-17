@@ -7,13 +7,18 @@ function(ko, $, _, card, information, cardsetInfo){
     var element1 = $('#card1')[0];
     var element2 = $('#card2')[0];
     var viewModel = {
-        CardOne: ko.observable(new card('Welcome', welcomeFront, welcomeBack, "Hello memmi")),  
-        CardTwo: ko.observable(new card('Welcome', welcomeFront, welcomeBack, "Hello memmi")),  
+        CardOne: ko.observable(new card()),  
+        CardTwo: ko.observable(new card()),  
 
         CardToggle: ko.observable(false),
-        CardsetInfo: ko.observable(new cardsetInfo('cardset1')),
+        CardsetInfo: ko.observable(),
         Algorithm: ko.observable('random'),
         CardHistory: ko.observableArray(),
+    };
+
+    viewModel.setCardset = function(cardsetName){
+        viewModel.CardsetInfo( new cardsetInfo(cardsetName) ); 
+        viewModel.getNext();
     };
 
     viewModel.ActiveCard = ko.computed(function(){
@@ -44,8 +49,33 @@ function(ko, $, _, card, information, cardsetInfo){
         }, 600);
     };
 
+    viewModel.getNext = function(){
+        if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
+            viewModel.slideCardOff();
+        var postObject = {};
+        postObject.cardset = viewModel.CardsetInfo().Name();
+        postObject.algorithm = viewModel.Algorithm();
+        $.ajax({
+            method: "POST",
+            url: "/card-api/get-next",
+            contentType: "application/json",
+            data: JSON.stringify(postObject),
+            success: function(arg){
+                var newCard = card.fromJson(arg);
+                viewModel.CardHistory.push(viewModel.ActiveCard()()); 
+                viewModel.CardToggle(!viewModel.CardToggle());
+                viewModel.ActiveCard()(newCard);
+                viewModel.ActiveElement().classList.toggle('slide-on');
+            },
+            error: function(arg){
+                console.error(arg);
+            }
+        });
+    };
+
     viewModel.reportAndNext = function(scoreObject){
-        viewModel.slideCardOff();
+        if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
+            viewModel.slideCardOff();
         var postObject = {};
         postObject.cardset = viewModel.CardsetInfo().Name();
         postObject.algorithm = viewModel.Algorithm();
@@ -66,8 +96,6 @@ function(ko, $, _, card, information, cardsetInfo){
                 console.error(arg);
             }
         });
-
-
     };
 
     $(document).keydown(function(event){
