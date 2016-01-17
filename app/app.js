@@ -1,6 +1,7 @@
 var config = require('./config/config-factory').getConfig();
 var cluster = require('cluster');
 var log = require('./lib/log-factory').getLogger();
+log.info(config, 'Initial Configuration.');
 
 if(cluster.isMaster && config.multiProcess){
 
