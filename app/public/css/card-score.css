@@ -1,0 +1,20 @@
+.bad{
+    background-color: red;
+}
+
+.badNeutral{
+    background-color: orange;
+}
+
+.neutral{
+    background-color: yellow;
+}
+
+.goodNeutral{
+    background-color: lime;
+}
+
+.good{
+    background-color: green;
+}
+

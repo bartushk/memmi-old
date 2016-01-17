@@ -114,6 +114,19 @@ a:hover{
     right: 50%;
 }
 
+.scoreContainer{
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.scoreContainer button{
+    width: 20%;
+    height: 100%;
+    border: none;
+}
+
 #logo{
     float: left;
     padding: 10px;

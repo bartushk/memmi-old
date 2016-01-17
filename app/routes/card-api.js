@@ -112,7 +112,6 @@ router.post('/report-get-next', function(req, res){
         playerHistory.updateCardScore(cardsetId, identity.playerId, cardUpdate, function(err){
             if(err){
                 log.warn(err);
-                res.status(500).send("An error occured applying your card update.");
             }
             getNextCard(cardsetId, selectionAlgorithm, identity.playerId, function(err, card){
                 if(err){

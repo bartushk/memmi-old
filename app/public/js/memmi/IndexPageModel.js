@@ -2,18 +2,13 @@ define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information", "
 function(ko, $, _, card, information, cardsetInfo){
     var welcomeFront = new information('text', 'Welcome to memmi.');
     var welcomeBack = new information('text', 'Memmi is an app to help you with memorization.');
-    ko.bindingHandlers.slideOn = {
-        update: function(element, valueAccessor){
-            if( valueAccessor()() )
-                element.classList.toggle('slide-on');
-        }
-    };
     
+    var flipElements = $('.flip-container');
+    var element1 = $('#card1')[0];
+    var element2 = $('#card2')[0];
     var viewModel = {
         CardOne: ko.observable(new card('Welcome', welcomeFront, welcomeBack, "Hello memmi")),  
-        SlideOne: ko.observable(false),
         CardTwo: ko.observable(new card('Welcome', welcomeFront, welcomeBack, "Hello memmi")),  
-        SlideTwo: ko.observable(false),
 
         CardToggle: ko.observable(false),
         CardsetInfo: ko.observable(new cardsetInfo('cardset1')),
@@ -25,58 +20,57 @@ function(ko, $, _, card, information, cardsetInfo){
         return viewModel.CardToggle() ? viewModel.CardTwo : viewModel.CardOne;
     });
 
-    viewModel.InactiveCard = ko.computed(function(){
-        return viewModel.CardToggle() ? viewModel.CardOne : viewModel.CardTwo;
+    viewModel.ActiveElement = ko.computed(function(){
+        return viewModel.CardToggle() ? element2 : element1;
     });
 
-    viewModel.cardAction = function(item, event){
+    viewModel.cardAction = function(){
+        var toAnimate = viewModel.ActiveElement();
         if( !viewModel.ActiveCard()().IsFlipped() ){
-            event.currentTarget.classList.toggle('flip');
-            event.currentTarget.classList.toggle('slide-on');
-            event.currentTarget.classList.toggle('wait-left');
+            toAnimate.classList.toggle('flip');
+            toAnimate.classList.toggle('slide-on');
+            toAnimate.classList.toggle('wait-left');
             viewModel.ActiveCard()().IsFlipped(true); 
-        }else{
-            event.currentTarget.classList.toggle('slide-off');
-            event.currentTarget.classList.toggle('flip');
-            viewModel.getNextCard();
-            _.delay(function(){
-                event.currentTarget.classList.toggle('slide-off');
-                event.currentTarget.classList.toggle('wait-left');
-            }, 600);
         }
     };
 
-    viewModel.reportAndNext = function(){
-
-
+    viewModel.slideCardOff = function(){
+        var toAnimate = viewModel.ActiveElement();
+        toAnimate.classList.toggle('slide-off');
+        toAnimate.classList.toggle('flip');
+        _.delay(function(){
+            toAnimate.classList.toggle('slide-off');
+            toAnimate.classList.toggle('wait-left');
+        }, 600);
     };
 
-    viewModel.getNextCard = function(){
+    viewModel.reportAndNext = function(scoreObject){
+        viewModel.slideCardOff();
         var postObject = {};
         postObject.cardset = viewModel.CardsetInfo().Name();
         postObject.algorithm = viewModel.Algorithm();
+        postObject.cardUpdate = scoreObject;
         $.ajax({
             method: "POST",
-            url: "/card-api/get-next",
+            url: "/card-api/report-get-next",
             contentType: "application/json",
             data: JSON.stringify(postObject),
             success: function(arg){
                 var newCard = card.fromJson(arg);
                 viewModel.CardHistory.push(viewModel.ActiveCard()()); 
-                viewModel.InactiveCard()(newCard);
                 viewModel.CardToggle(!viewModel.CardToggle());
-                if(viewModel.CardToggle()){
-                    viewModel.SlideTwo(true);
-                    _.delay(function(){viewModel.SlideTwo(false);}, 600);
-                } else {
-                    viewModel.SlideOne(!viewModel.SlideOne());
-                    _.delay(function(){viewModel.SlideOne(false);}, 600);
-                }
+                viewModel.ActiveCard()(newCard);
+                viewModel.ActiveElement().classList.toggle('slide-on');
             },
             error: function(arg){
                 console.error(arg);
             }
         });
+
+
+    };
+
+    viewModel.getNextCard = function(){
     };
 
     card.setScoreCallback(viewModel.reportAndNext);

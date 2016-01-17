@@ -8,3 +8,10 @@ script(type='text/html', id='card-standard')
     div(class="back card" data-bind="with: Back")
         div(data-bind="template: {name: 'title-standard', data: $parent}")
         div(data-bind="template: {name: Template, data: $data}")
+        div.scoreContainer
+            button.bad(data-bind="click: function(){ $parent.scoreCard(-2); }")
+            button.badNeutral(data-bind="click: function(){ $parent.scoreCard(-1); }")
+            button.neutral(data-bind="click: function(){ $parent.scoreCard(0); }")
+            button.goodNeutral(data-bind="click: function(){ $parent.scoreCard(1); }")
+            button.good(data-bind="click: function(){ $parent.scoreCard(2); }")
+            

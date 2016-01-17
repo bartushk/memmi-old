@@ -1,6 +1,6 @@
 module.exports = {
     multiProcess: false, 
-    logLevel: "debug",
+    logLevel: "info",
     mockData: true,
     phm: 'memory-phm',
     csm: 'memory-csm',
