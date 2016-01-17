@@ -14,7 +14,7 @@ define(["knockout", "memmi/Information"], function(ko, information){
 
     Card.prototype.scoreCard = function(score){
         var cardUpdate = {};
-        cardUpdate.cardIdentifier = this.CardId();
+        cardUpdate.cardId = this.CardId();
         cardUpdate.score = score;
         cardScoreCallback(cardUpdate);
     };

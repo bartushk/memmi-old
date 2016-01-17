@@ -29,10 +29,12 @@ function MemoryPhm(csm, initialData){
 */ 
 MemoryPhm.prototype.getPlayerHistory = function(cardSetId, playerId, callback){
     callback = callback || function(err, playerHistory){};
+
     if( !(playerId in this._playerHistory) ){
         callback( new Error("Player doesn't exist in history."), null );
         return;
     }
+
     if( !(cardSetId in this._playerHistory[playerId]) ){
         callback( new Error("Player has no history for this card set."), null );
         return;
@@ -59,6 +61,7 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerId, cardUpdate, 
         callback( new Error("Player doesn't exist in history.") );
         return;
     }
+
     if( !(cardSetId in this._playerHistory[playerId]) ){
         callback( new Error("Player has no history for this card set.") );
         return;

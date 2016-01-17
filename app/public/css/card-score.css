@@ -1,20 +1,64 @@
 .bad{
-    background-color: red;
+    background-color: #A80000;
+}
+
+.bad:hover{
+    cursor: pointer;
+    background-color: #730000;
+}
+
+.bad:active{
+    background-color: #360000;
 }
 
 .badNeutral{
-    background-color: orange;
+    background-color: #A84B00;
+}
+
+.badNeutral:hover{
+    cursor: pointer;
+    background-color: #733300;
+}
+
+.badNeutral:active{
+    background-color: #361800;
 }
 
 .neutral{
-    background-color: yellow;
+    background-color: #A8A800;
+}
+
+.neutral:hover{
+    cursor: pointer;
+    background-color: #737300;
+}
+
+.neutral:active{
+    background-color: #363600;
 }
 
 .goodNeutral{
-    background-color: lime;
+    background-color: #699D00;
+}
+
+.goodNeutral:hover{
+    cursor: pointer;
+    background-color: #476B00;
+}
+
+.goodNeutral:active{
+    background-color: #213200;
 }
 
 .good{
-    background-color: green;
+    background-color: #078800;
 }
 
+.good:hover{
+    cursor: pointer;
+    background-color: #055D00;
+}
+
+.good:active{
+    background-color: #022B00;
+}
