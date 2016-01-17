@@ -70,8 +70,31 @@ function(ko, $, _, card, information, cardsetInfo){
 
     };
 
-    viewModel.getNextCard = function(){
-    };
+    $(document).keydown(function(event){
+        var score = null;
+        switch(event.which){
+            case 38:    //up
+                score = 1;
+                break;
+            case 39:    //right
+                score = 0;
+                break;
+            case 40:    //down
+                score = -1;
+                break;
+        }
+        if(score !== null){
+            var activeCard = viewModel.ActiveCard()();
+            if(activeCard.IsFlipped()){
+                var scoreObject = {};
+                scoreObject.cardId = activeCard.CardId();
+                scoreObject.score = score;
+                viewModel.reportAndNext(scoreObject);
+            } else {
+                viewModel.cardAction();
+            }
+        }
+    });
 
     card.setScoreCallback(viewModel.reportAndNext);
 
