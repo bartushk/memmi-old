@@ -114,7 +114,8 @@ function(ko, $, _, card, information, cardsetInfo){
         });
     };
 
-    $(document).keydown(_.throttle(function(event){
+    var lastKeydown = new Date().getTime();
+    $(document).keydown(function(event){
         var score = null;
         switch(event.which){
             case 38:    //up
@@ -128,6 +129,10 @@ function(ko, $, _, card, information, cardsetInfo){
                 break;
         }
         if(score !== null){
+            var currentKeydown = new Date().getTime();
+            if( currentKeydown - lastKeydown < 700 )
+                return;
+            lastKeydown = currentKeydown;
             var activeCard = viewModel.ActiveCard()();
             if(activeCard.IsFlipped()){
                 var scoreObject = {};
@@ -138,7 +143,7 @@ function(ko, $, _, card, information, cardsetInfo){
                 viewModel.cardAction();
             }
         }
-    }, 700));
+    });
 
     card.setScoreCallback(viewModel.reportAndNext);
 
