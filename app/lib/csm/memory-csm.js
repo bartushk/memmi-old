@@ -2,13 +2,12 @@ var config = require('../../config/config-factory').getConfig();
 var _cardSetValidator = require('../validators/card-set-AT');
 var _ = require('underscore');
 
+
+
 function MemoryCsm(cardSetValidator, initialData){
     this._data = initialData || {};
     this._inactiveSets = {};
     this.cardSetValidator = cardSetValidator || new _cardSetValidator();
-    if(config.mockData){
-        this._data = require('../../test/assets/test-data').getFullCardSet();
-    }
 }
 
 MemoryCsm.prototype.addCardSet = function(cardSet, callback){

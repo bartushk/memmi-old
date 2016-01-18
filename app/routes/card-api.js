@@ -2,8 +2,6 @@ var config = require('../config/config-factory').getConfig();
 var log = require('../lib/log-factory').getLogger();
 var express = require('express');
 var selectionFactory = require('../lib/selection/selection-factory');
-var memPhm = require('../lib/phm/' + config.phm || 'memory-phm');
-var memCsm = require('../lib/csm/' + config.csm || 'memory-csm');
 var idProvider = require('../lib/auth/' + config.identityProvider || 'mock-identity-provider');
 
 
@@ -15,8 +13,8 @@ var idProvider = require('../lib/auth/' + config.identityProvider || 'mock-ident
 */ 
 
 var router = express.Router();
-var cardsetManager = new memCsm();
-var playerHistory = new memPhm(cardsetManager);
+var cardsetManager = require('../lib/csm/csm-factory').getCsm();
+var playerHistory = require('../lib/phm/phm-factory').getPhm();
 var identityProvider = new idProvider();
 
 
