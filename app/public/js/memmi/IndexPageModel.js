@@ -53,7 +53,7 @@ function(ko, $, _, card, information, cardsetInfo){
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
             viewModel.slideCardOff();
         var postObject = {};
-        postObject.cardset = viewModel.CardsetInfo().Name();
+        postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
         $.ajax({
             method: "POST",
@@ -77,7 +77,7 @@ function(ko, $, _, card, information, cardsetInfo){
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
             viewModel.slideCardOff();
         var postObject = {};
-        postObject.cardset = viewModel.CardsetInfo().Name();
+        postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
         postObject.cardUpdate = scoreObject;
         $.ajax({

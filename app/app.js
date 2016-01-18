@@ -25,6 +25,7 @@ if(cluster.isMaster && config.multiProcess){
     //Setup routes.
     var pages = require('./routes/pages');
     var cardApi = require('./routes/card-api.js');
+    var playerApi = require('./routes/player-api');
     var path = require('path');
 
 
@@ -66,7 +67,7 @@ if(cluster.isMaster && config.multiProcess){
 
     app.use('/', pages);
     app.use('/card-api', cardApi);
-
+    app.use('/player-api', playerApi);
 
     var server = app.listen(config.port || 3000, function () {
         var host = server.address().address;
