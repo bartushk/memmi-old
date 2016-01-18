@@ -130,7 +130,7 @@ function(ko, $, _, card, information, cardsetInfo){
         }
         if(score !== null){
             var currentKeydown = new Date().getTime();
-            if( currentKeydown - lastKeydown < 700 )
+            if( currentKeydown - lastKeydown < 500 )
                 return;
             lastKeydown = currentKeydown;
             var activeCard = viewModel.ActiveCard()();
