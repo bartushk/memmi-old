@@ -9,7 +9,6 @@ function(ko, $, _, card, information, cardsetInfo){
     var viewModel = {
         CardOne: ko.observable(new card()),  
         CardTwo: ko.observable(new card()),  
-
         CardToggle: ko.observable(false),
         CardsetInfo: ko.observable(),
         Algorithm: ko.observable('random'),
@@ -27,6 +26,14 @@ function(ko, $, _, card, information, cardsetInfo){
 
     viewModel.ActiveElement = ko.computed(function(){
         return viewModel.CardToggle() ? element2 : element1;
+    });
+
+    viewModel.ActiveCardHistory = ko.computed(function(){
+        if(viewModel.CardsetInfo() && viewModel.CardsetInfo().HistoryFetched()){
+            return viewModel.CardsetInfo().History().history[viewModel.ActiveCard()().CardId()];
+        }else{
+            return {};
+        }
     });
 
     viewModel.cardAction = function(){
@@ -74,8 +81,17 @@ function(ko, $, _, card, information, cardsetInfo){
     };
 
     viewModel.reportAndNext = function(scoreObject){
+        // apply the score object to the local history.
+        viewModel.ActiveCardHistory().playIndicies.push(viewModel.CardsetInfo().History()._playIndex); 
+        viewModel.CardsetInfo().History()._playIndex += 1; 
+        viewModel.ActiveCardHistory().currentScore += scoreObject.score; 
+        viewModel.ActiveCardHistory().scores.push(scoreObject.score); 
+            
+        // slide a card off the screen if necessary.
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
             viewModel.slideCardOff();
+
+        // post the appropriate info to report the card score and get the next card.
         var postObject = {};
         postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
