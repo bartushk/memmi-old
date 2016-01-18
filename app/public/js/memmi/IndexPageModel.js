@@ -114,7 +114,7 @@ function(ko, $, _, card, information, cardsetInfo){
         });
     };
 
-    $(document).keydown(function(event){
+    $(document).keydown(_.throttle(function(event){
         var score = null;
         switch(event.which){
             case 38:    //up
@@ -138,7 +138,7 @@ function(ko, $, _, card, information, cardsetInfo){
                 viewModel.cardAction();
             }
         }
-    });
+    }, 700));
 
     card.setScoreCallback(viewModel.reportAndNext);
 
