@@ -29,11 +29,8 @@ function(ko, $, _, card, information, cardsetInfo){
     });
 
     viewModel.ActiveCardHistory = ko.computed(function(){
-        if(viewModel.CardsetInfo() && viewModel.CardsetInfo().HistoryFetched()){
+        if(viewModel.CardsetInfo() && viewModel.CardsetInfo().HistoryFetched())
             return viewModel.CardsetInfo().History().history[viewModel.ActiveCard()().CardId()];
-        }else{
-            return {};
-        }
     });
 
     viewModel.cardAction = function(){
@@ -86,6 +83,7 @@ function(ko, $, _, card, information, cardsetInfo){
         viewModel.CardsetInfo().History()._playIndex += 1; 
         viewModel.ActiveCardHistory().currentScore += scoreObject.score; 
         viewModel.ActiveCardHistory().scores.push(scoreObject.score); 
+        viewModel.CardsetInfo().History.valueHasMutated();
             
         // slide a card off the screen if necessary.
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )

@@ -1,3 +1,10 @@
 script(type='text/html', id='title-standard')
     div.titleContainer
         div.cardTitle(data-bind="text: Title")
+        div.cardHistory(data-bind="with: $parents[2].ActiveCardHistory")
+            div
+                span.cardTitleInfo Score: 
+                span(data-bind="text: currentScore") 
+                span.cardTitleInfo Tries: 
+                span(data-bind="text: scores.length")
+

@@ -4,6 +4,7 @@ block additional-header-imports
     link(rel='stylesheet', href='/css/card-score.css')
 block content
     include ./templates/card-templates.jade
+    include ./templates/history-templates.jade
     div(class='container bodyContent')
         div.spacer30
         div#card1(class="flip-container wait-left" data-bind= "click: cardAction")
@@ -11,6 +12,8 @@ block content
         div#card2(class="flip-container wait-left" data-bind= "click: cardAction")
             div.flipper(data-bind="template: {name: 'card-standard', data: CardTwo}")
         div.spacer480
+        div.historyContainer(data-bind="template: {name: 'history-standard', data: CardsetInfo}")
+            
 
     script.
         var indexPageModel;
