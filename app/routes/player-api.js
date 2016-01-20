@@ -25,7 +25,7 @@ var identityProvider = new idProvider();
 router.post('/history', function(req, res){
     var cardsetId = req.body.cardset;
     identityProvider.getIdentity(req, function(err, identity){
-        playerHistory.getPlayerHistory(cardsetId, identity.playerId, function(err, playerHistory){
+        playerHistory.getPlayerHistory(cardsetId, identity, function(err, playerHistory){
             if(err){
                 log.warn(err);
                 res.status(500).send("Error getting player history.");
