@@ -57,7 +57,7 @@ router.post('/get-next', function(req, res){
     var cardsetId = req.body.cardset;
     var selectionAlgorithm = req.body.algorithm;
     identityProvider.getIdentity(req, function(err, identity){
-        getNextCard(cardsetId, selectionAlgorithm, identity.playerId, function(err, card){
+        getNextCard(cardsetId, selectionAlgorithm, identity, function(err, card){
             if(err){
                 log.warn(err);
                 res.status(500).send("An error occured selecting the next card.");
@@ -81,7 +81,7 @@ router.post('/report', function(req, res){
     var cardsetId = req.body.cardset;
     var cardUpdate = req.body.cardUpdate;
     identityProvider.getIdentity(req, function(err, identity){
-        playerHistory.updateCardScore(cardsetId, identity.playerId, cardUpdate, function(err){
+        playerHistory.updateCardScore(cardsetId, identity, cardUpdate, function(err){
             if(err){
                 log.warn(err);
                 res.status(500).send("An error occured applying your card update.");
@@ -107,11 +107,11 @@ router.post('/report-get-next', function(req, res){
     var selectionAlgorithm = req.body.algorithm;
     var cardUpdate = req.body.cardUpdate;
     identityProvider.getIdentity(req, function(err, identity){
-        playerHistory.updateCardScore(cardsetId, identity.playerId, cardUpdate, function(err){
+        playerHistory.updateCardScore(cardsetId, identity, cardUpdate, function(err){
             if(err){
                 log.warn(err);
             }
-            getNextCard(cardsetId, selectionAlgorithm, identity.playerId, function(err, card){
+            getNextCard(cardsetId, selectionAlgorithm, identity, function(err, card){
                 if(err){
                     log.warn(err);
                     res.status(500).send("An error occured selecting the next card.");

@@ -1,5 +1,7 @@
 var config = require('../../config/config-factory').getConfig();
+var log = require('../log-factory').getLogger();
 var memCsm = require("../csm/memory-csm");
+var utils = require("./phm-utils");
 var _ = require("underscore");
 
 
@@ -22,21 +24,41 @@ function MemoryPhm(csm, initialData){
  * Gets a player's card set scoring history.
  *  
  * @param {string} cardSetId 
- * @param {string} playerId 
+ * @param {Object} playerObj - {'playerId': 'kbart', 'isAnon': false} 
  * @param {Function} callback - callback(err, playerHistory)
  * @return {null}
  *
 */ 
-MemoryPhm.prototype.getPlayerHistory = function(cardSetId, playerId, callback){
+MemoryPhm.prototype.getPlayerHistory = function(cardSetId, playerObj, callback){
     callback = callback || function(err, playerHistory){};
-
-    if( !(playerId in this._playerHistory) ){
-        callback( new Error("Player doesn't exist in history."), null );
+    var self = this;
+    if(playerObj.isAnon){
+        utils.getBlankHistory(this._csm, cardSetId, function(err, blankHistory){
+            if(err){
+                callback(err);
+                return;
+            }
+            callback(null, blankHistory);
+        });
         return;
     }
 
+    var playerId = playerObj.playerId;
+
+    if( !(playerId in this._playerHistory) ){
+        this._playerHistory[playerId] = {};
+    }
+
     if( !(cardSetId in this._playerHistory[playerId]) ){
-        callback( new Error("Player has no history for this card set."), null );
+        utils.getBlankHistory(this._csm, cardSetId, function(err, blankHistory){
+            if(err){
+                callback(err);
+                return;
+            }
+            var historyCopy = JSON.parse(JSON.stringify(blankHistory));
+            self._playerHistory[playerId][cardSetId] = blankHistory;
+            callback(null, historyCopy);
+        });
         return;
     }
 
@@ -49,14 +71,16 @@ MemoryPhm.prototype.getPlayerHistory = function(cardSetId, playerId, callback){
  * Updates a player's card scoring history by applying a cardUpdate object.
  *  
  * @param {string} cardSetId 
- * @param {string} playerId 
+ * @param {Object} playerObj - {'playerId': 'kbart', 'isAnon': false} 
  * @param {Object} cardUpdate 
  * @param {Function} callback - callback(err) 
  * @return {null}
  *
 */ 
-MemoryPhm.prototype.updateCardScore = function(cardSetId, playerId, cardUpdate, callback){
+MemoryPhm.prototype.updateCardScore = function(cardSetId, playerObj, cardUpdate, callback){
     callback = callback || function(err){};
+    var playerId = playerObj.playerId;
+
     if( !(playerId in this._playerHistory) ){
         callback( new Error("Player doesn't exist in history.") );
         return;
@@ -85,14 +109,15 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerId, cardUpdate, 
  * Creates a new player history object for a specfic cardset and player.
  *  
  * @param {string} cardSetId 
- * @param {string} playerId 
+ * @param {Object} playerObj - {'playerId': 'kbart', 'isAnon': false} 
  * @param {Object} playerHistory 
  * @param {Function} callback - callback(err) 
  * @return {null}
  *
 */ 
-MemoryPhm.prototype.createPlayerHistory = function(cardSetId, playerId, callback){
+MemoryPhm.prototype.createPlayerHistory = function(cardSetId, playerObj, callback){
     callback = callback || function(err){};
+    var playerId = playerObj.playerId;
     if( !(playerId in this._playerHistory) ){
         this._playerHistory[playerId] = {};
     }
@@ -103,22 +128,12 @@ MemoryPhm.prototype.createPlayerHistory = function(cardSetId, playerId, callback
         return;
     }
 
-    this._csm.getCardSetById(cardSetId, function(err, cardSet){
+    utils.getBlankHistory(this._csm, cardSetId, function(err, blankHistory){
         if(err){
             callback(err);
             return;
         }
-        var newHistory = {};
-        newHistory._playIndex = 0;
-        newHistory.history = {};
-        var cardNames = Object.keys(cardSet.cards);
-        _.each(cardNames, function(cardName){
-            var cardHistory = {};
-            cardHistory.scores = []; 
-            cardHistory.playIndicies = [];
-            newHistory.history[cardName] = cardHistory;
-        });
-        playerHistory[cardSetId] = newHistory;
+        playerHistory[cardSetId] = blankHistory;
         callback(null);
     });
 };
