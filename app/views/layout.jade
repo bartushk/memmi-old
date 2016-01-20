@@ -9,8 +9,10 @@ html
 
     body
         header
+            include ./templates/login-template.jade
             div.container
                 img(id='logo', src='/images/logo.png')
+                div#loginContainer(data-bind="template: {name: 'standard-login', data: LoginModel}")
                 nav
                     ul.list-divide-pipe
                         each value, index in pages

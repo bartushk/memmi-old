@@ -168,3 +168,35 @@ a:hover{
     padding: 10px;
 }
 
+#loginButton{
+    float: right;
+    width: 100px;
+    background: #355d2f;
+    color: whitesmoke;
+    font: 25px "Helvetica Neue","Open Sans",sans-serif;
+    font-weight: 100;
+    border: none;
+}
+
+#loginButton:hover{
+    cursor: pointer;
+    background-color: #22501B;
+}
+
+#loginButton:active{
+    background-color: #11390B;
+}
+
+#loginContainer{
+    float: right;
+    margin: 15px 35px 0 0;
+}
+
+#welcomeText{
+    float: right;
+    color: whitesmoke;
+    font: 25px "Helvetica Neue","Open Sans",sans-serif;
+    font-weight: 100;
+    letter-spacing: 3px;
+}
+

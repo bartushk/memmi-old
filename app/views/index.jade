@@ -19,6 +19,7 @@ block content
         var indexPageModel;
         require(["knockout", "memmi/IndexPageModel"], function(ko, pageModel){
             indexPageModel = pageModel;
-            indexPageModel.setCardset(!{initialCardset});
+            indexPageModel.setCardset('#{initialCardset}');
+            indexPageModel.setLoginStatus('#{identity.playerId}', #{identity.isAnon});
             ko.applyBindings(pageModel);
         });

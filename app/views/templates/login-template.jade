@@ -1,0 +1,7 @@
+script(type='text/html', id='standard-login')
+    <!-- ko if: IsAnon -->
+    button#loginButton(data-bind="click: login") login
+    <!-- /ko -->
+    <!-- ko ifnot: IsAnon -->
+    div#welcomeText(data-bind="text: WelcomeText") 
+    <!-- /ko -->

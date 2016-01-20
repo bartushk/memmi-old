@@ -1,5 +1,5 @@
-define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information", "memmi/CardsetInfo"],
-function(ko, $, _, card, information, cardsetInfo){
+define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information", "memmi/CardsetInfo", "memmi/LoginModel"],
+function(ko, $, _, card, information, cardsetInfo, loginModel){
     var welcomeFront = new information('text', 'Welcome to memmi.');
     var welcomeBack = new information('text', 'Memmi is an app to help you with memorization.');
     
@@ -13,6 +13,7 @@ function(ko, $, _, card, information, cardsetInfo){
         CardsetInfo: ko.observable(),
         Algorithm: ko.observable('random'),
         CardHistory: ko.observableArray(),
+        LoginModel: ko.observable(new loginModel("Stranger", true))
     };
 
     viewModel.setCardset = function(cardsetName){
@@ -144,6 +145,10 @@ function(ko, $, _, card, information, cardsetInfo){
     });
 
     card.setScoreCallback(viewModel.reportAndNext);
+
+    viewModel.setLoginStatus = function(playerId, isAnon){
+        viewModel.LoginModel(new loginModel(playerId, isAnon));
+    };
 
     return viewModel;
 });
