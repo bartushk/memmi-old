@@ -3,6 +3,8 @@ node_js:
 - 4.2.4
 script: cd app && npm test
 addons:
+  hosts:
+    - $DEPLOY_DEV_HOST
   apt:
     packages:
     - sshpass
