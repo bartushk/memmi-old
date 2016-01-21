@@ -1,7 +1,6 @@
 #!/bin/bash
 cd `dirname $0`
 
-git pull
 cd app
 npm install
 ./node_modules/forever/bin/forever stopall
