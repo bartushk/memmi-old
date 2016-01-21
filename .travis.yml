@@ -10,6 +10,7 @@ after_success:
     - export SSHPASS=$DEPLOY_DEV_PASS
     - sshpass -e ssh $DEPLOY_DEV_USER@$DEPLOY_DEV_HOST "git -C $DEPLOY_DEV_PATH pull"
     - sshpass -e ssh $DEPLOY_DEV_USER@$DEPLOY_DEV_HOST $DEPLOY_DEV_PATH/deploy-dev.sh
+    - echo $DEPLOY_DEV_HOST
 env:
   global:
   - secure: UZRAbu4mrS0dyeEMQzq3Hq7rjjNtakVu5TKgOzBW3+a7QBi/RHtscOAOUvutSxvY75skQo9TliNpf3WKYTR+TKLnphybL/P06qT717QbOb9Q4YmSPu3m1kYAFbOr+0rsi7rHUkHmndZ5yjUtOzWAuU/uZ5EnfkjNV0OgdPjiEzBn0ZYeZF8xI3MaKWiwNHuxTatyP8wYqpNhuuFmi9F/EdTYOjWddLuz6Q0m2ZA5CpYOp4LOIGiMhC+LDS4P+MDPycV7CQbrVzYS7P7fDjvBPIiqEEMZz+nZbmDQIf1pV5Vhq/RwiNNT2s8u5x6iquQAHj1oVIHjd5VmnsJA+JOi2FQHZJTYL+jsFYorvBE6ysadPeI35E7gYDmvx/hWSXjen8FxzFo3llUxsQhlg3+kmEvaOcftbqlBnjvXgcsAXkDO3NYH84w1eFQDGOJqAfoS42QN9/0SBKLfHAI0jXSSmms65dbcZ2ca9EEkX1A9y2q4HwuwkxfzthNVHqafyDEplqkQ5IcQ1KIsZ60dbYeuuyBxddqNMsCnmgB6Rx3kPNW3a2hoK3ovOkxH7IFDoNwu+HRBqSd3rlNlo7vErVkozdbPd4BP1cegU3H58qgXGRON8PO9gKX7ca28Ol5PeSjO/P/m4V2uCHuBS1CGIc9DljkQ2PlWG4Di0zzvahqAxbA=
