@@ -3,15 +3,13 @@ node_js:
 - 4.2.4
 script: cd app && npm test
 addons:
-  hosts:
-  - dev.memmi.net
   apt:
     packages:
     - sshpass
 after_success:
 - export SSHPASS=$DEPLOY_DEV_PASS
-- sshpass -e ssh $DEPLOY_DEV_USER@dev.memmi.net "git -C ${DEPLOY_DEV_PATH} pull"
-- sshpass -e ssh $DEPLOY_DEV_USER@dev.memmi.net $DEPLOY_DEV_PATH/deploy-dev.sh
+- sshpass -e ssh $DEPLOY_DEV_USER@$DEPLOY_DEV_HOST "git -C ${DEPLOY_DEV_PATH} pull"
+- sshpass -e ssh $DEPLOY_DEV_USER@$DEPLOY_DEV_HOST $DEPLOY_DEV_PATH/deploy-dev.sh
 env:
   global:
   - secure: OLQXzjgBYUAhY2pmkOIThvHmMgGfjPd76GyAZjDunllxHkw9LMU+xKC2HFStZ2EVIm4ztEWaAgVj+QDyoGa0sNd7DXLF7kcj0Na+rXY+7Ox3jmN9CU7FRvUUzbvyROM48esX339GJYWXTrd6volI/Zfk/VnJL6ctQDt8HafD6MYLf32a8QLQrFNqG1vAENL+LFjGfDBlKsiIbNqIjIL1PUXvwE0YhPYbqn3qSKrzVMF4meyjC7bwn8xElghkyriptiKNEpZ6/Jq7AOrfobdqBeJzdQy+soaoBqgv1T+0+VT8KNtMiSP5BwER7j2crF++IXn8z4PI12HG3f4szOG1zYXaiJ8p/fy7C1NnOTqj21gFCspWjkkDbvQo62dLdWPQku0tPDA+hvKYD67FYTVFttZWJsypTGz7buApyS7R6j/I+NGBMOiuqbTVOaZAibFYlhOwRXOXFXTXzq9yQWrMoGQxG1Sre3DukioOYgi5fwF0wiMxRTzVX8j0SwDcKmg/merEwpdJa0CXKQfWDYN4g8dp74ze3KwwVDqy31y4iCb7Ky5nCOhyrkymPHb6LkNmBIn+vZHBmfJdjpOIODpgOctyOhDstRQtOoJrA0vT33WwlpagrGOioePHxS7sJvOYLDpSgLDTYbF1vZnVMK9cOnglwACnTmK1uL4EMQE5CXg=
