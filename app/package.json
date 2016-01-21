@@ -4,7 +4,8 @@
   "description": "App for helping with memorization.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    "test": "npm install && node ./node_modules/gulp/bin/gulp.js",
+    "deploy-dev": "npm install && node ./node_modules/gulp/bin/gulp.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,10 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-env": "^0.4.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.0.6",
     "mocha": "^2.3.3",
     "should": "^7.1.1"
   }
