@@ -4,8 +4,7 @@
   "description": "App for helping with memorization.",
   "main": "app.js",
   "scripts": {
-    "test": "npm install && node ./node_modules/gulp/bin/gulp.js",
-    "deploy-dev": "npm install && node ./node_modules/gulp/bin/gulp.js"
+    "test": "npm install && node ./node_modules/gulp/bin/gulp.js"
   },
   "repository": {
     "type": "git",

@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+cd `dirname $0`
 
-ssh bartushk@dev.memmi.net <<EOF
-    cd ~/memmi
-    git pull
-    cd app
-    npm install --production
-    ./node_modules/forever/bin/forever restartall
-    exit
-EOF
+git pull
+cd app
+npm install
+./node_modules/forever/bin/forever stopall
+CONFIG=dev ./node_modules/forever/bin/forever start ./app.js
