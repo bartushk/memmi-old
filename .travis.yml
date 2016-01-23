@@ -4,8 +4,8 @@ node_js:
 - 4.2.4
 script: cd app && npm test
 after_success:
-- chmod 600 dev_memmi_rsa
-- ssh -i dev_memmi_rsa -o StrictHostKeyChecking=no $DEPLOY_DEV_USER@dev.memmi.net "cd memmi && git pull && ./deploy-dev.sh"
+- chmod 600 ../dev_memmi_rsa
+- ssh -i ../dev_memmi_rsa -o StrictHostKeyChecking=no $DEPLOY_DEV_USER@dev.memmi.net "cd memmi && git pull && ./deploy-dev.sh"
 env:
   global:
   - secure: igCJJmsZRGGOyO/6P1fVasSjpw4XA4vGhAxZ0MJ0PEcuRXQ6RtFelMCvdnaTKKNl/vY/tczFJl7m+FT1EteZJt7mEJ8Y6FIwda9E/RdAhGDAyDLPuDKJ/XXp2l49kn5mI5sbVsnsC0AnyE8aKQrZMN/QWtf9tpDC//4lmUfC8eQ4K5rfeRWTz37KPqxSlp3ng3UE+SVg/K4yLGFdrK/voprcYtpcfN1ICxJl5yrB7Rdg1HsTyNAEj+e0xlabMT5lFvMDLg7NqOdCL92DxhTjq1T64mooW8tS+gbFcSaXM6j9BI2Nitrgygf6VgD/JutYIbtoieQQ6rZF5cEVQVOsnpPYwONU5pKZlRmguopy6ZE+QhmhHrSyVBR+pyU/tg2tmvXp84rblYfCPobj8xeziT26ohOb0wuBU2UluHKsWgGPfXkTXrWFcKc0V2BIz4++q7alThBxjThHbspJ9NRSwk15mxaEP3hhj3/ZamshGvntAR1Zn0+4mwEwYIW8QPanSvlApWe8r2Tl+6PffZ/V6BFxOoF1wGGRIQ39IcNbyPLyRsidrY5g2VKhVtJvfCOpRGLhIs6XRcN+O+by3ugtC3O18J/cw3Y5EtOytigf3k8gfmlWGt3kVlBnznETemsec8OdYpxgUXtmp/owU6sLxdeyGbsNcR6nF03/kMRVmrY=
