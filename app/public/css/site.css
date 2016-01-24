@@ -206,12 +206,17 @@ a:hover{
 }
 
 #password{
-    margin: 0 10px 0 5px;
+    margin: 0 15px 0 5px;
+    border:none;
     height: 20px;
+    padding: 4px 0 4px 10px;
+    font: 12px "Helvetica Neue","Open Sans",sans-serif;
 }
 
 #username{
     margin: 0 5px 0 5px;
-    border: none;
+    border:none;
     height: 20px;
+    padding: 4px 0 4px 10px;
+    font: 12px "Helvetica Neue","Open Sans",sans-serif;
 }
