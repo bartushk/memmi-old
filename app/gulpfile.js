@@ -4,6 +4,8 @@ var spawn = require('child_process').spawn;
 var exec = require('child_process').exec; 
 var mocha = require('gulp-mocha');
 var mon = require('gulp-nodemon');
+var browserSync = require('browser-sync');
+var _ = require('underscore');
 
 gulp.task('dev', function(){
     env({
@@ -27,6 +29,15 @@ gulp.task('test', function(){
         .pipe(mocha());
 });
 
+gulp.task('browser-sync', function(){
+    browserSync.init(null, {
+        proxy: "http://localhost:3000",
+        files: [],
+        browser: "google chrome",
+        port: 7000
+    });
+});
+
 gulp.task('app', function(cb){
     var called = false;
     var bunyan = null;
@@ -42,6 +53,9 @@ gulp.task('app', function(cb){
             called = true;
             cb();
         }
+        _.delay(function(){
+            browserSync.reload();
+        }, 1000);
     })
     .on('readable', function(){
         bunyan = spawn('./node_modules/bunyan/bin/bunyan', [
@@ -59,4 +73,4 @@ gulp.task('app', function(cb){
 
 gulp.task('default', ['test']);
 
-gulp.task('run', ['dev-local', 'app']);
+gulp.task('run', ['dev-local', 'app', 'browser-sync']);
