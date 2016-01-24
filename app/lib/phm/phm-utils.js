@@ -20,11 +20,15 @@ module.exports.getBlankHistory = function(csm, cardSetId, callback){
         var newHistory = {};
         newHistory._playIndex = 0;
         newHistory.history = {};
-        var cardNames = Object.keys(cardSet.cards);
+        var cardNames = _.map(_.sortBy(cardSet.cards, 'cardIndex'), function(cardObj){return cardObj.id;});
+        var index = 0;
         _.each(cardNames, function(cardName){
             var cardHistory = {};
             cardHistory.scores = []; 
             cardHistory.playIndicies = [];
+            cardHistory.currentScore = 0;
+            cardHistory.cardIndex = index;
+            index++;
             newHistory.history[cardName] = cardHistory;
         });
         callback(null, newHistory);

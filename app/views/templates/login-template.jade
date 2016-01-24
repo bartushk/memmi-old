@@ -1,5 +1,9 @@
 script(type='text/html', id='standard-login')
     <!-- ko if: IsAnon -->
+    <!-- ko if:ShowLoginForms  -->
+    input(data-bind="value: LoginName")
+    input(type="password", data-bind="value: LoginPassword")
+    <!-- /ko -->
     button#loginButton(data-bind="click: login") login
     <!-- /ko -->
     <!-- ko ifnot: IsAnon -->

@@ -19,9 +19,12 @@ require.config({
     ],
     paths: {
         'underscore': 'lib/underscore-min',
-        'bbcode': 'lib/bbcode.min'
+        'bbcode': 'lib/bbcode.min',
+        'bcrypt': 'lib/bcrypt.min',
+        'sha512': 'lib/sha512.min'
     },
     shim: {
-        "bbcode": { "exports": "bbcode" }
+        "bbcode": { "exports": "bbcode" },
+        'sha512': { 'exports': 'sha512' }
     }
 });
