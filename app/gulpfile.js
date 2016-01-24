@@ -32,7 +32,7 @@ gulp.task('test', function(){
 gulp.task('browser-sync', function(){
     browserSync.init(null, {
         proxy: "http://localhost:3000",
-        files: [],
+        files: ["public/**/*.*"],
         browser: "google chrome",
         port: 7000
     });
