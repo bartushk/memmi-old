@@ -1,6 +1,5 @@
 extends layout
 block additional-header-imports
-    link(rel='stylesheet', href='/css/animation.css')
     link(rel='stylesheet', href='/css/card-score.css')
 block content
     include ./templates/card-templates.jade
@@ -17,7 +16,7 @@ block content
 
     script.
         var indexPageModel;
-        require(["knockout", "memmi/IndexPageModel"], function(ko, pageModel){
+        require(["knockout", "memmi/IndexPageModel", "lib/custom-ko-bindings"], function(ko, pageModel){
             indexPageModel = pageModel;
             indexPageModel.setCardset('#{initialCardset}');
             indexPageModel.setLoginStatus('#{identity.playerId}', #{identity.isAnon});

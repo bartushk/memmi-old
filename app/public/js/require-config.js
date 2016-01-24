@@ -21,10 +21,10 @@ require.config({
         'underscore': 'lib/underscore-min',
         'bbcode': 'lib/bbcode.min',
         'bcrypt': 'lib/bcrypt.min',
-        'sha512': 'lib/sha512.min'
+        'sha512': 'lib/sha512'
     },
     shim: {
         "bbcode": { "exports": "bbcode" },
-        'sha512': { 'exports': 'sha512' }
+        'sha512': { 'exports': 'jsSHA' }
     }
 });

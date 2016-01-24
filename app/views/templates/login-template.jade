@@ -1,11 +1,19 @@
 script(type='text/html', id='standard-login')
-    <!-- ko if: IsAnon -->
-    <!-- ko if:ShowLoginForms  -->
-    input(data-bind="value: LoginName")
-    input(type="password", data-bind="value: LoginPassword")
-    <!-- /ko -->
+    <!-- ko if: LoginState() == 'anon' || LoginState() == 'prompted' -->
+    div#usernamePrompt(data-bind="fadeVisible: ShowPrompt")
+        input#username(placeholder="user name", data-bind="value: LoginName")
+        input#password(placeholder="password", type="password", data-bind="value: LoginPassword")
     button#loginButton(data-bind="click: login") login
     <!-- /ko -->
-    <!-- ko ifnot: IsAnon -->
+    <!-- ko if: LoginState() == 'loggedIn' -->
     div#welcomeText(data-bind="text: WelcomeText") 
     <!-- /ko -->
+    <!-- ko if: LoginState() == 'loggingIn' -->
+    div#man
+        div#eye-l
+        div#eye-r
+        div#nose
+        div#mouth
+    div#wall
+    <!-- /ko -->
+

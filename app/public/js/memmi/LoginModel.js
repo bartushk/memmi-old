@@ -1,7 +1,7 @@
 define(["knockout", "jquery", "bcrypt", "sha512"],
-function(ko, $) {
+function(ko, $, bcrypt, sha512) {
     function LoginModel(playerId, isAnon){
-        this.ShowLoginForms = ko.observable(false);
+        this.LoginState = ko.observable(isAnon ? "anon": "loggedIn");
         this.PlayerId = ko.observable(playerId || 'Anon');
         this.IsAnon = ko.observable(!!isAnon);
         this.WelcomeText = ko.computed(function(){
@@ -9,16 +9,42 @@ function(ko, $) {
         }, this);
         this.LoginName = ko.observable("");
         this.LoginPassword = ko.observable("");
+        this.salt = "$2a$12$ailWBc3pErR1EmyKyQtDZe";
+        this.ShowPrompt = ko.computed(function(){
+            return this.LoginState() == 'prompted'; 
+        }, this);
     }
 
     LoginModel.prototype.login = function(){
-        if( !this.ShowLoginForms() ){
-            this.ShowLoginForms(true);    
+        var self = this;
+        if( this.LoginState() == "anon" ){
+            this.LoginState("prompted");
             return;
         }
-        
-        
+        this.LoginState('loggingIn');
+        var username = this.LoginName();
+        var shaObj = new sha512("SHA-512", "TEXT");
+        shaObj.update(this.LoginPassword());
+        var passHash = shaObj.getHash("B64");
 
+        bcrypt.hash(passHash, this.salt, function(err, hash){
+            var postObject = {};
+            postObject.username = username;
+            postObject.pass = hash;
+            $.ajax({
+                method: "POST",
+                url: "/player-api/login",
+                contentType: "application/json",
+                data: JSON.stringify(postObject),
+                success: function(arg){
+                    self.PlayerId(arg.playerId);
+                    self.IsAnon(arg.isAnon);
+                },
+                error: function(arg){
+                    console.error(arg);
+                }
+            }); 
+        });
     };
 
     return LoginModel;

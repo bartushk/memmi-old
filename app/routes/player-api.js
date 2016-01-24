@@ -19,7 +19,7 @@ var identityProvider = new idProvider();
 /**
  * This endpoint returns a palyer's history for a particular cardset.
  *      
- * req body formst:
+ * req body format:
  * { 'cardset': 'cardsetName' }
 */ 
 router.post('/history', function(req, res){
@@ -36,5 +36,18 @@ router.post('/history', function(req, res){
     });
 });
 
+
+/**
+ * Endpoint that accepts username/password info a login attempt.
+ *
+ * req body format:  
+ * { 'username': 'providedUsername', 'pass': 'hashedPassword' }
+*/ 
+
+router.post('/login', function(req, res){
+    var reqIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    log.info({body: req.body, ip: reqIp},  "Login Request Received."); 
+    res.send({playerId: 'kyle', isAnon: false});
+});
 
 module.exports = router;
