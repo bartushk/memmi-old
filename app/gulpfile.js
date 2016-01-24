@@ -28,6 +28,8 @@ gulp.task('test', function(){
 });
 
 gulp.task('app', function(cb){
+    var called = false;
+    var bunyan = null;
     mon({
         script: './app.js',
         ext: 'js jade json',
@@ -35,7 +37,12 @@ gulp.task('app', function(cb){
         stdout: false,
         readable: false
         })
-    .on('change', ['lint'])
+    .on('start', function(){
+        if(!called){
+            called = true;
+            cb();
+        }
+    })
     .on('readable', function(){
         bunyan = spawn('./node_modules/bunyan/bin/bunyan', [
             '--output', 'short', '--color'
@@ -45,7 +52,7 @@ gulp.task('app', function(cb){
         bunyan.stderr.pipe(process.stderr);
 
         this.stdout.pipe(bunyan.stdin);
-        this.stderr.pipe(bunyan.stderr);
+
     });
             
 });
