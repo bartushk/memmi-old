@@ -66,6 +66,7 @@ gulp.task('app', function(cb){
         bunyan.stderr.pipe(process.stderr);
 
         this.stdout.pipe(bunyan.stdin);
+        this.stderr.pipe(bunyan.stdin);
 
     });
             
