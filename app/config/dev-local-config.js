@@ -4,6 +4,6 @@ module.exports = {
     mockData: true,
     phm: 'memory-phm',
     csm: 'memory-csm',
-    identityProvider: 'mock-identity-provider',
+    identityProvider: 'client-identity-provider',
     port: 3000
 };

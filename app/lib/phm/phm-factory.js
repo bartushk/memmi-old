@@ -1,6 +1,6 @@
 var config = require('../../config/config-factory').getConfig();
 var memPhm = require('./memory-phm');
-var conPhm = require('./' + config.phm || 'memory-phm');
+var conPhm = require('./' + (config.phm || 'memory-phm'));
 var csm = require('../csm/csm-factory').getCsm();
 
 var configuredPhm = new conPhm(csm);

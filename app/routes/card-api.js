@@ -2,7 +2,7 @@ var config = require('../config/config-factory').getConfig();
 var log = require('../lib/log-factory').getLogger();
 var express = require('express');
 var selectionFactory = require('../lib/selection/selection-factory');
-var idProvider = require('../lib/auth/' + config.identityProvider || 'mock-identity-provider');
+var idProvider = require('../lib/auth/' + (config.identityProvider || 'mock-identity-provider'));
 
 
 /**

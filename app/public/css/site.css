@@ -219,3 +219,12 @@ a:hover{
     padding: 4px 0 4px 10px;
     font: 12px "Helvetica Neue","Open Sans",sans-serif;
 }
+
+#loginFail{
+    margin-right: 15px;
+    font: 25px "Helvetica Neue","Open Sans",sans-serif;
+    position: absolute;
+    right: 150px;
+    color: #FFB0B0;
+
+}

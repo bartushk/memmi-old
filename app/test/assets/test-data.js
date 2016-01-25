@@ -1,4 +1,16 @@
 
+
+var userStore = {
+    'bartushk': { 'playerId': 'bartushk', 'pass': '$2a$12$hSdzwlQmqyMyRcSFYWQ9l.jDvkUpF/8rfeXcq3rR7ZOP/Pb0Rb6sq', 
+                'firstName': 'Kyle', 'lastName': 'Bartush', 
+                'State': 'PA', 'City': 'Pittsburgh', 'email': 'bartushk@gmail.com', 'confirmed': false }, 
+
+    'zhuw': { 'playerId': 'zhuw', 'pass': '$2a$12$wyUtKvyjQI5ErxpPna4FJOSgt/LUQUIpLGNCHcl6r7YE2ntta63b6', 
+                'firstName': 'Wanyi', 'lastName': 'Zhu', 
+                'State': 'PA', 'City': 'Pittsburgh', 'email': 'wanyizhupsu@gmail.com', 'confirmed': false } 
+};
+
+
 var cardset1 = {
     'id': 'cardset1',
 
@@ -78,6 +90,7 @@ var fakeData = {
     getCardSet1GoodUpdate: function(){ return JSON.parse(JSON.stringify(testCardUpdate)); },
     getCardSet1BadUpdate: function(){ return JSON.parse(JSON.stringify(testBadCardUpdate)); },
     getCardSetHistory: function(){ return JSON.parse(JSON.stringify(fakePlayerHistory.kyle.cardset1)); },
+    getUserStore: function(){ return JSON.parse(JSON.stringify(userStore)); },
     getFullCardSet: function(){ return JSON.parse(JSON.stringify(testFullCardSet)); }
 
 };

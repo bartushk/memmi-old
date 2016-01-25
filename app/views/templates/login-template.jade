@@ -1,8 +1,9 @@
 script(type='text/html', id='standard-login')
-    <!-- ko if: LoginState() == 'anon' || LoginState() == 'prompted' -->
+    <!-- ko if: LoginState() == 'anon' || LoginState() == 'prompted' || LoginState() == 'loginFailed' -->
     div#usernamePrompt(data-bind="fadeVisible: ShowPrompt")
-        input#username(placeholder="user name", data-bind="value: LoginName")
-        input#password(placeholder="password", type="password", data-bind="value: LoginPassword")
+        input#username(placeholder="user name", data-bind="value: LoginName, submit: login")
+        input#password(placeholder="password", type="password", data-bind="value: LoginPassword, submit: login")
+    span#loginFail(data-bind="fadeVisible: LoginFailed") Login Failed
     button#loginButton(data-bind="click: login") login
     <!-- /ko -->
     <!-- ko if: LoginState() == 'loggedIn' -->
