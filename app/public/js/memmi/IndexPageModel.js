@@ -16,6 +16,11 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
         LoginModel: ko.observable(new loginModel("Stranger", true))
     };
 
+    viewModel.syncCardsetInfo = function(){
+        viewModel.CardsetInfo(new cardsetInfo(viewModel.CardsetInfo().Id()));   
+        viewModel.getNext();
+    };
+    
     viewModel.setCardset = function(cardsetName){
         viewModel.CardsetInfo( new cardsetInfo(cardsetName) ); 
         viewModel.getNext();
@@ -55,6 +60,8 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
     };
 
     viewModel.getNext = function(){
+        if( _.contains(viewModel.ActiveElement().classList, "slide-on") )
+            viewModel.cardAction(); 
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
             viewModel.slideCardOff();
         var postObject = {};
@@ -147,7 +154,7 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
     card.setScoreCallback(viewModel.reportAndNext);
 
     viewModel.setLoginStatus = function(playerId, isAnon){
-        viewModel.LoginModel(new loginModel(playerId, isAnon));
+        viewModel.LoginModel(new loginModel(playerId, isAnon, viewModel.syncCardsetInfo));
     };
 
     return viewModel;
