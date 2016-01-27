@@ -1,4 +1,4 @@
-require(["knockout"], function(ko){
+require(["jquery", "knockout"], function($, ko){
     ko.bindingHandlers.fadeVisible = {
         init: function(element, valueAccessor) {
             // Initially set the element to be instantly visible/hidden depending on the value
@@ -13,6 +13,21 @@ require(["knockout"], function(ko){
             }else{
                 $(element).fadeOut();
             }
+        }
+    };
+
+    ko.bindingHandlers.onEnter = {
+        update: function(element, valueAccessor, allBindings, viewModel){
+            $(element).removeAttr('onkeypress');
+            $(element).keypress(function(event){
+                $(element).trigger('change'); // make sure the observable updates where you're hitting enter from.
+                var keyCode = (event.which ? event.which : event.keyCode);
+                if(keyCode == 13){ //enter key
+                    ko.unwrap(valueAccessor()).call(viewModel);
+                    return false;
+                }
+                return true;
+            });
         }
     };
 });
