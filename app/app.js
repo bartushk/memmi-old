@@ -3,6 +3,7 @@ var cluster = require('cluster');
 var log = require('./lib/log-factory').getLogger();
 log.info(config, 'Initial Configuration.');
 
+
 if(cluster.isMaster && config.multiProcess){
 
     var cpuCount = require('os').cpus().length;
@@ -20,6 +21,7 @@ if(cluster.isMaster && config.multiProcess){
     var express = require('express');
     var favicon = require('serve-favicon');
     var bodyParser = require('body-parser');
+    var sessions = require('client-sessions');
     var app = express();
 
     //Setup routes.
@@ -35,6 +37,12 @@ if(cluster.isMaster && config.multiProcess){
     app.use(favicon(__dirname + '/public/images/favicon.ico'));
     app.use(bodyParser.json());
     app.use(express.static(path.join(__dirname, 'public')));
+    app.use(sessions({
+        cookieName: config.sessionName,
+        secret: config.sessionSecret,
+        duration: config.sessionDuration,
+        activeDuration: config.sessionRefresh 
+    }));
 
     if( config.logLevel == 'debug' || config.logLevel == 'trace' ){
         var logFunc = function(req, res, next){

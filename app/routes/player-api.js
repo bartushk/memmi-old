@@ -67,6 +67,7 @@ router.post('/login', function(req, res){
                 return;
             }else{
                 delete userData.pass;
+                req[config.sessionName] = userData; 
                 res.send(userData);
             }
         });

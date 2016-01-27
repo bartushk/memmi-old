@@ -27,7 +27,8 @@ ClientIdentityProvider.prototype.getIdentity = function(req, callback){
         return;
     }
     var identity = req[this._cookieName];
-    identity.isAnon = false;
+    log.debug(identity, "Identity retreived.");
+    identity.isAnon = !identity.playerId;
     callback(null, identity);
 };
 
