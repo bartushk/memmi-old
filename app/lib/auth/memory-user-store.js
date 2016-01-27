@@ -29,7 +29,8 @@ MemoryUserStore.prototype.getUserData = function(username, callback){
         callback(new Error("User does not exist."), null);
         return;
     }
-    callback(null, this._users[username]); 
+    var userCopy = JSON.parse(JSON.stringify(this._users[username]));
+    callback(null, userCopy); 
 };
 
 
