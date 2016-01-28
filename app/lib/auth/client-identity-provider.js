@@ -17,7 +17,7 @@ function ClientIdentityProvider(){
  * Id if one is not found.
  *  
  * @param {HttpRequest} req 
- * @param {Function} callback 
+ * @param {Function} callback - callback(err, playerIdentity)
  * @return {none}
  *
 */ 
@@ -26,7 +26,7 @@ ClientIdentityProvider.prototype.getIdentity = function(req, callback){
         callback(null, {'playerId': 'Anon', 'isAnon': true});
         return;
     }
-    var identity = req[this._cookieName];
+    var identity = JSON.parse(JSON.stringify(req[this._cookieName]));
     log.debug(identity, "Identity retreived.");
     identity.isAnon = !identity.playerId;
     callback(null, identity);
