@@ -51,7 +51,7 @@ router.post('/login', function(req, res){
     var reqIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     log.info({body: req.body, ip: reqIp},  "Login Request Received."); 
     if( !_.isString(req.body.username) || !_.isString(req.body.pass) ){
-        res.status(500).send("Incorrect post body format.");
+        res.status(400).send("Incorrect post body format.");
         return;
     }
     userStore.getUserData(req.body.username, function(err, userData){

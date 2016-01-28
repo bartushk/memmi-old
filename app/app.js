@@ -23,6 +23,7 @@ if(cluster.isMaster && config.multiProcess){
     var bodyParser = require('body-parser');
     var sessions = require('client-sessions');
     var app = express();
+    module.exports = app;
 
     //Setup routes.
     var pages = require('./routes/pages');
