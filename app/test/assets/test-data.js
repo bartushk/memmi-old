@@ -7,7 +7,11 @@ var userStore = {
 
     'zhuw': { 'playerId': 'zhuw', 'pass': '$2a$12$wyUtKvyjQI5ErxpPna4FJOSgt/LUQUIpLGNCHcl6r7YE2ntta63b6', 
                 'firstName': 'Wanyi', 'lastName': 'Zhu', 
-                'State': 'PA', 'City': 'Pittsburgh', 'email': 'wanyizhupsu@gmail.com', 'confirmed': false } 
+                'State': 'PA', 'City': 'Pittsburgh', 'email': 'wanyizhupsu@gmail.com', 'confirmed': false },
+
+    'doodie': { 'playerId': 'doodie', 'pass': '$2a$04$UyfloHJnatTIdE3/6C3vo.NzVzm4XOFOsrPzTJBiYh7k40vgYJGNm', 
+                'firstName': 'Kyle', 'lastName': 'Bartush', 
+                'State': 'PA', 'City': 'Pittsburgh', 'email': 'dood@ie.com', 'confirmed': false },
 };
 
 
