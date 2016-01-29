@@ -69,6 +69,14 @@ var fakePlayerHistory = {
                 'dorkCard': {'scores': [0,0,0,0,0], 'currentScore': 0, 'playIndicies': [5,6,7,13,14], 'cardIndex': 2 },
             },
         }
+    },
+
+    "doodie": {
+        '__test_only': {
+            '_playIndex': 1,
+            'history': {
+            }
+        }
     }
 };
 

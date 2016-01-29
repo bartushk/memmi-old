@@ -27,6 +27,10 @@ var identityProvider = new idProvider();
 */ 
 router.post('/history', function(req, res){
     var cardsetId = req.body.cardset;
+    if( !_.isString(cardsetId) ){
+        res.status(400).send("Incorrect post body format.");
+        return;
+    }
     identityProvider.getIdentity(req, function(err, identity){
         playerHistory.getPlayerHistory(cardsetId, identity, function(err, playerHistory){
             if(err){
@@ -41,7 +45,7 @@ router.post('/history', function(req, res){
 
 
 /**
- * Endpoint that accepts username/password info a login attempt.
+ * Endpoint that accepts username/password info for a login attempt.
  *
  * req body format:  
  * { 'username': 'providedUsername', 'pass': 'hashedPassword' }

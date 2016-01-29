@@ -4,13 +4,19 @@ var _ = require('underscore');
 var supertest = require('supertest');
 var app = require('../../app');
 var testUsers = require('../assets/test-data').getUserStore();
+var supertestLogin = require('../test-utils').supertestLogin;
 
 var bodyNoPass = {'username': 'bartushk'};
 var bodyNoUser = {'pass': 'password'};
 var bodyBadUser = {'username': 'asdfasdf', 'pass': 'asdfasdf'};
 var bodyBadPass = {'username': 'doodie', 'pass': 'huaimao'};
 var bodyGood = {'username': 'doodie', 'pass': 'password'};
+
+var goodId = {};
+goodId[config.sessionName] = {'playerId': 'bartushk'};
+
 var loginRoute = '/player-api/login';
+var historyRoute = '/player-api/history';
 
 describe('player-api, login.', function(){
 
@@ -42,7 +48,7 @@ describe('player-api, login.', function(){
             .expect(404, done);
     });
 
-    it('When password does not mach, 404 returned.', function(done){
+    it('When password does not match, 404 returned.', function(done){
         supertest(app)
             .post(loginRoute)
             .send(bodyBadPass)
@@ -62,6 +68,7 @@ describe('player-api, login.', function(){
             .send(bodyGood)
             .expect(200)
             .end(function(err,res){
+                should.not.exist(err);
                 should.equal(bodyGood.username, res.body.playerId); 
                 should.equal(testUsers[bodyGood.username].email, res.body.email);
                 done();
@@ -74,6 +81,7 @@ describe('player-api, login.', function(){
             .send(bodyGood)
             .expect(200)
             .end(function(err,res){
+                should.not.exist(err);
                 should.not.exist(res.body.pass);
                 done();
             });
@@ -85,9 +93,33 @@ describe('player-api, login.', function(){
             .send(bodyGood)
             .expect(200)
             .end(function(err,res){
+                should.not.exist(err);
                 should.exist(res.headers['set-cookie'][0]);
                 res.headers['set-cookie'][0].should.containEql(config.sessionName);
                 done();
             });
+    });
+});
+
+describe('player-api, history.', function(){
+    it('When post body does not contain cardset string, return 400.', function(done){
+        supertest(app)
+            .post(historyRoute)
+            .send({'cardset': 100})
+            .expect(400, done);
+    });
+
+    it('When identity and cardset correct, proper history returned.', function(done){
+        supertestLogin(function(err, agent){
+            should.not.exist(err);
+            agent.post(historyRoute)
+                .send({'cardset': '__test_only'})
+                .expect(200)
+                .end(function(err, res){
+                    should.not.exist(err);
+                    should.equal(res.body._playIndex, 1);
+                    done();
+                });
+        });
     });
 });
