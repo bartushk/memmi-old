@@ -1,7 +1,7 @@
 var should = require('should');
 var _ = require('underscore');
-var memCsm = require('../lib/csm/memory-csm');
-var testData = require('./assets/test-data');
+var memCsm = require('../../lib/csm/memory-csm');
+var testData = require('../assets/test-data');
 var fakeFailValidator = {};
 var fakePassValidator = {};
 fakeFailValidator.validate = function(){};

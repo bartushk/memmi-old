@@ -1,6 +1,6 @@
 var should = require("should");
-var randSelect = require("../lib/selection/random-select");
-var testData = require("./assets/test-data");
+var randSelect = require("../../lib/selection/random-select");
+var testData = require("../assets/test-data");
 
 
 describe('random-select construction.', function(){

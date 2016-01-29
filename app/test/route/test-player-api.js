@@ -1,7 +1,7 @@
 var should = require('should');
 var _ = require('underscore');
 var supertest = require('supertest');
-var app = require('../app');
+var app = require('../../app');
 
 var bodyNoPass = {'username': 'bartushk'};
 var bodyNoUser = {'pass': 'password'};

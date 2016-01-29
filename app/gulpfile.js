@@ -25,9 +25,32 @@ gulp.task('dev-local', function(){
     });
 });
 
-gulp.task('test', function(){
-    gulp.src(['./test/*.js'], {read: false})
-        .pipe(mocha()).pipe(exit());
+gulp.task('test-basic', function(cb){
+    var error;
+    env({vars:{CONFIG: "test-basic"}});
+    gulp.src(['./test/basic/*.js'], {read: false})
+        .pipe(mocha())
+        .once('end', function(){
+            if(error){
+                process.exit(1);
+            }
+            cb();
+        })
+        .once('error', function(err){error = err;});
+});
+
+gulp.task('test', ['test-basic'],  function(cb){
+    var error;
+    env({vars:{CONFIG: "test-route"}});
+    gulp.src(['./test/route/*.js'], {read: false})
+        .pipe(mocha())
+        .once('end', function(){
+            if(error){
+                process.exit(1);
+            }
+            process.exit();
+        })
+        .once('error', function(err){error = err;});
 });
 
 gulp.task('browser-sync', function(){

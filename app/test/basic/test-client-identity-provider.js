@@ -1,7 +1,7 @@
 var should = require("should");
 var _ = require("underscore");
-var config = require("../config/config-factory").getConfig();
-var identityProvider = require('../lib/auth/client-identity-provider');
+var config = require("../../config/config-factory").getConfig();
+var identityProvider = require('../../lib/auth/client-identity-provider');
 
 var reqObjectWithId = {};
 reqObjectWithId[config.sessionName] = {

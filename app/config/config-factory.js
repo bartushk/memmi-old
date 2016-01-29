@@ -1,4 +1,4 @@
-var configName = process.env.CONFIG || "test";
+var configName = process.env.CONFIG || "test-basic";
 var config = require('./' + configName + '-config');  
 
 //Session default config checking.

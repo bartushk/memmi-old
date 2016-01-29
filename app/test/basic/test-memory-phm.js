@@ -1,8 +1,8 @@
 var should = require("should");
 var _ = require("underscore");
-var memPhm = require("../lib/phm/memory-phm");
-var memCsm = require("../lib/csm/memory-csm");
-var testData = require("./assets/test-data");
+var memPhm = require("../../lib/phm/memory-phm");
+var memCsm = require("../../lib/csm/memory-csm");
+var testData = require("../assets/test-data");
 
 var mockCsm = {
     getCardSetById: function (cardsetId, callback){
