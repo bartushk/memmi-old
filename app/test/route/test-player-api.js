@@ -122,4 +122,18 @@ describe('player-api, history.', function(){
                 });
         });
     });
+
+    it('When identity and no history, blank history returned.', function(done){
+        supertestLogin(function(err, agent){
+            should.not.exist(err);
+            agent.post(historyRoute)
+                .send({'cardset': 'cardset1'})
+                .expect(200)
+                .end(function(err, res){
+                    should.not.exist(err);
+                    should.equal(res.body._playIndex, 0);
+                    done();
+                });
+        });
+    });
 });
