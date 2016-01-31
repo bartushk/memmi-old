@@ -4,7 +4,6 @@ var spawn = require('child_process').spawn;
 var exec = require('child_process').exec; 
 var mocha = require('gulp-mocha');
 var mon = require('gulp-nodemon');
-var exit = require('gulp-exit');
 var browserSync = require('browser-sync');
 var _ = require('underscore');
 
