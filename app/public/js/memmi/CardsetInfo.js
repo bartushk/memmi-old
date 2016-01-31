@@ -20,7 +20,10 @@ define(["knockout"], function(ko){
             
             var cardScores = _.map(self.History().history, function(hist){return hist.currentScore;});
             var sumScores = _.reduce(cardScores, function(prev, curr){return prev + curr;}, 0);
-            var averageScore = Math.round(sumScores / totalCards * 100) / 100;
+            var averageScore = Math.round(sumScores / totalCardsPlayed * 100) / 100;
+            if(totalCardsPlayed === 0){
+                averageScore = 0;
+            }
             statistics.push({'Title': 'Avg Score', 'Value': averageScore});
 
             var cycles = totalCardsPlayed === 0 ? 0 : totalCardsPlayed / totalCards;
