@@ -35,7 +35,7 @@ router.post('/history', function(req, res){
         playerHistory.getPlayerHistory(cardsetId, identity, function(err, playerHistory){
             if(err){
                 log.warn(err);
-                res.status(500).send("Error getting player history.");
+                res.status(404).send("Error getting player history.");
                 return;
             }
             res.send(playerHistory);

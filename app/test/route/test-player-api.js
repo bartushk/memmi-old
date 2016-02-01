@@ -136,4 +136,13 @@ describe('player-api, history.', function(){
                 });
         });
     });
+
+    it('When identity and cardset does not exist, 404 returned.', function(done){
+        supertestLogin(function(err, agent){
+            should.not.exist(err);
+            agent.post(historyRoute)
+                .send({'cardset': 'doesnt_exist'})
+                .expect(404, done);
+        });
+    });
 });
