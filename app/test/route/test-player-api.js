@@ -109,7 +109,19 @@ describe('player-api, history.', function(){
             .expect(400, done);
     });
 
-    it('When identity and cardset correct, proper history returned.', function(done){
+    it('When player is anonymous, blank history returned.', function(done){
+        supertest(app)
+            .post(historyRoute)
+            .send({'cardset': 'cardset1'})
+            .expect(200)
+            .end(function(err, res){
+                should.not.exist(err);
+                should.equal(res.body._playIndex, 0);
+                done();
+            });
+    });
+
+    it('When identity good and cardset correct, proper history returned.', function(done){
         supertestLogin(function(err, agent){
             should.not.exist(err);
             agent.post(historyRoute)
@@ -123,7 +135,7 @@ describe('player-api, history.', function(){
         });
     });
 
-    it('When identity and no history, blank history returned.', function(done){
+    it('When identity good and no history, blank history returned.', function(done){
         supertestLogin(function(err, agent){
             should.not.exist(err);
             agent.post(historyRoute)
@@ -137,7 +149,7 @@ describe('player-api, history.', function(){
         });
     });
 
-    it('When identity and cardset does not exist, 404 returned.', function(done){
+    it('When identity good and cardset does not exist, 404 returned.', function(done){
         supertestLogin(function(err, agent){
             should.not.exist(err);
             agent.post(historyRoute)
