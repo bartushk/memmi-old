@@ -3,6 +3,7 @@ var log = require('../lib/log-factory').getLogger();
 var express = require('express');
 var selectionFactory = require('../lib/selection/selection-factory');
 var idProvider = require('../lib/auth/' + (config.identityProvider || 'mock-identity-provider'));
+var validator = require('../lib/validators/card-api');
 
 
 /**
@@ -54,13 +55,18 @@ function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
  *
 */ 
 router.post('/get-next', function(req, res){
+    if(!validator('get-next', req.body)){
+        res.status(400).send("Malformed request.");
+        return;
+    }
     var cardsetId = req.body.cardset;
     var selectionAlgorithm = req.body.algorithm;
     identityProvider.getIdentity(req, function(err, identity){
         getNextCard(cardsetId, selectionAlgorithm, identity, function(err, card){
             if(err){
                 log.warn(err);
-                res.status(500).send("An error occured selecting the next card.");
+                res.status(400).send("An error occured selecting the next card.");
+                return;
             }
             res.send(card);
         });
@@ -78,13 +84,18 @@ router.post('/get-next', function(req, res){
  * { 'cardset': 'cardsetName', 'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
 */ 
 router.post('/report', function(req, res){
+    if(!validator('report', req.body)){
+        res.status(400).send("Malformed request.");
+        return;
+    }
     var cardsetId = req.body.cardset;
     var cardUpdate = req.body.cardUpdate;
     identityProvider.getIdentity(req, function(err, identity){
         playerHistory.updateCardScore(cardsetId, identity, cardUpdate, function(err){
             if(err){
                 log.warn(err);
-                res.status(500).send("An error occured applying your card update.");
+                res.status(400).send("An error occured applying your card update.");
+                return;
             }
             res.send("Update successfull");
         });
@@ -103,6 +114,10 @@ router.post('/report', function(req, res){
  *   'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
 */ 
 router.post('/report-get-next', function(req, res){
+    if(!validator('report-get-next', req.body)){
+        res.status(400).send("Malformed request.");
+        return;
+    }
     var cardsetId = req.body.cardset;
     var selectionAlgorithm = req.body.algorithm;
     var cardUpdate = req.body.cardUpdate;

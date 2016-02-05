@@ -81,6 +81,11 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerObj, cardUpdate,
     callback = callback || function(err){};
     var playerId = playerObj.playerId;
 
+    if(playerObj.isAnon){
+       callback(null);
+       return;
+    }
+    
     if( !(playerId in this._playerHistory) ){
         callback( new Error("Player doesn't exist in history.") );
         return;

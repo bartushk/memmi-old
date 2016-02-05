@@ -139,7 +139,7 @@ describe('player-api, history.', function(){
         supertestLogin(function(err, agent){
             should.not.exist(err);
             agent.post(historyRoute)
-                .send({'cardset': 'cardset1'})
+                .send({'cardset': 'cardset2'})
                 .expect(200)
                 .end(function(err, res){
                     should.not.exist(err);
