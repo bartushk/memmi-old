@@ -2,7 +2,10 @@ language: node_js
 sudo: false
 node_js:
 - 4.2.4
-script: cd app && npm test
+before_script:
+    - npm install -g gulp
+    - cd app && npm install
+script: gulp
 after_success:
 - chmod 600 ../dev_memmi_rsa
 - ssh -i ../dev_memmi_rsa -o StrictHostKeyChecking=no $DEPLOY_DEV_USER@dev.memmi.net "cd memmi && git pull && ./deploy-dev.sh"
