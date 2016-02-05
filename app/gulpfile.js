@@ -32,6 +32,7 @@ gulp.task('test-basic', function(cb){
         .pipe(mocha())
         .once('end', function(){
             if(error){
+                console.log(error);
                 process.exit(1);
             }
             cb();
@@ -46,9 +47,10 @@ gulp.task('test', ['test-basic'],  function(cb){
         .pipe(mocha())
         .once('end', function(){
             if(error){
+                console.log(error);
                 process.exit(1);
             }
-            exit();
+            process.exit(1);
         })
         .once('error', function(err){error = err;});
 });

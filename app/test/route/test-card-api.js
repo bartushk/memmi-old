@@ -38,7 +38,7 @@ describe('card-api, get-next.', function(){
             .expect(400, done);
     });
 
-    it('When requested anon, algorithm and cardset exist; card is returned.', function(){
+    it('When requested anon, algorithm and cardset exist; card is returned.', function(done){
         supertest(app)
             .post(route)
             .send(goodPostBody)
@@ -50,7 +50,7 @@ describe('card-api, get-next.', function(){
             });
     });
 
-    it('When requested with good identity, algorithm and cardset; card is returned.', function(){
+    it('When requested with good identity, algorithm and cardset; card is returned.', function(done){
         supertestLogin(function(err, agent){        
             agent.post(route)
             .send(goodPostBody)
