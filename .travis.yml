@@ -1,6 +1,6 @@
 language: node_js
 sudo: false
-before_script:
+node_js:
 - 4.2.4
 script: cd app && npm test
 after_success:
