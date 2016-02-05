@@ -5,6 +5,7 @@ var exec = require('child_process').exec;
 var mocha = require('gulp-mocha');
 var mon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
+var exit = require('gulp-exit');
 var _ = require('underscore');
 
 gulp.task('dev', function(){
@@ -47,7 +48,7 @@ gulp.task('test', ['test-basic'],  function(cb){
             if(error){
                 process.exit(1);
             }
-            process.exit();
+            exit();
         })
         .once('error', function(err){error = err;});
 });
