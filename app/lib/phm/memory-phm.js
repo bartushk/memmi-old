@@ -7,16 +7,14 @@ var _ = require("underscore");
 
 /**
  * Simple memory based Player History Manager (phm).
- * Mostly used while working out the site structure.
+ * Mostly used while working out the site structure
+ * and during unit tests.
  *
  * @param {CardSetManager} csm
 */ 
 function MemoryPhm(csm, initialData){
     this._playerHistory = initialData || {};
     this._csm = csm || new memCsm();
-    if(config.mockData){
-        this._playerHistory = require('../../test/assets/test-data').getFullHistory();
-    }
 }
 
 

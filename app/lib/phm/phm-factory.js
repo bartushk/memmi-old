@@ -6,7 +6,7 @@ var csm = require('../csm/csm-factory').getCsm();
 var configuredPhm = new conPhm(csm);
 
 if(config.mockData){
-    configuredPhm = new memPhm(csm, require('../../test/assets/test-data').getFullCardSet());
+    configuredPhm = new memPhm(csm, require('../../test/assets/test-data').getFullHistory());
 }
 
 

@@ -33,7 +33,7 @@ function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
     var selection = selectionFactory.getSelectionAlgorithm(algorithmName);
     if(!selection){
         log.warn("Method of selection not found: " + algorithmName);
-        callback(new Error("Could not find that method of selection.")); 
+        callback(new Error("Could not find method of selection : " + algorithmName)); 
         return;
     }
     playerHistory.getPlayerHistory(cardsetId, playerIdentity, function(err, history){

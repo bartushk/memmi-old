@@ -4,6 +4,7 @@ var conCsm = require('./' + config.csm);
 
 var configuredCsm = new conCsm();
 
+// Initialize data if to test data if the app is configured to mock data.
 if(config.mockData){
     configuredCsm = new memCsm(null, require('../../test/assets/test-data').getFullCardSet());
 }

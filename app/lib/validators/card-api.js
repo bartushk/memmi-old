@@ -3,6 +3,13 @@ var v = new Validator();
 
 var apiEndpoints = {};
 
+/*
+ * Json schemas for each card-api endpoint used for
+ * validating input from a user.
+ *
+*/ 
+ 
+
 var cardUpdateSchema = {
     'id' : '/cardUpdate',
     'type': 'object',
