@@ -15,10 +15,6 @@ factory.getSelectionAlgorithm = function(algorithmName){
     switch(algorithmName){
         case 'random':
             return random;
-
-        default:
-            return random;
-
     }
 };
 

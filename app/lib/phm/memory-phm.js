@@ -99,6 +99,7 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerObj, cardUpdate,
     var history = this._playerHistory[playerId][cardSetId];
     var cardId = cardUpdate.cardId;
     if( !(cardId in history.history) ){
+        console.log("WTF!");
         callback( new Error("Card not found in Cardset.") );
         return;
     }

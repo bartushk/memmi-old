@@ -31,6 +31,11 @@ var identityProvider = new idProvider();
 */ 
 function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
     var selection = selectionFactory.getSelectionAlgorithm(algorithmName);
+    if(!selection){
+        log.warn("Method of selection not found: " + algorithmName);
+        callback(new Error("Could not find that method of selection.")); 
+        return;
+    }
     playerHistory.getPlayerHistory(cardsetId, playerIdentity, function(err, history){
         if(err){ callback(err); return;}
         selection.selectCard(history, function(err, cardName){
@@ -68,7 +73,9 @@ router.post('/get-next', function(req, res){
                 res.status(400).send("An error occured selecting the next card.");
                 return;
             }
-            res.send(card);
+            var responseBody = {};
+            responseBody.card = card;
+            res.send(responseBody);
         });
     });
 });
@@ -123,15 +130,21 @@ router.post('/report-get-next', function(req, res){
     var cardUpdate = req.body.cardUpdate;
     identityProvider.getIdentity(req, function(err, identity){
         playerHistory.updateCardScore(cardsetId, identity, cardUpdate, function(err){
+            var updateSuccess = true;
             if(err){
+                updateSuccess = false;
                 log.warn(err);
             }
             getNextCard(cardsetId, selectionAlgorithm, identity, function(err, card){
                 if(err){
                     log.warn(err);
-                    res.status(500).send("An error occured selecting the next card.");
+                    res.status(400).send("An error occured selecting the next card.");
+                    return;
                 }
-                res.send(card);
+                var responseBody = {};
+                responseBody.card = card;
+                responseBody.updateSuccess = updateSuccess;
+                res.send(responseBody);
             });
         });
     });

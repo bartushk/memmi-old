@@ -73,7 +73,7 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
             contentType: "application/json",
             data: JSON.stringify(postObject),
             success: function(arg){
-                var newCard = card.fromJson(arg);
+                var newCard = card.fromJson(arg.card);
                 viewModel.CardHistory.push(viewModel.ActiveCard()()); 
                 viewModel.CardToggle(!viewModel.CardToggle());
                 viewModel.ActiveCard()(newCard);
@@ -108,7 +108,7 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
             contentType: "application/json",
             data: JSON.stringify(postObject),
             success: function(arg){
-                var newCard = card.fromJson(arg);
+                var newCard = card.fromJson(arg.card);
                 viewModel.CardHistory.push(viewModel.ActiveCard()()); 
                 viewModel.CardToggle(!viewModel.CardToggle());
                 viewModel.ActiveCard()(newCard);

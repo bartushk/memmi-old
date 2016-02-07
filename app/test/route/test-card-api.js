@@ -45,7 +45,7 @@ describe('card-api, get-next.', function(){
             .expect(200)
             .end(function(err, res){
                 should.not.exist(err);
-                cardset1Cards.should.containEql(res.body.id);
+                cardset1Cards.should.containEql(res.body.card.id);
                 done();
             });
     });
@@ -57,7 +57,7 @@ describe('card-api, get-next.', function(){
             .expect(200)
             .end(function(err, res){
                 should.not.exist(err);
-                cardset1Cards.should.containEql(res.body.id);
+                cardset1Cards.should.containEql(res.body.card.id);
                 done();
             });
         });
@@ -138,6 +138,110 @@ describe('card-api, report.', function(){
                 });
             });
         });
+    });
+
+});
+
+describe('card-api, report-get-next.', function(){
+
+    var goodPostBody = {'cardset': 'cardset1', 'algorithm': 'random', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
+    var badCardset = {'cardset': 'doesnt_exist', 'algorithm': 'random', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
+    var badCardId = {'cardset': 'cardset1', 'algorithm': 'random', 'cardUpdate': {'cardId': 'doesnt_exit', 'score': 1}};
+    var badScore = {'cardset': 'cardset1', 'algorithm': 'random', 'cardUpdate': {'cardId': 'coolCard', 'score': 'asdf'}};
+    var badAlgo = {'cardset': 'cardset1', 'algorithm': 'doesnt_exist', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
+    var noUpdateBody = {'cardset': 'cardset1'};
+    var route = "/card-api/report-get-next";
+
+    it('When update isAnon, 200 returned.', function(done){
+        supertest(app)
+            .post(route)
+            .send(goodPostBody)
+            .expect(200, done);
+    });
+
+    
+    it('When logged in and body is empty, 400 returned.', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send({})
+            .expect(400, done);
+        });
+    });
+
+    it('When logged in and cardset does not exist, 400 returned.', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(badCardset)
+            .expect(400, done);
+        });
+    });
+
+    it('When logged in and algorithm does not exist, 400 returned.', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(badAlgo)
+            .expect(400, done);
+        });
+    });
+    
+    it('When logged in and cardId does not exist, 200 returned, update success false.', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(badCardId)
+            .expect(200)
+            .end(function(err, res){
+                should.not.exist(err);
+                should.equal(res.body.updateSuccess, false);
+                done();
+            });
+        });
+    });
+
+    it('When logged in and card score is not a number. ', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(badScore)
+            .expect(400, done);
+        });
+    });
+
+    it('When logged in and update does not exist, 400 returned.', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(noUpdateBody)
+            .expect(400, done);
+        });
+    });
+
+    it('When logged in and good update body in request, 200 returned and history updated.', function(done){
+        playerHistoryManager.getPlayerHistory('cardset1', {'playerId':'doodie', 'isAnon': false},function(err, res){
+            var oldValue = res._playIndex;
+            supertestLogin(function(err, agent){
+                agent.post(route)
+                .send(goodPostBody)
+                .expect(200)
+                .end(function(err, res){
+                    should.not.exist(err);
+                    should.equal(res.body.updateSuccess, true);
+                    playerHistoryManager.getPlayerHistory('cardset1', {'playerId':'doodie', 'isAnon': false},function(err, res){
+                        should.equal(oldValue + 1, res._playIndex);
+                        done();
+                    });
+                });
+            });
+        });
+    });
+
+    it('When logged in and good update body in request, 200 returned card in response.', function(done){
+        supertest(app)
+            .post(route)
+            .send(goodPostBody)
+            .expect(200)
+            .end(function(err, res){
+                should.not.exist(err);
+                cardset1Cards.should.containEql(res.body.card.id);
+                done();
+            });
     });
 
 });
