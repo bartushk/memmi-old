@@ -5,6 +5,7 @@ var csm = require('../csm/csm-factory').getCsm();
 
 var configuredPhm = new conPhm(csm);
 
+// Initialize data if to test data if the app is configured to mock data.
 if(config.mockData){
     configuredPhm = new memPhm(csm, require('../../test/assets/test-data').getFullHistory());
 }
