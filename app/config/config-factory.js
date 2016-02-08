@@ -26,6 +26,12 @@ config.multiProcess = !!config.multiProcess;
 //Set default port to 3000 for development.
 config.port = config.port ? config.port : 3000;
 
+//Set default mongo configuration.
+config.mongo = config.mongo ? config.mongo : {};
+config.mongo.url = config.mongo.url ? config.mongo.url : 'mongodb://localhost:27017';
+config.mongo.historyCollection = config.mongo.historyCollection ? config.mongo.historyCollection : 'player_history';
+config.mongo.userCollection = config.mongo.userCollection ? config.mongo.userCollection : 'user';
+config.mongo.cardSetCollection = config.mongo.cardSetCollection ? config.mongo.cardSetCollection : 'card_set';
 
 module.exports.getConfig = function(){
     return config;

@@ -29,6 +29,7 @@
     "forever": "^0.15.1",
     "jade": "^1.11.0",
     "jsonschema": "^1.0.3",
+    "mongodb": "^2.1.6",
     "morgan": "^1.6.1",
     "serve-favicon": "^2.3.0",
     "underscore": "^1.8.3"

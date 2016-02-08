@@ -2,7 +2,6 @@ var config = require('../../config/config-factory').getConfig();
 var log = require('../log-factory').getLogger();
 var memCsm = require("../csm/memory-csm");
 var utils = require("./phm-utils");
-var _ = require("underscore");
 
 
 /**
