@@ -97,6 +97,36 @@ gulp.task('app', function(cb){
             
 });
 
+gulp.task('docker-init', function(done){
+    exec('eval "$(docker-machine env default)"', function(err, stdout, stderr){
+        if(err)
+            console.log(err);
+        console.log(stdout);
+        done();
+    });        
+});
+
+gulp.task('mongo-start', ['docker-init'], function(){
+    exec('docker run --name gulp-mongo -d -p 27017:27017  mongo', function(err, stdout, stderr){
+        if(err)
+            console.log(err);
+        console.log(stdout);
+    });
+});
+
+gulp.task('mongo-stop', ['docker-init'], function(){
+    exec('docker stop gulp-mongo', function(err, stdout, stderr){
+        if(err)
+            console.log(err);
+        console.log(stdout);
+        exec('docker rm gulp-mongo', function(err, stdout, stderr){
+            if(err)
+                console.log(err);
+            console.log(stdout);
+        });
+    });
+});
+
 gulp.task('default', ['test']);
 
 gulp.task('run', ['dev-local', 'app', 'browser-sync']);
