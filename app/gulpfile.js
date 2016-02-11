@@ -59,7 +59,7 @@ gulp.task('browser-sync', function(){
         proxy: "http://localhost:3000",
         files: ["public/**/*.*"],
         port: 7000,
-        notify: false
+        notify: false,
     });
 });
 
@@ -97,34 +97,35 @@ gulp.task('app', function(cb){
             
 });
 
-gulp.task('docker-init', function(done){
-    exec('eval "$(docker-machine env default)"', function(err, stdout, stderr){
+gulp.task('set-mongo-env', function(){
+    var mongo_url = "mongodb://localhost:27017";
+    if( process.platform == 'darwin' )
+        mongo_url = 'mongodb://192.168.99.100:27017';
+    env({vars:{MONGO_URL: mongo_url}});
+});
+
+gulp.task('mongo-start', function(){
+    var command = "";
+    if( process.platform == 'darwin' )
+        command += 'eval "$(docker-machine env default)" && ';
+    command += 'docker run --name gulp-mongo -d -p 27017:27017  mongo';
+    exec(command, function(err, stdout, stderr){
         if(err)
             console.log(err);
         console.log(stdout);
-        done();
     });        
 });
 
-gulp.task('mongo-start', ['docker-init'], function(){
-    exec('docker run --name gulp-mongo -d -p 27017:27017  mongo', function(err, stdout, stderr){
+gulp.task('mongo-stop', function(){
+    var command = "";
+    if( process.platform == 'darwin' )
+        command += 'eval "$(docker-machine env default)" && ';
+    command += 'docker stop gulp-mongo && docker rm gulp-mongo';
+    exec(command, function(err, stdout, stderr){
         if(err)
             console.log(err);
         console.log(stdout);
-    });
-});
-
-gulp.task('mongo-stop', ['docker-init'], function(){
-    exec('docker stop gulp-mongo', function(err, stdout, stderr){
-        if(err)
-            console.log(err);
-        console.log(stdout);
-        exec('docker rm gulp-mongo', function(err, stdout, stderr){
-            if(err)
-                console.log(err);
-            console.log(stdout);
-        });
-    });
+    });        
 });
 
 gulp.task('default', ['test']);

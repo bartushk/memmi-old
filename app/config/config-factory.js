@@ -29,6 +29,10 @@ config.port = config.port ? config.port : 3000;
 //Set default mongo configuration.
 config.mongo = config.mongo ? config.mongo : {};
 config.mongo.url = config.mongo.url ? config.mongo.url : 'mongodb://localhost:27017';
+//The environment is also checked for the url so that 
+//gulp can set a url based on the docker container it creates.
+if(process.env.MONGO_URL)
+    config.mongo.url = process.env.MONGO_URL;
 config.mongo.historyCollection = config.mongo.historyCollection ? config.mongo.historyCollection : 'player_history';
 config.mongo.userCollection = config.mongo.userCollection ? config.mongo.userCollection : 'user';
 config.mongo.cardSetCollection = config.mongo.cardSetCollection ? config.mongo.cardSetCollection : 'card_set';
