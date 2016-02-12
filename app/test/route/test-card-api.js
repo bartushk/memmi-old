@@ -67,10 +67,11 @@ describe('card-api, get-next.', function(){
 
 describe('card-api, report.', function(){
 
-    var goodPostBody = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
-    var badCardset = {'cardset': 'doesnt_exist', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
-    var badCardId = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'doesnt_exit', 'score': 1}};
-    var badScore = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'coolCard', 'score': 'asdf'}};
+    var goodPostBody = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 2 }};
+    var badCardset = {'cardset': 'doesnt_exist', 'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 2 }};
+    var badCardId = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'doesnt_exit', 'score': 1, 'play_index': 2 }};
+    var badScore = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'coolCard', 'score': 'asdf', 'play_index': 2 }};
+    var badPlayIndex = {'cardset': 'cardset1', 'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 'asdf' }};
     var noUpdateBody = {'cardset': 'cardset1'};
     var route = "/card-api/report";
 
@@ -114,6 +115,14 @@ describe('card-api, report.', function(){
         });
     });
 
+    it('When logged in and card play index is not a number. ', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(badPlayIndex)
+            .expect(400, done);
+        });
+    });
+    
     it('When logged in and update does not exist, 400 returned.', function(done){
         supertestLogin(function(err, agent){
             agent.post(route)
@@ -144,11 +153,18 @@ describe('card-api, report.', function(){
 
 describe('card-api, report-get-next.', function(){
 
-    var goodPostBody = {'cardset': 'cardset1', 'algorithm': 'random', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
-    var badCardset = {'cardset': 'doesnt_exist', 'algorithm': 'random', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
-    var badCardId = {'cardset': 'cardset1', 'algorithm': 'random', 'cardUpdate': {'cardId': 'doesnt_exit', 'score': 1}};
-    var badScore = {'cardset': 'cardset1', 'algorithm': 'random', 'cardUpdate': {'cardId': 'coolCard', 'score': 'asdf'}};
-    var badAlgo = {'cardset': 'cardset1', 'algorithm': 'doesnt_exist', 'cardUpdate': {'cardId': 'coolCard', 'score': 1}};
+    var goodPostBody = {'cardset': 'cardset1', 'algorithm': 'random', 
+    'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 20 }};
+    var badCardset = {'cardset': 'doesnt_exist', 'algorithm': 'random', 
+    'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 20 }};
+    var badCardId = {'cardset': 'cardset1', 'algorithm': 'random', 
+    'cardUpdate': {'cardId': 'doesnt_exit', 'score': 1, 'play_index': 20 }};
+    var badScore = {'cardset': 'cardset1', 'algorithm': 'random', 
+    'cardUpdate': {'cardId': 'coolCard', 'score': 'asdf', 'play_index': 20 }};
+    var badAlgo = {'cardset': 'cardset1', 'algorithm': 'doesnt_exist', 
+    'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 20 }};
+    var badPlayIndex = {'cardset': 'cardset1', 'algorithm': 'random', 
+    'cardUpdate': {'cardId': 'coolCard', 'score': 1, 'play_index': 'asdf' }};
     var noUpdateBody = {'cardset': 'cardset1'};
     var route = "/card-api/report-get-next";
 
@@ -201,6 +217,14 @@ describe('card-api, report-get-next.', function(){
         supertestLogin(function(err, agent){
             agent.post(route)
             .send(badScore)
+            .expect(400, done);
+        });
+    });
+
+    it('When logged in and card play index is not a number. ', function(done){
+        supertestLogin(function(err, agent){
+            agent.post(route)
+            .send(badPlayIndex)
             .expect(400, done);
         });
     });

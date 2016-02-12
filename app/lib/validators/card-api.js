@@ -15,8 +15,10 @@ var cardUpdateSchema = {
     'type': 'object',
     'properties': {
         'cardId' : {'type': 'string'},
-        'score' : {'type': 'number'}
-    }
+        'score' : {'type': 'number'},
+        'play_index': {'type': 'number'}
+    },
+    'required': ['cardId', 'score', 'play_index']
 };
 
 var getNextSchema = {

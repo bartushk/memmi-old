@@ -118,7 +118,7 @@ router.post('/report', function(req, res){
  * req body format:
  *
  * { 'cardset': 'cardsetName', 'algorithm': 'selectionAlgorithmToUse' ,
- *   'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
+ *   'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1, 'play_index': 100} }
 */ 
 router.post('/report-get-next', function(req, res){
     if(!validator('report-get-next', req.body)){

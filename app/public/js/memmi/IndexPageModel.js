@@ -86,12 +86,6 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
     };
 
     viewModel.reportAndNext = function(scoreObject){
-        // apply the score object to the local history.
-        viewModel.ActiveCardHistory().playIndicies.push(viewModel.CardsetInfo().History()._playIndex); 
-        viewModel.CardsetInfo().History()._playIndex += 1; 
-        viewModel.ActiveCardHistory().currentScore += scoreObject.score; 
-        viewModel.ActiveCardHistory().scores.push(scoreObject.score); 
-        viewModel.CardsetInfo().History.valueHasMutated();
             
         // slide a card off the screen if necessary.
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
@@ -102,6 +96,14 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
         postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
         postObject.cardUpdate = scoreObject;
+        postObject.play_index = viewModel.CardsetInfo().History()._playIndex;
+        
+        // apply the score object to the local history.
+        viewModel.ActiveCardHistory().playIndicies.push(viewModel.CardsetInfo().History()._playIndex); 
+        viewModel.CardsetInfo().History()._playIndex += 1; 
+        viewModel.ActiveCardHistory().currentScore += scoreObject.score; 
+        viewModel.ActiveCardHistory().scores.push(scoreObject.score); 
+        viewModel.CardsetInfo().History.valueHasMutated();
         $.ajax({
             method: "POST",
             url: "/card-api/report-get-next",
