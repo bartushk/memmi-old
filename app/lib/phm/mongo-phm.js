@@ -1,10 +1,11 @@
 var config = require('../../config/config-factory').getConfig();
 var log = require('../log-factory').getLogger();
-var memCsm = require("../csm/memory-csm");
 var utils = require("./phm-utils");
+var defaultCsm = require('../csm/csm-factory').getCsm();
 var mon = require('mongodb');
 var mongoClient = mon.MongoClient;
 var objId = mon.ObjectID;
+
 
 
 
@@ -15,9 +16,8 @@ var objId = mon.ObjectID;
  *
  * @param {CardSetManager} csm 
 */ 
-function MongoPhm(csm, initialData){
-    this._playerHistory = initialData || {};
-    this._csm = csm || new memCsm();
+function MongoPhm(csm){
+    this._csm = csm || defaultCsm;
     this._url = config.mongo.url;
     this._collection = config.mongo.historyCollection;
 }
