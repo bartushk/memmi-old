@@ -1,5 +1,5 @@
 module.exports = {
-    logLevel: "off",
+    logLevel: "fatal",
     identityProvider: 'mock-identity-provider',
     port: 3000
 };

@@ -1,4 +1,4 @@
 module.exports = {
-    logLevel: "off",
+    logLevel: "fatal",
     port: 3000
 };

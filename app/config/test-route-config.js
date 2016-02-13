@@ -1,5 +1,5 @@
 module.exports = {
-    logLevel: "off",
+    logLevel: "fatal",
     mockData: true,
     port: 3000
 };
