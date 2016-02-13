@@ -135,6 +135,7 @@ MemoryPhm.prototype.createPlayerHistory = function(cardSetId, playerObj, callbac
             callback(err);
             return;
         }
+        blankHistory.metaInfo = {'playerId': playerId, 'cardsetId': cardSetId};
         playerHistory[cardSetId] = blankHistory;
         callback(null);
     });

@@ -189,15 +189,27 @@ describe('memory-phm createPlayerHistory', function(){
         var clonedData = testData.getFullHistory();
         var phm = new memPhm(mockCsm, clonedData);
         phm.createPlayerHistory('cardset2', existingPlayer, function(err){
-            Object.keys(clonedData.kyle).should.containEql('cardset2');
-            var newCardHistory = clonedData.kyle.cardset2;
+            Object.keys(clonedData[existingPlayer.playerId]).should.containEql('cardset2');
+            var newCardHistory = clonedData[existingPlayer.playerId].cardset2;
             should.equal(newCardHistory._playIndex, 0);
             _.each(Object.keys(testData.getCardSet2().cards), function(newCardId){
-               Object.keys(clonedData.kyle.cardset2.history).should.containEql(newCardId);
-               var newHistory = clonedData.kyle.cardset2.history[newCardId];
+               Object.keys(clonedData[existingPlayer.playerId].cardset2.history).should.containEql(newCardId);
+               var newHistory = clonedData[existingPlayer.playerId].cardset2.history[newCardId];
                should.equal(newHistory.playIndicies.length, 0);
                should.equal(newHistory.scores.length, 0);
             });
+            done();
+        });
+    });
+
+    it('When created, meta data added.', function(done){
+        var clonedData = testData.getFullHistory();
+        var phm = new memPhm(mockCsm, clonedData);
+        phm.createPlayerHistory('cardset2', existingPlayer, function(err){
+            var newCardHistory = clonedData[existingPlayer.playerId].cardset2;
+            should.exist(newCardHistory.metaInfo);
+            should.equal(newCardHistory.metaInfo.playerId, existingPlayer.playerId);
+            should.equal(newCardHistory.metaInfo.cardsetId, 'cardset2');
             done();
         });
     });

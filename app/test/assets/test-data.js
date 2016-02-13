@@ -51,6 +51,7 @@ var cardset2 = {
 var fakePlayerHistory = {
     "kyle": {
         'cardset1': {
+            'metaInfo': {'playerId':'kyle','cardsetId':'cardset1' },
             '_playIndex': 16,
             'history': {
                 'coolCard': {'scores': [0,1,2,2,3,3], 'currentScore': 11, 'playIndicies': [0,3,4,10,11,15], 'cardIndex': 0 },
@@ -62,6 +63,7 @@ var fakePlayerHistory = {
 
     "wanyi": {
         'cardset2': {
+            'metaInfo': {'playerId':'wanyi','cardsetId':'cardset2' },
             '_playIndex': 16,
             'history': {
                 'funCard': {'scores': [0,1,2,2,3,3], 'currentScore': 11, 'playIndicies': [0,3,4,10,11,15], 'cardIndex': 0 },
@@ -104,7 +106,6 @@ var fakeData = {
     getCardSetHistory: function(){ return JSON.parse(JSON.stringify(fakePlayerHistory.kyle.cardset1)); },
     getUserStore: function(){ return JSON.parse(JSON.stringify(userStore)); },
     getFullCardSet: function(){ return JSON.parse(JSON.stringify(testFullCardSet)); }
-
 };
 
 
