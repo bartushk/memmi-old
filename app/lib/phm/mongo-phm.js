@@ -58,10 +58,36 @@ MongoPhm.prototype.getPlayerHistory = function(cardSetId, playerObj, callback){
         }
         var col = db.collection(self._collection);
         var query = {};
-        query._id = new objId(cardSetId + playerObj.playrId);
+        query._id = new objId(cardSetId + playerObj.playerId);
         col.findOne(query, null, function(err, history){
             callback(err, history);
+            db.close();
         });
+    });
+};
+
+
+/**
+ * Updates a player's card scoring history by applying a cardUpdate object.
+ *  
+ * @param {string} cardSetId 
+ * @param {Object} playerObj - {'playerId': 'kbart', 'isAnon': false} 
+ * @param {Object} cardUpdate 
+ * @param {Function} callback - callback(err) 
+ * @return {null}
+ *
+*/ 
+MongoPhm.prototype.updateCardScore = function(cardSetId, playerObj, cardUpdate, callback){
+    callback = callback || function(err){};
+    var playerId = playerObj.playerId;
+
+    if(playerObj.isAnon){
+       callback(null);
+       return;
+    }
+
+    this._connect(function(err,db){
+        var col = db.collection(self._collection);
     });
 };
 

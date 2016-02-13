@@ -5,7 +5,17 @@ var exec = require('child_process').exec;
 var mocha = require('gulp-mocha');
 var mon = require('gulp-nodemon');
 var browserSync = require('browser-sync');
+var runSequence = require('gulp-run-sequence');
 var _ = require('underscore');
+
+var mochaOnError = function(err, stopMongo){
+    if(err.stack){
+        console.log(err);
+        if(stopMongo)
+            runSequence('mongo-stop');
+        process.exit(1);
+    }
+};
 
 gulp.task('dev', function(){
     env({
@@ -24,6 +34,14 @@ gulp.task('dev-local', function(){
     });
 });
 
+gulp.task('exit', function(){
+    process.exit(0);
+});
+
+gulp.task('test-all', function(cb){
+    runSequence('test-basic', 'test-route', 'test-mongo', 'exit');
+});
+
 gulp.task('test-basic', function(cb){
     var error;
     env({vars:{CONFIG: "test-basic"}});
@@ -36,10 +54,10 @@ gulp.task('test-basic', function(cb){
             }
             cb();
         })
-        .once('error', function(err){error = err;});
+        .once('error', function(err){error = err; mochaOnError(err);});
 });
 
-gulp.task('test', ['test-basic'],  function(cb){
+gulp.task('test-route', function(cb){
     var error;
     env({vars:{CONFIG: "test-route"}});
     gulp.src(['./test/route/*.js'], {read: false})
@@ -49,9 +67,25 @@ gulp.task('test', ['test-basic'],  function(cb){
                 console.log(error);
                 process.exit(1);
             }
-            process.exit();
+            cb();
         })
-        .once('error', function(err){error = err;});
+        .once('error', function(err){error = err; mochaOnError(err);});
+});
+
+gulp.task('test-mongo', ['mongo-start', 'set-mongo-env'],  function(cb){
+    var error;
+    env({vars:{CONFIG: "test-mongo"}});
+    gulp.src(['./test/mongo/*.js'], {read: false})
+        .pipe(mocha())
+        .once('end', function(){
+            runSequence('mongo-stop');
+            if(error){
+                console.log(error);
+                process.exit(1);
+            }
+            cb();
+        })
+        .once('error', function(err){error = err; mochaOnError(err, true);});
 });
 
 gulp.task('browser-sync', function(){
@@ -92,9 +126,7 @@ gulp.task('app', function(cb){
 
         this.stdout.pipe(bunyan.stdin);
         this.stderr.pipe(bunyan.stdin);
-
     });
-            
 });
 
 gulp.task('set-mongo-env', function(){
@@ -104,7 +136,7 @@ gulp.task('set-mongo-env', function(){
     env({vars:{MONGO_URL: mongo_url}});
 });
 
-gulp.task('mongo-start', function(){
+gulp.task('mongo-start', function(cb){
     var command = "";
     if( process.platform == 'darwin' )
         command += 'eval "$(docker-machine env default)" && ';
@@ -113,10 +145,11 @@ gulp.task('mongo-start', function(){
         if(err)
             console.log(err);
         console.log(stdout);
+        cb();
     });        
 });
 
-gulp.task('mongo-stop', function(){
+gulp.task('mongo-stop', function(cb){
     var command = "";
     if( process.platform == 'darwin' )
         command += 'eval "$(docker-machine env default)" && ';
@@ -125,9 +158,12 @@ gulp.task('mongo-stop', function(){
         if(err)
             console.log(err);
         console.log(stdout);
+        cb();
     });        
 });
 
-gulp.task('default', ['test']);
+gulp.task('default', ['test-all']);
 
-gulp.task('run', ['dev-local', 'app', 'browser-sync']);
+gulp.task('run', function(){
+    runSequence('dev-local', 'app', 'browser-sync');
+});
