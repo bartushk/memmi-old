@@ -12,8 +12,7 @@ var mochaOnError = function(err, stopMongo){
     if(err.stack){
         console.log(err);
         if(stopMongo)
-            runSequence('mongo-stop');
-        process.exit(1);
+            runSequence('mongo-stop', 'exit-bad');
     }
 };
 
@@ -34,12 +33,16 @@ gulp.task('dev-local', function(){
     });
 });
 
-gulp.task('exit', function(){
+gulp.task('exit-good', function(){
     process.exit(0);
 });
 
+gulp.task('exit-bad', function(){
+    process.exit(1);
+});
+
 gulp.task('test-all', function(cb){
-    runSequence('test-basic', 'test-route', 'test-mongo', 'exit');
+    runSequence('test-basic', 'test-route', 'test-mongo', 'exit-good');
 });
 
 gulp.task('test-basic', function(cb){
@@ -132,7 +135,7 @@ gulp.task('app', function(cb){
 gulp.task('set-mongo-env', function(){
     var mongo_url = "mongodb://localhost:27017";
     if( process.platform == 'darwin' )
-        mongo_url = 'mongodb://192.168.99.100:27017';
+        mongo_url = 'mongodb://192.168.99.101:27017';
     env({vars:{MONGO_URL: mongo_url}});
 });
 
@@ -153,7 +156,7 @@ gulp.task('mongo-stop', function(cb){
     var command = "";
     if( process.platform == 'darwin' )
         command += 'eval "$(docker-machine env default)" && ';
-    command += 'docker stop gulp-mongo && docker rm gulp-mongo';
+    command += 'docker stop gulp-mongo && docker rm -v gulp-mongo';
     exec(command, function(err, stdout, stderr){
         if(err)
             console.log(err);

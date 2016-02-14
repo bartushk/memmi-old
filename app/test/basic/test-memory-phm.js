@@ -50,7 +50,7 @@ describe('memory-phm construction', function(){
 });
 
 describe('memory-phm, getPlayerHistory.', function(){
-    it('When player does not exist, return a new blank history.', function(done){
+    it('When player history does not exist, return a new blank history.', function(done){
         var clonedData = testData.getFullHistory();
         var phm = new memPhm(mockCsm, clonedData);
         phm.getPlayerHistory("cardset1", nonExistantPlayer, function(err, playerHistory){
@@ -170,16 +170,16 @@ describe('memory-phm createPlayerHistory', function(){
     it('When card set already exists, error is passed.', function(done){
         var clonedData = testData.getFullHistory();
         var phm = new memPhm(mockCsm, clonedData);
-        phm.createPlayerHistory('cardset1', existingPlayer, function(err){
+        phm.createPlayerHistory('cardset1', existingPlayer, function(err, createdHistory){
             should.exist(err);
             done();
         });
     });
 
-    it('When player does not exist, player added.', function(done){
+    it('When player history does not exist, player added.', function(done){
         var clonedData = testData.getFullHistory();
         var phm = new memPhm(mockCsm, clonedData);
-        phm.createPlayerHistory('cardset1', nonExistantPlayer, function(err){
+        phm.createPlayerHistory('cardset1', nonExistantPlayer, function(err, createdHistory){
             Object.keys(clonedData).should.containEql(nonExistantPlayer.playerId);
             done();
         });
@@ -188,7 +188,7 @@ describe('memory-phm createPlayerHistory', function(){
     it('When created, empty card set history generated.', function(done){
         var clonedData = testData.getFullHistory();
         var phm = new memPhm(mockCsm, clonedData);
-        phm.createPlayerHistory('cardset2', existingPlayer, function(err){
+        phm.createPlayerHistory('cardset2', existingPlayer, function(err, createdHistory){
             Object.keys(clonedData[existingPlayer.playerId]).should.containEql('cardset2');
             var newCardHistory = clonedData[existingPlayer.playerId].cardset2;
             should.equal(newCardHistory._playIndex, 0);
@@ -202,14 +202,23 @@ describe('memory-phm createPlayerHistory', function(){
         });
     });
 
+    it('When created, created history returned.', function(done){
+        var clonedData = testData.getFullHistory();
+        var phm = new memPhm(mockCsm, clonedData);
+        phm.createPlayerHistory('cardset2', existingPlayer, function(err, createdHistory){
+            should.exist(createdHistory);
+            done();
+        });
+    });
+
     it('When created, meta data added.', function(done){
         var clonedData = testData.getFullHistory();
         var phm = new memPhm(mockCsm, clonedData);
-        phm.createPlayerHistory('cardset2', existingPlayer, function(err){
+        phm.createPlayerHistory('cardset2', existingPlayer, function(err, createdHistory){
             var newCardHistory = clonedData[existingPlayer.playerId].cardset2;
             should.exist(newCardHistory.metaInfo);
             should.equal(newCardHistory.metaInfo.playerId, existingPlayer.playerId);
-            should.equal(newCardHistory.metaInfo.cardsetId, 'cardset2');
+            should.equal(newCardHistory.metaInfo.cardSetId, 'cardset2');
             done();
         });
     });

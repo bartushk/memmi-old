@@ -17,6 +17,9 @@ var userStore = {
 
 var cardset1 = {
     'id': 'cardset1',
+    'title': 'Cool cardset.',
+    'createdDate': new Date().toISOString(),
+    'author': 'kyle',
 
     'cards': {
         'coolCard': {
@@ -39,6 +42,9 @@ var cardset1 = {
 
 var cardset2 = {
     'id': 'cardset2',
+    'title': 'Cool cardset.',
+    'createdDate': new Date().toISOString(),
+    'author': 'wanyi',
 
     'cards': {
         'funCard': {'title': 'Cool cards!', 'frontInfo':{}, 'backInfo': {}, 'id': 'funCard', 'cardIndex': 0},
@@ -51,7 +57,7 @@ var cardset2 = {
 var fakePlayerHistory = {
     "kyle": {
         'cardset1': {
-            'metaInfo': {'playerId':'kyle','cardsetId':'cardset1' },
+            'metaInfo': {'playerId':'kyle','cardSetId':'cardset1' },
             '_playIndex': 16,
             'history': {
                 'coolCard': {'scores': [0,1,2,2,3,3], 'currentScore': 11, 'playIndicies': [0,3,4,10,11,15], 'cardIndex': 0 },
@@ -63,7 +69,7 @@ var fakePlayerHistory = {
 
     "wanyi": {
         'cardset2': {
-            'metaInfo': {'playerId':'wanyi','cardsetId':'cardset2' },
+            'metaInfo': {'playerId':'wanyi','cardSetId':'cardset2' },
             '_playIndex': 16,
             'history': {
                 'funCard': {'scores': [0,1,2,2,3,3], 'currentScore': 11, 'playIndicies': [0,3,4,10,11,15], 'cardIndex': 0 },

@@ -113,7 +113,7 @@ MemoryPhm.prototype.updateCardScore = function(cardSetId, playerObj, cardUpdate,
  * @param {string} cardSetId 
  * @param {Object} playerObj - {'playerId': 'kbart', 'isAnon': false} 
  * @param {Object} playerHistory 
- * @param {Function} callback - callback(err) 
+ * @param {Function} callback - callback(err, createdHistory) 
  * @return {null}
  *
 */ 
@@ -135,9 +135,9 @@ MemoryPhm.prototype.createPlayerHistory = function(cardSetId, playerObj, callbac
             callback(err);
             return;
         }
-        blankHistory.metaInfo = {'playerId': playerId, 'cardsetId': cardSetId};
+        blankHistory.metaInfo = {'playerId': playerId, 'cardSetId': cardSetId};
         playerHistory[cardSetId] = blankHistory;
-        callback(null);
+        callback(null, blankHistory);
     });
 };
 
