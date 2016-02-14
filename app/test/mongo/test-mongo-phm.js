@@ -3,6 +3,7 @@ var config = require('../../config/config-factory').getConfig();
 var monPhm = require('../../lib/phm/mongo-phm');
 var monUtil = require('../mongo-utils');
 var testData = require('../assets/test-data');
+var _ = require('underscore');
 var mongoClient = require('mongodb').MongoClient;
 
 monUtil.initData();
@@ -10,7 +11,7 @@ monUtil.initData();
 var existingPlayer = {'playerId': 'kyle', 'isAnon': false};
 var nonExistantPlayer = {'playerId': 'bob', 'isAnon': false};
 var anonPlayer = {'playerId': 'bob', 'isAnon': true};
-var goodCardset = 'cardset1';
+var goodCardSet = 'cardset1';
 
 var testCardUpdate = testData.getCardSet1GoodUpdate();
 var testBadCardUpdate = testData.getCardSet1BadUpdate();
@@ -54,7 +55,7 @@ describe('mongo-phm, getPlayerHistory', function(){
     it('When url is bad location, error returned.', function(done){
         var phm = new monPhm();
         phm._url = "mongodb://doesnt_exist";
-        phm.getPlayerHistory(goodCardset, existingPlayer, function(err, history){
+        phm.getPlayerHistory(goodCardSet, existingPlayer, function(err, history){
             should.exist(err);
             should.not.exist(history);
             done();
@@ -64,8 +65,8 @@ describe('mongo-phm, getPlayerHistory', function(){
     it('When player is anon, history not added to mongodb.', function(done){
         var phm = new monPhm();
         var player = {isAnon: true, playerId: 'jimbo'};
-        phm.getPlayerHistory(goodCardset, player, function(err, createdHistory){
-            getHistory(player.playerId, goodCardset, function(history){
+        phm.getPlayerHistory(goodCardSet, player, function(err, createdHistory){
+            getHistory(player.playerId, goodCardSet, function(history){
                 should.not.exist(history);
                 done();
             });
@@ -75,12 +76,12 @@ describe('mongo-phm, getPlayerHistory', function(){
     it('When player history does not exist, history added to mongodb.', function(done){
         var phm = new monPhm();
         var player = {isAnon: false, playerId: 'jimbo'};
-        phm.getPlayerHistory(goodCardset, player, function(err, createdHistory){
+        phm.getPlayerHistory(goodCardSet, player, function(err, createdHistory){
             should.not.exist(err);
-            getHistory(player.playerId, goodCardset, function(history){
+            getHistory(player.playerId, goodCardSet, function(history){
                 should.exist(history);
                 should.equal(history.metaInfo.playerId, player.playerId);
-                should.equal(history.metaInfo.cardSetId, goodCardset);
+                should.equal(history.metaInfo.cardSetId, goodCardSet);
                 should.equal(history._playIndex, 0);
                 done();
             });
@@ -90,11 +91,11 @@ describe('mongo-phm, getPlayerHistory', function(){
     it('When player history does not exist, return a new blank history.', function(done){
         var phm = new monPhm();
         var player = {isAnon: false, playerId: 'jimbob'};
-        phm.getPlayerHistory(goodCardset, player, function(err, createdHistory){
+        phm.getPlayerHistory(goodCardSet, player, function(err, createdHistory){
             should.not.exist(err);
             should.exist(createdHistory);
             should.equal(createdHistory.metaInfo.playerId, player.playerId);
-            should.equal(createdHistory.metaInfo.cardSetId, goodCardset);
+            should.equal(createdHistory.metaInfo.cardSetId, goodCardSet);
             should.equal(createdHistory._playIndex, 0);
             done();
         });
@@ -110,8 +111,8 @@ describe('mongo-phm, getPlayerHistory', function(){
 
    it('When player history requested correctly, correct history returned.', function(done){
         var phm = new monPhm();
-        getHistory(existingPlayer.playerId, goodCardset, function(history){
-            phm.getPlayerHistory(goodCardset, existingPlayer, function(err, playerHistory){
+        getHistory(existingPlayer.playerId, goodCardSet, function(history){
+            phm.getPlayerHistory(goodCardSet, existingPlayer, function(err, playerHistory){
                 should.not.exist(err);
                 should.equal(JSON.stringify(playerHistory), JSON.stringify(history));
                 done();
@@ -121,12 +122,76 @@ describe('mongo-phm, getPlayerHistory', function(){
 
    it('When player history requested correctly, should not contain _id property.', function(done){
         var phm = new monPhm();
-        phm.getPlayerHistory(goodCardset, existingPlayer, function(err, playerHistory){
+        phm.getPlayerHistory(goodCardSet, existingPlayer, function(err, playerHistory){
             should.not.exist(err);
-            should.not.exist(playerHistory._id);
             done();
         });
    }); 
 
 });
 
+
+describe('mongo-phm, createPlayerHistory', function(){
+
+    it('When a card set history already exists, error is passed.', function(done){
+        var phm = new monPhm();
+        phm.createPlayerHistory(goodCardSet, existingPlayer, function(err, createdHistory){
+            should.exist(err);
+            done();
+        });
+    });
+
+    it('When player is Anonymous, error is passed.', function(done){
+        var phm = new monPhm();
+        phm.createPlayerHistory(goodCardSet, anonPlayer, function(err, createdHistory){
+            should.exist(err);
+            done();
+        });
+    });
+
+    it('When created, history added to mongodb.', function(done){
+        var phm = new monPhm();
+        var player = {isAnon: false, playerId: 'dimbob'};
+        phm.createPlayerHistory(goodCardSet, player, function(err, createdHistory){
+            should.not.exist(err);
+            getHistory(player.playerId, goodCardSet, function(history){
+                should.exist(history);
+                should.equal(history.metaInfo.playerId, player.playerId);
+                should.equal(history.metaInfo.cardSetId, goodCardSet);
+                should.equal(history._playIndex, 0);
+                done();
+            });
+        });
+    });
+
+    it('When created, correct blank history created.', function(done){
+        var phm = new monPhm();
+        var player = {isAnon: false, playerId: 'dimbob2'};
+        var targetCardset = testData.getCardSet1(); 
+        phm.createPlayerHistory('cardset1', player, function(err, createdHistory){
+            should.not.exist(err);
+            should.exist(createdHistory);
+            should.equal(createdHistory._playIndex, 0);
+            _.each(Object.keys(targetCardset.cards), function(targetId){
+                var newCardHistory = createdHistory.history[targetId];
+                should.exist(newCardHistory);
+                should.equal(newCardHistory.playIndicies.length, 0);
+                should.equal(newCardHistory.scores.length, 0);
+            });
+            done();
+        });
+    });
+
+    it('When created, meta info added.', function(done){
+        var phm = new monPhm();
+        var player = {isAnon: false, playerId: 'dimbob3'};
+        phm.createPlayerHistory(goodCardSet, player, function(err, createdHistory){
+            should.not.exist(err);
+            should.exist(createdHistory.metaInfo);
+            should.equal(createdHistory.metaInfo.playerId, player.playerId);
+            should.equal(createdHistory.metaInfo.cardSetId, goodCardSet);
+            done();
+        });
+    });
+
+});
