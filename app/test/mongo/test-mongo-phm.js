@@ -13,7 +13,7 @@ var nonExistantPlayer = {'playerId': 'bob', 'isAnon': false};
 var anonPlayer = {'playerId': 'bob', 'isAnon': true};
 var goodCardSet = 'cardset1';
 
-var testCardUpdate = testData.getCardSet1GoodUpdate();
+var testGoodCardUpdate = testData.getCardSet1GoodUpdate();
 var testBadCardUpdate = testData.getCardSet1BadUpdate();
 
 function getHistory(playerId, cardSetId, callback){
@@ -193,5 +193,56 @@ describe('mongo-phm, createPlayerHistory', function(){
             done();
         });
     });
+});
 
+
+describe('mongo-phm, updateCardScore', function(){
+    it('When player does not exist, return an error.', function(done){
+        var phm = new monPhm(); 
+        phm.updateCardScore('cardset1', nonExistantPlayer, testGoodCardUpdate, function(err){
+            should.exist(err);
+            done();
+        });
+    });
+
+    it('When player is anon, do not apply update.', function(done){
+        var phm = new monPhm();
+        var anonGoodPlayer = {playrId: existingPlayer.playerId, isAnon: true};    
+        getHistory(existingPlayer, anonGoodPlayer, function(oldHistory){
+            phm.updateCardScore(goodCardSet, anonGoodPlayer, testGoodCardUpdate, function(err){
+                should.not.exist(err);
+                getHistory(existingPlayer, anonGoodPlayer, function(newHistory){
+                    should.equal(JSON.stringify(oldHistory), JSON.stringify(newHistory));
+                    done();
+                });
+            });
+        });
+    });
+
+    it('When updated, all updates properly applied.', function(done){
+        var phm = new monPhm();
+        var cardId = testGoodCardUpdate.cardId;
+        getHistory(existingPlayer.playerId, goodCardSet, function(oldHistory){
+            phm.updateCardScore(goodCardSet, existingPlayer, testGoodCardUpdate, function(err){
+                should.not.exist(err);
+                getHistory(existingPlayer.playerId, goodCardSet, function(newHistory){
+                    should.equal(oldHistory._playIndex + 1, newHistory._playIndex);
+                    var oldCard = oldHistory.history[cardId];
+                    var newCard = newHistory.history[cardId];
+                    should.equal(oldCard.playIndicies.length + 1, newCard.playIndicies.length);
+                    should.equal(newCard.playIndicies[newCard.playIndicies.length - 1], testGoodCardUpdate.play_index);
+                    should.equal(oldCard.currentScore + testGoodCardUpdate.score, newCard.currentScore);
+                    done();
+                });
+            });
+        });
+    });
+
+    it('When cardset does not exist, return an error.', function(done){
+        var phm = new monPhm(); 
+        phm.updateCardScore('asdf', existingPlayer, testGoodCardUpdate, function(err){
+            should.exist(err);
+            done();
+        });
+    });
 });

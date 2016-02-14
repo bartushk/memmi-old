@@ -16,7 +16,7 @@ function MongoPhm(csm){
     this._csm = csm || defaultCsm;
     this._url = config.mongo.url;
     this._collection = config.mongo.historyCollection;
-    this._writeConcern = {w:1};
+    this._writeOptions = {w:1};
 }
 
 /**
@@ -116,17 +116,19 @@ MongoPhm.prototype.updateCardScore = function(cardSetId, playerObj, cardUpdate, 
     this._connect(function(err, db){
         var col = db.collection(self._collection);
         var query = self._getQuery(playerObj.playerId, cardSetId);
-        var scoresProp = cardId + '.scores';
-        var currentScoreProp = cardId + '.currentScore';
-        var playIndiciesProp = cardId + '.playIndicies';
-        var update = {
-            $push: { playIndiciesProp: cardUpdate.play_index, scoresProp: cardUpdate.score },
-            $inc: { _playIndex: 1, currentScoreProp: cardUpate.score },
-        };
-        col.updateOne(query, update, self._writeConcern).then(function(result){
+        var update = {$push: {}, $inc: {_playIndex: 1}};
+        var cardPrepend = 'history.' + cardUpdate.cardId;
+        update.$push[cardPrepend +  '.playIndicies'] = cardUpdate.play_index;
+        update.$push[cardPrepend +  '.scores'] = cardUpdate.score;
+        update.$inc[cardPrepend +  '.currentScore'] = cardUpdate.score;
+
+        col.updateOne(query, update, self._writeOptions, function(err, result){
             db.close();
+            if(err){
+                callback(err);
+            }
             if(result.result.n != 1){
-                callback(new Error("Update result came back as wrong ammount: " + result.result.n));
+                callback(new Error("Error applying card update: " + result.result));
                 return;
             }
             callback(null);
@@ -173,7 +175,7 @@ MongoPhm.prototype.createPlayerHistory = function(cardSetId, playerObj, callback
                     return;
                 }
                 blankHistory.metaInfo = {'playerId': playerObj.playerId, 'cardSetId': cardSetId};
-                col.insertOne(blankHistory, self._writeConcern, function(err, result){
+                col.insertOne(blankHistory, self._writeOptions, function(err, result){
                     db.close();
                     callback(err, blankHistory);
                 });

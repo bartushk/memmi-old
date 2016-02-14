@@ -95,12 +95,14 @@ var testFullCardSet = {
 
 var testCardUpdate = {
     'cardId': 'coolCard',
-    'score': 10
+    'score': 10,
+    'play_index': 1
 };
 
 var testBadCardUpdate = {
     'cardId': 'nerd-card',
-    'score': 12
+    'score': 12,
+    'play_index': 3
 };
 
 var fakeData = {
