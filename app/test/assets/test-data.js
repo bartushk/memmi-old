@@ -17,6 +17,7 @@ var userStore = {
 
 var cardset1 = {
     'id': 'cardset1',
+    'setId': 'cardset1',
     'title': 'Cool cardset.',
     'createdDate': new Date().toISOString(),
     'author': 'kyle',
@@ -42,6 +43,7 @@ var cardset1 = {
 
 var cardset2 = {
     'id': 'cardset2',
+    'setId': 'cardset2',
     'title': 'Cool cardset.',
     'createdDate': new Date().toISOString(),
     'author': 'wanyi',

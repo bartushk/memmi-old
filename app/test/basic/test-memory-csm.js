@@ -16,7 +16,7 @@ describe('memory-csm construction', function(){
 		csm._data.should.be.empty();
 	});
 
-	it('Constructed with Inital Data.', function(){
+	it('Constructed with Initial Data.', function(){
 		var initData = {};
 		initData.test1 = 123123;
 		initData.test2 = '123123';

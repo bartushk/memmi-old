@@ -17,7 +17,7 @@ function MemoryCsm(initialData){
 
 /**
  * Makes a new cardset available for use. This implementation simply puts the object
- * into the _data dictionary after validating it.
+ * into the _data dictionary. 
  *
  * @param {Object} cardSet
  * @param {Function} callback - callback(err, addedCardset)
