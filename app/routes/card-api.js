@@ -5,6 +5,9 @@ var selectionFactory = require('../lib/selection/selection-factory');
 var idProvider = require('../lib/auth/' + (config.identityProvider || 'mock-identity-provider'));
 var validator = require('../lib/validators/card-api');
 
+//TODO: Add previous card to any 'get-next' operations so anonymous users
+//      can have card sets presented in-order without a history.
+
 
 /**
  * Api for card related actions. Allows someone to

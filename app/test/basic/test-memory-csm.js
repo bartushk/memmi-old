@@ -53,13 +53,6 @@ describe('Memory CSM addCardSet', function(){
 		});
 	});
 
-	it('When validly added, added date added.', function(done){
-		var csm = new memCsm({});
-		csm.addCardSet({}, function(error, cardSet){
-			should.ok(cardSet._addedDate.getTime() - new Date().getTime() < 1000);
-			done();
-		});
-	});
 });
 
 

@@ -29,7 +29,7 @@ MemoryCsm.prototype.addCardSet = function(cardSet, callback){
         _callback(new Error("Card set already exists, please create a new one."), cardSet);
         return;
     }
-    cardSet._addedDate = new Date();
+
     this._data[cardSet.id] = cardSet;
     _callback(null, cardSet);
 };

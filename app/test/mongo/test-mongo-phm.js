@@ -46,7 +46,7 @@ describe('mongo-phm, construction.', function(){
         var phm = new monPhm();  
         should.equal(phm._url, config.mongo.url);
         should.equal(phm._collection, config.mongo.historyCollection);
-        should.equal(JSON.stringify(phm._writeOptions), JSON.stringify(config.mongo.writeOptions));
+        should.deepEqual(phm._writeOptions, config.mongo.writeOptions);
     });
 
 });
@@ -115,7 +115,7 @@ describe('mongo-phm, getPlayerHistory', function(){
         getHistory(existingPlayer.playerId, goodCardSet, function(history){
             phm.getPlayerHistory(goodCardSet, existingPlayer, function(err, playerHistory){
                 should.not.exist(err);
-                should.equal(JSON.stringify(playerHistory), JSON.stringify(history));
+                should.deepEqual(playerHistory, history);
                 done();
             });
         });
@@ -213,7 +213,7 @@ describe('mongo-phm, updateCardScore', function(){
             phm.updateCardScore(goodCardSet, anonGoodPlayer, testGoodCardUpdate, function(err){
                 should.not.exist(err);
                 getHistory(existingPlayer, anonGoodPlayer, function(newHistory){
-                    should.equal(JSON.stringify(oldHistory), JSON.stringify(newHistory));
+                    should.deepEqual(oldHistory, newHistory);
                     done();
                 });
             });

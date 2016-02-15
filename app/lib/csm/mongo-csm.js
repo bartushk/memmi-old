@@ -1,5 +1,6 @@
 var config = require('../../config/config-factory').getConfig();
 var log = require('../log-factory').getLogger();
+var mongoClient = require('mongodb').MongoClient;
 
 
 
@@ -24,7 +25,7 @@ function MongoCsm(){
  * @return {Object} 
 */ 
 MongoCsm.prototype._getQuery = function(cardSetId){
-    var query = { };
+    var query = {};
     query.id = cardSetId;
     return query;
 };
@@ -55,7 +56,7 @@ MongoCsm.prototype._connect = function(callback){
  * @return {null}
 */ 
 MongoCsm.prototype.addCardSet = function(cardSet, callback){
-    var _callback = callback || function(){};
+    callback = callback || function(){};
     var self = this;
     self._connect(function(err, db){
         if(err){
@@ -77,7 +78,9 @@ MongoCsm.prototype.addCardSet = function(cardSet, callback){
             }
             col.insertOne(cardSet, self._writeOptions, function(err, result){
                 db.close();
-                callback(err, cardSet);
+                var returnCopy = JSON.parse(JSON.stringify(cardSet)); 
+                delete returnCopy._id;
+                callback(err, returnCopy); 
             });
         });
     });
