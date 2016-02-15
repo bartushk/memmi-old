@@ -42,10 +42,11 @@ describe('mongo-phm, construction.', function(){
         should.equal(true, phm._csm);
     });
 
-    it('When constructed, url and collection set from config.', function(){
+    it('When constructed, url, collection and write options set from config.', function(){
         var phm = new monPhm();  
         should.equal(phm._url, config.mongo.url);
         should.equal(phm._collection, config.mongo.historyCollection);
+        should.equal(JSON.stringify(phm._writeOptions), JSON.stringify(config.mongo.writeOptions));
     });
 
 });

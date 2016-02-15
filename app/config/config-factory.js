@@ -36,6 +36,8 @@ if(process.env.MONGO_URL)
 config.mongo.historyCollection = config.mongo.historyCollection ? config.mongo.historyCollection : 'player_history';
 config.mongo.userCollection = config.mongo.userCollection ? config.mongo.userCollection : 'user';
 config.mongo.cardSetCollection = config.mongo.cardSetCollection ? config.mongo.cardSetCollection : 'card_set';
+config.mongo.inactiveCardSetCollection = config.mongo.inactiveCardSetCollection ? config.mongo.inactiveCardSetCollection : 'inactive_card_set';
+config.mongo.writeOptions = config.mongo.writeOptions ? config.mongo.writeOptions : {w:1};
 
 module.exports.getConfig = function(){
     return config;

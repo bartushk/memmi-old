@@ -13,9 +13,11 @@ describe('mongo-csm, construction.', function(){
         should.exist(csm);
     });
 
-    it('When constructed, url and collection set from config.', function(){
+    it('When constructed, url, collections, and write options set from config.', function(){
         var csm = new monCsm();
         should.equal(csm._url, config.mongo.url);
-        should.equal(csm._collection, config.mongo.cardSetCollection);
+        should.equal(csm._activeCollection, config.mongo.cardSetCollection);
+        should.equal(csm._inactiveCollection, config.mongo.inactiveCardSetCollection);
+        should.equal(JSON.stringify(csm._writeOptions), JSON.stringify(config.mongo.writeOptions));
     });
 });

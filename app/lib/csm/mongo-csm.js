@@ -10,10 +10,9 @@ var log = require('../log-factory').getLogger();
 */ 
 function MongoCsm(){
     this._url = config.mongo.url;
-    this._collection = config.mongo.cardSetCollection;
-    //TODO: add deactivated collection to config
-    //TODO: add write_options to config (also used in mongo-phm)
-    this._writeOptions = {w:1};
+    this._activeCollection = config.mongo.cardSetCollection;
+    this._inactiveCollection = config.mongo.inactiveCardSetCollection;
+    this._writeOptions = config.mongo.writeOptions;
 }
 
 
@@ -64,7 +63,7 @@ MongoCsm.prototype.addCardSet = function(cardSet, callback){
             return;
         }
         var query = self._getQuery(cardSet.id);
-        var col = db.collection(self._collection);
+        var col = db.collection(self._activeCollection);
         col.find(query).limit(1).toArray(function(err, result){
             if(err){
                 callback(err);
