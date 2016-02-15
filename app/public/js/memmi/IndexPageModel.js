@@ -91,12 +91,12 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
             viewModel.slideCardOff();
 
+        scoreObject.play_index = viewModel.CardsetInfo().History()._playIndex; 
         // post the appropriate info to report the card score and get the next card.
         var postObject = {};
         postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
         postObject.cardUpdate = scoreObject;
-        postObject.play_index = viewModel.CardsetInfo().History()._playIndex;
         
         // apply the score object to the local history.
         viewModel.ActiveCardHistory().playIndicies.push(viewModel.CardsetInfo().History()._playIndex); 
