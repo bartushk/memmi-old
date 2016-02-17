@@ -87,4 +87,37 @@ MongoCsm.prototype.addCardSet = function(cardSet, callback){
 };
 
 
+/**
+ * Gets a cardset with only its Id.
+ *
+ * @param {string} cardSetId
+ * @param {Function} callback - callback(err, cardSet)
+ * @return {null}
+*/ 
+MongoCsm.prototype.getCardSetById = function(cardSetId, callback){
+    callback = callback || function(){};
+    var self = this;
+    self._connect(function(err, db){
+        if(err){
+            callback(err);
+            return;
+        }
+        var query = self._getQuery(cardSetId);
+        var col = db.collection(self._activeCollection);
+        col.findOne(query, {_id:0}, function(err, result){
+            db.close();
+            if(err){
+                callback(err);
+                return;
+            }
+            if(!result){
+                callback(new Error("Card set was not found"));
+                return;
+            }
+            callback(null, result);
+        });
+    });
+};
+
+
 module.exports = MongoCsm;

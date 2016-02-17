@@ -102,3 +102,38 @@ describe('mongo-csm, addCardSet.', function(){
         });
     });
 });
+
+describe('mongo-phm, getCardSetById.', function(){
+
+    it('When called with bad url, error passed.', function(done){
+        var csm = new monCsm();
+        var targetCardSet =  testData.getCardSet1();
+        csm._url = "mongodb://doesnt_exist";
+        csm.getCardSetById(targetCardSet.id, function(err, cardSet){
+            should.exist(err);
+            should.not.exist(cardSet);
+            done();
+        });
+    });
+
+    it('When card set exists, correct card set is returned.', function(done){
+        var targetCardSet =  testData.getCardSet1();
+        var csm = new monCsm();
+        csm.getCardSetById(targetCardSet.id, function(err, result){
+            should.not.exist(err);
+            should.deepEqual(result, targetCardSet);
+            done();
+        });
+    });
+
+
+    it('When card set does not exist, error passed.', function(done){
+        var csm = new monCsm(); 
+        csm.getCardSetById('does not exit', function(err, result){
+            should.exist(err);
+            should.not.exist(result);
+            done();
+        });
+    });
+
+});
