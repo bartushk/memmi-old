@@ -56,36 +56,6 @@ describe('Memory CSM addCardSet', function(){
 });
 
 
-describe('Memory CSM deactivateCardSet.', function(){
-	it('When validly deactivated, card set is moved to inactiveSets.', function(done){
-                var testSet = {};
-                testSet[cardsetName] = fakeCardSet;
-                var csm = new memCsm(testSet);
-		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
-			csm._inactiveSets.should.have.key(cardsetName);
-			done();
-		}); 	
-	});
-
-	it('When validly deactivated, error should not exist.', function(done){
-                var testSet = {};
-                testSet[cardsetName] = fakeCardSet;
-                var csm = new memCsm(testSet);
-		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
-                        should.not.exist(err);
-			done();
-		}); 	
-	});
-
-        it('When card set does not exist, error thrown.', function(done){
-		var csm = new memCsm({'weird_name': fakeCardSet});
-		csm.deactivateCardSet(fakeCardSet, function(err, cardSet){
-                        should.exist(err);
-			done();
-		}); 	
-        });
-});
-
 describe('Memory CSM deactivateCardSetById.', function(){
 	it('When validly deactivated, card set is moved to inactiveSets.', function(done){
                 var testSet = {};

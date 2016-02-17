@@ -36,30 +36,6 @@ MemoryCsm.prototype.addCardSet = function(cardSet, callback){
 
 
 /**
- * Makes a cardset no longer available for use.
- * This moves the specified cardset to the _inactiveSets dictionary.
- *
- * @param {Object} cardSet
- * @param {Function} callback - callback(err, deCardset) 
- * @return {null}
-*/ 
-MemoryCsm.prototype.deactivateCardSet = function(cardSet, callback){
-    var _callback = callback || function(){};
-    if(!(cardSet.id in this._data)){
-        _callback(new Error("Card set did not exist, and could not be deactivated"));
-        return;
-    }
-    cardSet._inactiveDate = new Date();
-    if(!(cardSet.id in this._inactiveSets)){
-        this._inactiveSets[cardSet.id] = [];
-    }
-    this._inactiveSets[cardSet.id].push(cardSet);
-    delete this._data[cardSet.id];
-    _callback(null, cardSet);
-};
-
-
-/**
  * Deactivates a cardset given only its Id.
  * This moves the specified cardset to the _inactiveSets dictionary.
  *
