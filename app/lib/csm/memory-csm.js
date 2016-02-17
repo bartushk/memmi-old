@@ -103,18 +103,6 @@ MemoryCsm.prototype.getCardSetById = function(cardSetId, callback){
 
 
 /**
- * Gets an array containing the cardSetId strings of every 
- * available cardset.
- *
- * @param {Function} callback - callback(err, cardSetNames)
- * @return {null}
-*/ 
-MemoryCsm.prototype.getAvailableCardSets = function(callback){
-    callback(null, _.keys(this._data));
-};
-
-
-/**
  * Gets all the cards in a particular cardset based 
  * on a cardSetId.
  *

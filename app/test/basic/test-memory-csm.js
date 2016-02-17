@@ -148,29 +148,4 @@ describe('Memory CSM getCardSetById', function(){
                 done();
         }); 	
     });
-
-});
-
-describe('Memory CSM getAvailableCardSets.', function(){
-    it('When called, returns all available sets.', function(done){
-        var fakeSet = {
-            'test_id1': {},
-            'test_id2': {},
-            'test_id3': {},
-            'test_id4': {}
-        };
-        var csm = new memCsm(fakeSet);
-        csm.getAvailableCardSets(function(err, cardSet){
-            should.deepEqual(cardSet, _.keys(fakeSet));
-            done();
-        }); 	
-    });
-
-    it('When called, error is null', function(done){
-        var csm = new memCsm({});
-        csm.getAvailableCardSets(function(err, cardSet){
-            should.not.exist(err);
-            done();
-        }); 	
-    });
 });
