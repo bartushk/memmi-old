@@ -120,4 +120,61 @@ MongoCsm.prototype.getCardSetById = function(cardSetId, callback){
 };
 
 
+/**
+ * Deactivates a cardset given only its Id.
+ * Ensures there was no error placing the cardset into the 
+ * deactive collection before removing it form the active colelction.
+ *
+ * @param {string} cardSetId
+ * @param {Function} callback - callback(err, deCardset) 
+ * @return {null}
+*/ 
+MongoCsm.prototype.deactivateCardSetById = function(cardSetId, callback){
+    callback = callback || function(){};
+    var self = this;
+    self._connect(function(err, db){
+        if(err){
+            callback(err);
+            return;
+        }
+        var query = self._getQuery(cardSetId);
+        var col = db.collection(self._activeCollection);
+        col.findOne(query, {_id:0}, function(err, result1){
+            if(err){
+                db.close();
+                callback(err);
+                return;
+            }
+            if(!result1){
+                db.close();
+                callback(new Error("Card set was not found"));
+                return;
+            }
+            var inactiveCol = db.collection(self._inactiveCollection);
+            inactiveCol.insertOne(result1, self._writeOptions, function(err, result2){
+                if(err){
+                    db.close();
+                    callback(err);
+                    return;
+                }
+                col.deleteOne(query, self._writeOptions, function(err, result3){
+                    if(err){
+                        db.close();
+                        callback(err);
+                        return;
+                    }
+                    if( result3.result.n != 1 ){
+                        db.close();
+                        log.error("Wrong ammount of active card sets removed during deactivation", result1); 
+                        return;
+                    }
+                    delete result1._id;
+                    callback(null, result1);
+                });
+            });
+        });
+    });
+};
+
+
 module.exports = MongoCsm;

@@ -24,14 +24,14 @@ function MemoryCsm(initialData){
  * @return {null}
 */ 
 MemoryCsm.prototype.addCardSet = function(cardSet, callback){
-    var _callback = callback || function(){};
+    callback = callback || function(){};
     if(cardSet.id in this._data){
-        _callback(new Error("Card set already exists, please create a new one."), cardSet);
+        callback(new Error("Card set already exists, please create a new one."), cardSet);
         return;
     }
 
     this._data[cardSet.id] = cardSet;
-    _callback(null, cardSet);
+    callback(null, cardSet);
 };
 
 
@@ -44,9 +44,9 @@ MemoryCsm.prototype.addCardSet = function(cardSet, callback){
  * @return {null}
 */ 
 MemoryCsm.prototype.deactivateCardSetById = function(cardSetId, callback){
-    var _callback = callback || function(){};
+    callback = callback || function(){};
     if(!(cardSetId in this._data)){
-        _callback(new Error("Card set did not exist, and could not be deactivated"));
+        callback(new Error("Card set did not exist, and could not be deactivated"));
         return;
     }
     var cardSet = this._data[cardSetId];
@@ -56,7 +56,7 @@ MemoryCsm.prototype.deactivateCardSetById = function(cardSetId, callback){
     }
     this._inactiveSets[cardSetId].push(cardSet);
     delete this._data[cardSetId];
-    _callback(null, cardSetId);
+    callback(null, cardSetId);
 };
 
 
@@ -68,13 +68,13 @@ MemoryCsm.prototype.deactivateCardSetById = function(cardSetId, callback){
  * @return {null}
 */ 
 MemoryCsm.prototype.getCardSetById = function(cardSetId, callback){
-    var _callback = callback || function(){};
+    callback = callback || function(){};
     if(!(cardSetId in this._data)){
-        _callback(new Error("Card set did not exist, and could not be fetched"));
+        callback(new Error("Card set did not exist, and could not be fetched"));
         return;
     }
     var cardSet = this._data[cardSetId];
-    _callback(null, cardSet);
+    callback(null, cardSet);
 };
 
 

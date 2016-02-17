@@ -6,6 +6,7 @@ var sleep = require('sleep');
 
 var dataInitialized = false;
 
+//TODO: change this to use a callback and wrap all tests in it.
 module.exports.initData = function(){
     if(dataInitialized)
         return;

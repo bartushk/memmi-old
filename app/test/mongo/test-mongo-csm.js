@@ -137,3 +137,56 @@ describe('mongo-phm, getCardSetById.', function(){
     });
 
 });
+
+
+describe('mongo-csm, deactivateCardSetById.', function(){
+
+    it('When given bad url, returns error and cardset is not deactivated', function(done){
+        var csm = new monCsm();
+        var targetCardSet =  testData.getCardSet1();
+        csm._url = "mongodb://doesnt_exist";
+        csm.deactivateCardSetById(targetCardSet.id, function(err, cardSet){
+            should.exist(err);
+            should.not.exist(cardSet);
+            getCardset(targetCardSet.id, function(resultActive){
+                should.exist(resultActive);
+                getCardset(targetCardSet.id, function(resultInactive){
+                    should.not.exist(resultInactive);
+                    done();
+                }, config.mongo.inactiveCardSetCollection); 
+            });
+        });
+    });
+
+    it('When card set does not exist, error thrown', function(done){
+        var csm = new monCsm();
+        csm.deactivateCardSetById('does not exist', function(err, cardSet){
+            should.exist(err);
+            should.not.exist(cardSet);
+            done();
+        });
+    });
+
+    it('When deactivated, cardset removed from active set and added to deactive set.', function(done){
+        //Add cardset first to avoid mucking with other data.
+        //TODO: Make this not dependent on add function.
+        var csm = new monCsm();
+        var targetCardSet = testData.getCardSet1();
+        targetCardSet.id = new Date().getTime().toString() + '21';
+        csm.addCardSet(targetCardSet, function(err, cardSet){
+            delete targetCardSet._id;
+            csm.deactivateCardSetById(targetCardSet.id, function(err, cardSet){
+                should.deepEqual(cardSet, targetCardSet);
+                getCardset(targetCardSet.id, function(resultActive){
+                    should.not.exist(resultActive);
+                    getCardset(targetCardSet.id, function(resultInactive){
+                        should.exist(resultInactive);
+                        should.deepEqual(resultInactive, targetCardSet);
+                        done();
+                    }, config.mongo.inactiveCardSetCollection); 
+                });
+            });
+        });
+    });
+
+});
