@@ -16,37 +16,41 @@ function MemoryUserStore(initialData){
 
 
 /**
- * Gets the user data for someone by username.
+ * Gets the user data for someone by playerId.
  *  
- * @param {string} username 
+ * @param {string} playerId 
  * @param {Function} callback - callback(err, userData)
  * @return {null}
  *
 */ 
-MemoryUserStore.prototype.getUserData = function(username, callback){
+MemoryUserStore.prototype.getUserData = function(playerId, callback){
     callback = callback || function(err, userData){};
-    if( !(username in this._users) ){
+    if( !(playerId in this._users) ){
         callback(new Error("User does not exist."), null);
         return;
     }
-    var userCopy = JSON.parse(JSON.stringify(this._users[username]));
+    var userCopy = JSON.parse(JSON.stringify(this._users[playerId]));
     callback(null, userCopy); 
 };
 
 
 /**
- * Checks if a particular user exists.
- *
- * @param {string} username
- * @param {Function} callback - callback(err, res)
- * @return {Boolean}
+ * Adds a user object to the user store.
+ *  
+ * @param {Object} userObj 
+ * @param {Function} callback - callback(err, userObj)
+ * @return {null}
  *
 */ 
-MemoryUserStore.prototype.exists = function(username, callback){
-    callback = callback || function(err, res){};
-    callback(null, username in this._users);
+MemoryUserStore.prototype.addUser = function(userObj, callback){
+    callback = callback || function(err, userData){};
+    if( playerId in this._users ){
+        callback(new Error("User already exists."), null);
+        return;
+    }
+    this._users[userObj.playerId] = JSON.parse(JSON.stringify(userObj));
+    callback(null, JSON.parse(JSON.stringify(userObj)));
 };
-
 
 
 module.exports = MemoryUserStore;
