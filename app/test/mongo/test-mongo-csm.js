@@ -6,7 +6,11 @@ var monUtil = require('../mongo-utils');
 var mongoClient = require('mongodb').MongoClient;
 var testData = require('../assets/test-data');
 
-monUtil.initData();
+before(function(done){
+    monUtil.initData(function(){
+        done();
+    });
+});
 
 
 function getCardset(cardSetId, callback, cName){

@@ -6,7 +6,11 @@ var testData = require('../assets/test-data');
 var _ = require('underscore');
 var mongoClient = require('mongodb').MongoClient;
 
-monUtil.initData();
+before(function(done){
+    monUtil.initData(function(){
+        done();
+    });
+});
 
 var existingPlayer = {'playerId': 'kyle', 'isAnon': false};
 var nonExistantPlayer = {'playerId': 'bob', 'isAnon': false};
