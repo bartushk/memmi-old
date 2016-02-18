@@ -44,7 +44,7 @@ MemoryUserStore.prototype.getUserData = function(playerId, callback){
 */ 
 MemoryUserStore.prototype.addUser = function(userObj, callback){
     callback = callback || function(err, userData){};
-    if( playerId in this._users ){
+    if( userObj.playerId in this._users ){
         callback(new Error("User already exists."), null);
         return;
     }

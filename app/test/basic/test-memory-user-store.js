@@ -3,6 +3,7 @@ var _ = require('underscore');
 var memStore = require('../../lib/auth/memory-user-store');
 var testData = require('../assets/test-data');
 
+var newUser = {playerId: "new_guy"};
 
 describe('memory-user-store construction.', function(){
 
@@ -57,6 +58,28 @@ describe('memory-user-store, getUserData', function(){
         store.getUserData(targetUser.playerId, function(err, userData){
             targetUser.test = 'asdf';
             should.notEqual(userData.test, targetUser.test);
+            done();
+        });
+    });
+});
+
+describe('memory-user-store, addUser.', function(){
+
+    it('When user already exists, error passed.', function(done){
+        var userData = testData.getUserStore(); 
+        var targetUser = userData.bartushk;
+        var store = new memStore(userData);
+        store.addUser(targetUser, function(err, userData){
+            should.exist(err);
+            done();
+        });
+    });
+
+    it('When user added, user now in _users.', function(done){
+        var userData = testData.getUserStore(); 
+        var store = new memStore(userData);
+        store.addUser(newUser, function(err, userData){
+            should.exist(store._users[newUser.playerId]); 
             done();
         });
     });
