@@ -41,7 +41,11 @@ module.exports.initData = function(callback){
                         return;
                     }
                     var userCol = db.collection(config.mongo.userCollection);
-                    userCol.insert(testData.getUserStore(), {w:1}, function(err, r){
+                    var users = [];
+                    _.each(testData.getUserStore(), function(userData){
+                        users.push(userData);
+                    });
+                    userCol.insertMany(users,  {w:1}, function(err, r){
                         if(err){
                             console.log(err);
                             callback(err);
