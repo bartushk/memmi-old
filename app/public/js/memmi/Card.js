@@ -2,7 +2,7 @@ define(["knockout", "memmi/Information"], function(ko, information){
     var cardScoreCallback = function(){};
 
     function Card(cardId, frontInformation, backInformation, title){
-        this.CardId = ko.observable(cardId || "No-Card");
+        this.CardId = ko.observable(cardId || "_none");
         this.Title = ko.observable(title || "No-Title");
         this.Front = ko.observable(frontInformation || new information());
         this.Back = ko.observable(backInformation || new information());

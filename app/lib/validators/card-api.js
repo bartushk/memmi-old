@@ -26,7 +26,8 @@ var getNextSchema = {
     'type': 'object',
     'properties': {
         'cardset' : {'type': 'string'},
-        'algorithm' : {'type': 'string'}
+        'algorithm' : {'type': 'string'},
+        'prevCard' : {'type': 'string'}
     },
     'required': ['cardset', 'algorithm']
 };
@@ -48,6 +49,7 @@ var reportGetNextSchema = {
     'properties': {
         'cardset' : {'type': 'string'},
         'algorithm' : {'type': 'string'},
+        'prevCard' : {'type': 'string'},
         'cardUpdate': {'$ref': '/cardUpdate'}
     },
     'required': ['cardset', 'cardUpdate',  'algorithm']

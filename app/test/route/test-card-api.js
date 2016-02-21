@@ -62,6 +62,21 @@ describe('card-api, get-next.', function(){
             });
         });
     });
+
+    it('When requested with good identity, algorithm, cardset and previousCard; card is returned.', function(done){
+        var postBody = JSON.parse(JSON.stringify(goodPostBody));
+        postBody.previousCard = "_none";
+        supertestLogin(function(err, agent){        
+            agent.post(route)
+            .send(postBody)
+            .expect(200)
+            .end(function(err, res){
+                should.not.exist(err);
+                cardset1Cards.should.containEql(res.body.card.id);
+                done();
+            });
+        });
+    });
 });
 
 
@@ -260,6 +275,20 @@ describe('card-api, report-get-next.', function(){
         supertest(app)
             .post(route)
             .send(goodPostBody)
+            .expect(200)
+            .end(function(err, res){
+                should.not.exist(err);
+                cardset1Cards.should.containEql(res.body.card.id);
+                done();
+            });
+    });
+
+    it('When logged in and good update body in request with previousCard, 200 returned card in response.', function(done){
+        var postBody = JSON.parse(JSON.stringify(goodPostBody));
+        postBody.previousCard = '_none';
+        supertest(app)
+            .post(route)
+            .send(postBody)
             .expect(200)
             .end(function(err, res){
                 should.not.exist(err);

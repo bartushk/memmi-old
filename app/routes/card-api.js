@@ -5,9 +5,6 @@ var selectionFactory = require('../lib/selection/selection-factory');
 var idProvider = require('../lib/auth/' + (config.identityProvider || 'mock-identity-provider'));
 var validator = require('../lib/validators/card-api');
 
-//TODO: Add previous card to any 'get-next' operations so anonymous users
-//      can have card sets presented in-order without a history.
-
 
 /**
  * Api for card related actions. Allows someone to
@@ -28,11 +25,12 @@ var identityProvider = new idProvider();
  *
  * @param {string} cardsetId 
  * @param {string} algorithmName 
+ * @param {string} previousCard 
  * @param {string} playerIdentity 
  * @param {Function} callback - callback(err,card)
  * @return {null}
 */ 
-function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
+function getNextCard(cardsetId, algorithmName, previousCard, playerIdentity, callback){
     var selection = selectionFactory.getSelectionAlgorithm(algorithmName);
     if(!selection){
         log.warn("Method of selection not found: " + algorithmName);
@@ -41,7 +39,7 @@ function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
     }
     playerHistory.getPlayerHistory(cardsetId, playerIdentity, function(err, history){
         if(err){ callback(err); return;}
-        selection.selectCard(history, function(err, cardName){
+        selection.selectCard(history, previousCard, function(err, cardName){
             if(err){ callback(err); return;}
             cardsetManager.getCardSetById(cardsetId, function(err, cardSet){
                 if(err){ callback(err); return;}
@@ -55,11 +53,11 @@ function getNextCard(cardsetId, algorithmName, playerIdentity, callback){
 
 /**
  * This endpoint returns the next card for a particular person based on the
- * requested cardset information.
+ * requested cardset information. Previous card is an optional property.
  *
  * req body format:
  *
- * { 'cardset': 'cardsetName', 'algorithm': 'selectionAlgorithmToUse' }
+ * { 'cardset': 'cardsetName', 'algorithm': 'selectionAlgorithmToUse', 'previousCard': 'cardId' }
  *
 */ 
 router.post('/get-next', function(req, res){
@@ -69,8 +67,9 @@ router.post('/get-next', function(req, res){
     }
     var cardsetId = req.body.cardset;
     var selectionAlgorithm = req.body.algorithm;
+    var previousCard = req.body.previousCard;
     identityProvider.getIdentity(req, function(err, identity){
-        getNextCard(cardsetId, selectionAlgorithm, identity, function(err, card){
+        getNextCard(cardsetId, selectionAlgorithm, previousCard, identity, function(err, card){
             if(err){
                 log.warn(err);
                 res.status(400).send("An error occured selecting the next card.");
@@ -91,7 +90,7 @@ router.post('/get-next', function(req, res){
  *
  * req body format:
  *
- * { 'cardset': 'cardsetName', 'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1} }
+ * { 'cardset': 'cardsetName', 'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1, 'play_index': 100} }
 */ 
 router.post('/report', function(req, res){
     if(!validator('report', req.body)){
@@ -116,11 +115,11 @@ router.post('/report', function(req, res){
 /**
  * The typical usage will be a report, then the immediate presentation
  * of a new card. This is a convenience method that combines these two actions
- * into one call.
+ * into one call. Previous card is an optional property.
  *
  * req body format:
  *
- * { 'cardset': 'cardsetName', 'algorithm': 'selectionAlgorithmToUse' ,
+ * { 'cardset': 'cardsetName', 'algorithm': 'selectionAlgorithmToUse' , 'previousCard': 'cardId'
  *   'cardUpdate': { 'cardId': 'cardIdentifier', 'score': 1, 'play_index': 100} }
 */ 
 router.post('/report-get-next', function(req, res){
@@ -131,6 +130,7 @@ router.post('/report-get-next', function(req, res){
     var cardsetId = req.body.cardset;
     var selectionAlgorithm = req.body.algorithm;
     var cardUpdate = req.body.cardUpdate;
+    var previousCard = req.body.previousCard;
     identityProvider.getIdentity(req, function(err, identity){
         playerHistory.updateCardScore(cardsetId, identity, cardUpdate, function(err){
             var updateSuccess = true;
@@ -138,7 +138,7 @@ router.post('/report-get-next', function(req, res){
                 updateSuccess = false;
                 log.warn(err);
             }
-            getNextCard(cardsetId, selectionAlgorithm, identity, function(err, card){
+            getNextCard(cardsetId, selectionAlgorithm, previousCard, identity, function(err, card){
                 if(err){
                     log.warn(err);
                     res.status(400).send("An error occured selecting the next card.");

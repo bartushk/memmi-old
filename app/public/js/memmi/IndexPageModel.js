@@ -65,6 +65,7 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
         if( !_.contains(viewModel.ActiveElement().classList, "wait-left") )
             viewModel.slideCardOff();
         var postObject = {};
+        postObject.previousCard = viewModel.ActiveCard()().CardId();
         postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
         $.ajax({
@@ -94,6 +95,7 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
         scoreObject.play_index = viewModel.CardsetInfo().History()._playIndex; 
         // post the appropriate info to report the card score and get the next card.
         var postObject = {};
+        postObject.previousCard = viewModel.ActiveCard()().CardId();
         postObject.cardset = viewModel.CardsetInfo().Id();
         postObject.algorithm = viewModel.Algorithm();
         postObject.cardUpdate = scoreObject;
