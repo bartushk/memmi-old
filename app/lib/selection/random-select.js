@@ -16,7 +16,7 @@ function RandomSelect(){
  * @param {Object} cardsetHistory 
  * @param {string} previousCard 
  * @param {Function} callback - callback(err, cardname)
- * @return {Object}
+ * @return {null}
  *
 */ 
 RandomSelect.prototype.selectCard = function(cardsetHistory, previousCard, callback){
