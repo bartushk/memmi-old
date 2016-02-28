@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var log = require('../log-factory').getLogger();
 
 
 /**
@@ -24,20 +25,23 @@ function InOrderSelect(){
 */ 
 InOrderSelect.prototype.selectCard = function(cardSetHistory, previousCard, callback){
     if(!previousCard || !(previousCard in cardSetHistory.history)){
-        var firstCardName = _.first(Object.keys(cardSetHistory.history), function(cardName){
-            return cardSetHistory[cardName].cardIndex === 0;
+        if( _.isString(previousCard) ){
+            log.info("Card with bad previousCard requested:", {'previousCard': previousCard}, cardSetHistory.metaInfo); 
+        }
+        var firstCardId = _.findKey(cardSetHistory.history, function(cardHistory){
+            return cardHistory.cardIndex === 0;
         });
-        callback(null, cardSetHistory.history[firstCardName]);
+        callback(null, firstCardId);
         return;
     }
     
     var previousIndex = cardSetHistory.history[previousCard].cardIndex;
-    var nextCard = _.first(Object.keys(cardSetHistory.history), function(cardName){
-        return cardSetHistory[cardName].cardIndex === previousIndex + 1;
+    var nextCard = _.findKey(cardSetHistory.history, function(cardHistory){
+        return cardHistory.cardIndex === previousIndex + 1;
     });
     if(!nextCard){
-        nextCard = _.first(Object.keys(cardSetHistory.history), function(cardName){
-            return cardSetHistory[cardName].cardIndex === 0;
+        nextCard = _.findKey(cardSetHistory.history, function(cardHistory){
+            return cardHistory.cardIndex === 0;
         });
     }
     callback(null, nextCard);

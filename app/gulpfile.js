@@ -135,7 +135,7 @@ gulp.task('app', function(cb){
 gulp.task('set-mongo-env', function(){
     var mongo_url = "mongodb://localhost:27017";
     if( process.platform == 'darwin' )
-        mongo_url = 'mongodb://192.168.99.101:27017';
+        mongo_url = 'mongodb://192.168.99.100:27017';
     env({vars:{MONGO_URL: mongo_url}});
 });
 
