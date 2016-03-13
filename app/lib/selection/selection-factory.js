@@ -1,5 +1,7 @@
 var randomSelect = require('./random-select');
+var inOrderSelect = require('./in-order-select');
 var random = new randomSelect();
+var inorder = new inOrderSelect();
 
 var factory = {
 
@@ -13,6 +15,8 @@ var factory = {
 */ 
 factory.getSelectionAlgorithm = function(algorithmName){
     switch(algorithmName){
+        case 'in-order':
+            return inorder; 
         case 'random':
             return random;
     }

@@ -14,6 +14,41 @@ var userStore = {
                 'State': 'PA', 'City': 'Pittsburgh', 'email': 'dood@ie.com', 'confirmed': false },
 };
 
+var welcomeCardSet = {
+    'id': 'welcome',
+    'setId': 'welcome',
+    'title': 'Welcome to memmi!',
+    'createdDate': new Date().toISOString(),
+    'author': 'kyle',
+
+    'cards': {
+        'cardOne': {
+            'title': 'Welcome',
+            'frontInfo':{'type':'html', 'value':'<h1>Welcome to memmi!</h1>Memmi is a flash card application that<br/> can' +
+                ' help with memorization. <br/><br/> You can click anywhere on this card to flip it.'}, 
+            'backInfo': {'type':'html', 'value': '<br/><br/><br/>After flipping a card you have to grade it. <br/><br/>' +
+                'Click the red box below if you didn\'t know the answer at all. <br/>' +
+                'Click the green box if you knew it very well. '}, 
+            'id': 'cardOne', 'cardIndex': 0},
+        'cardTwo': {
+            'title': 'Navigation',
+            'frontInfo':{'type':'html', 'value':'<br/><br/><br/>You can also use the arrow keys to play memmi.<br/><br/>' +
+                'You can press the right, up, or down arrow to flip a card.'}, 
+            'backInfo': {'type':'html', 'value': '<br/><br/><br/>You can also score a card using the arrow keys.' +
+                '<br/><br/> Up = +1 (Lime Green)' +
+                '<br/> Right = 0 (Lime Green)' +
+                '<br/> Down = -1 (Orange)'}, 
+            'id': 'cardTwo', 'cardIndex': 1},
+        'cardThree': {
+            'title': 'Statistics',
+            'frontInfo':{'type':'html', 'value':'<br/><br/><br/>Memmi keeps tracks of statistics while you play.<br/>' +
+                '<br/><br/>This helps memmi serve the most relevant card possible.'},  
+            'backInfo': {'type':'html', 'value': '<br/><br/>An individual card\'s statistics are in its title bar above.' +
+            'the whole card set\'s statistics below.'}, 
+            'id': 'cardThree', 'cardIndex': 2},
+    }
+
+};
 
 var cardset1 = {
     'id': 'cardset1',
@@ -92,7 +127,8 @@ var fakePlayerHistory = {
 
 var testFullCardSet = {
     'cardset1': cardset1,
-    'cardset2': cardset2
+    'cardset2': cardset2,
+    'welcome': welcomeCardSet
 };
 
 var testCardUpdate = {

@@ -11,7 +11,7 @@ function(ko, $, _, card, information, cardsetInfo, loginModel){
         CardTwo: ko.observable(new card()),  
         CardToggle: ko.observable(false),
         CardsetInfo: ko.observable(),
-        Algorithm: ko.observable('random'),
+        Algorithm: ko.observable('in-order'),
         CardHistory: ko.observableArray(),
         LoginModel: ko.observable(new loginModel("Stranger", true))
     };

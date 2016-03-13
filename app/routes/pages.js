@@ -13,7 +13,7 @@ var _pages = [
 
 router.get('/', function(req, res){
     identityProvider.getIdentity(req, function(err, identity){
-        var initCardset = req.query.cardset || 'cardset1';
+        var initCardset = req.query.cardset || 'welcome';
         res.render('index', {title:'Memmi', pages:_pages, selected_index:0, identity:identity,  initialCardset:initCardset});
     });
 });
