@@ -1,7 +1,5 @@
 define(["knockout", "jquery", "underscore", "memmi/Card", "memmi/Information", "memmi/CardsetInfo", "memmi/LoginModel"],
 function(ko, $, _, card, information, cardsetInfo, loginModel){
-    var welcomeFront = new information('text', 'Welcome to memmi.');
-    var welcomeBack = new information('text', 'Memmi is an app to help you with memorization.');
     
     var flipElements = $('.flip-container');
     var element1 = $('#card1')[0];

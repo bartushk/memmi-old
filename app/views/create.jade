@@ -1,3 +1,22 @@
 extends layout
+block additional-header-imports
+    link(rel='stylesheet', href='/css/card.css')
 block content
+    include ./templates/card-templates.jade
     div(class='container bodyContent')
+        div.spacer30
+        div#card1(class="flip-container wait-left" data-bind= "click: cardAction")
+            div.flipper(data-bind="template: {name: 'card-standard', data: PreviewCard}")
+        div#card2(class="flip-container wait-left" data-bind= "click: cardAction")
+            div.flipper(data-bind="template: {name: 'card-standard', data: PreviewCard}")
+        div.spacer480
+    
+
+
+    script.
+        var createPageModel;
+        require(["knockout", "memmi/CreatePageModel", "lib/custom-ko-bindings"], function(ko, pageModel){
+            createPageModel = pageModel;
+            pageModel.setLoginStatus('#{identity.playerId}', #{identity.isAnon});
+            ko.applyBindings(pageModel);
+        });

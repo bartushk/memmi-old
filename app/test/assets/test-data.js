@@ -43,8 +43,8 @@ var welcomeCardSet = {
             'title': 'Statistics',
             'frontInfo':{'type':'html', 'value':'<br/><br/><br/>Memmi keeps tracks of statistics while you play.<br/>' +
                 '<br/><br/>This helps memmi serve the most relevant card possible.'},  
-            'backInfo': {'type':'html', 'value': '<br/><br/>An individual card\'s statistics are in its title bar above.' +
-            'the whole card set\'s statistics below.'}, 
+            'backInfo': {'type':'html', 'value': '<br/><br/><br/>An individual card\'s statistics are in its title bar above.' +
+            '<br/><br/>The whole card set\'s statistics can be seen below.'}, 
             'id': 'cardThree', 'cardIndex': 2},
     }
 

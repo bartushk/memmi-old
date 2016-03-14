@@ -7,9 +7,6 @@ define(["knockout", "memmi/Information"], function(ko, information){
         this.Front = ko.observable(frontInformation || new information());
         this.Back = ko.observable(backInformation || new information());
         this.IsFlipped = ko.observable(false);
-        this.CardTitle = ko.computed(function(){
-            return this.CardId();
-        }, this);
     }
 
     Card.prototype.scoreCard = function(score){
