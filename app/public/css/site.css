@@ -59,7 +59,6 @@ a:hover{
 .list-divide-pipe li.current a::after{
     content: " ";
     background-color: #dddddd;
-    border-radius: 7px;
     position: absolute;
     width: calc(100% + 70px);
     height: 20px;
