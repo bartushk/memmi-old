@@ -148,7 +148,7 @@ gulp.task('mongo-start', function(cb){
         if(err)
             console.log(err);
         console.log(stdout);
-        cb();
+        _.delay(cb, 1000);
     });        
 });
 
